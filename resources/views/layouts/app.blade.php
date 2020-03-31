@@ -19,14 +19,13 @@
   @yield('content')
 
 
-</div>
-
 <!-- ./wrapper -->
   <!-- Main Footer -->
   <footer class="main-footer">  
       @include('includes.footer')
   </footer>
-
+  
+</div>
 <!-- REQUIRED SCRIPTS -->
   @include('includes.script')
 
