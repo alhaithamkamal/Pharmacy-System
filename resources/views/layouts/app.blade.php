@@ -16,7 +16,11 @@
 
   @include('includes.sidebar')
 
-  @yield('content')
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    @yield('content')
+  </div>
+  <!-- /.content-wrapper -->
 
 
 <!-- ./wrapper -->
@@ -24,7 +28,7 @@
   <footer class="main-footer">  
       @include('includes.footer')
   </footer>
-  
+
 </div>
 <!-- REQUIRED SCRIPTS -->
   @include('includes.script')
