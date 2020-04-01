@@ -24,3 +24,8 @@ Route::get('/users', function () {
 Route::get('/users/create', function () {
     return view('users.create');
 });
+Auth::routes();
+Auth::routes(['verify' => true]);
+
+
+Route::get('/home', 'HomeController@index')->name('home')->middleware('verified');
