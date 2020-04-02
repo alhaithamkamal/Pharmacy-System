@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Doctor;
-//use App\User;
+use App\User;
 
 class DoctorController extends Controller
 {
@@ -28,4 +28,29 @@ class DoctorController extends Controller
             'doctor'=>Doctor::find(request()->doctor),
         ]);
     }
+
+    public function create(){
+    // //    $users=User::all();
+    //     return view('posts.create',[
+    //     'users'=>$users 
+    //     ]);
+        return view('doctors.create');
+    }
+
+    public function store(){
+         $request=request();
+            
+        
+    
+        Doctor::create([
+            'name'=>$request->name,
+            'email'=>$request->email,
+            'national_id'=>$request->national_id,
+            //'user_id'=>$request->user_id,
+            
+        ]);
+        
+        return redirect()->route('doctors.index');
+    }
+
 }
