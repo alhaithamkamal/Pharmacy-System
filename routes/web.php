@@ -24,3 +24,7 @@ Route::get('/users', function () {
 Route::get('/users/create', function () {
     return view('users.create');
 });
+
+Route::get('/doctors', 'DoctorController@index');
+Route::get('/doctors/{doctor}','DoctorController@show') ;
+// ->name('doctors.show')
