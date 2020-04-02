@@ -29,3 +29,18 @@ Auth::routes(['verify' => true]);
 
 
 Route::get('/home', 'HomeController@index')->name('home')->middleware('verified');
+
+Route::get('/pharmacies', function () {
+    return view('pharmacies.index');
+});
+Route::get('/orders', function () {
+    return view('orders.index');
+});
+
+Route::get('/doctors', function () {
+    return view('doctors.index');
+});
+
+Route::get('/revenues', function () {
+    return view('revenues.index');
+});
