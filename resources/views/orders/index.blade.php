@@ -2,21 +2,22 @@
 
 @section('content')
 
+<div class="container col-12">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <div class="container-fluid">
+      <div class="container">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>DataTables</h1>
+            <h1>Orders</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">DataTable</li>
+              <li class="breadcrumb-item active">Orders Table</li>
             </ol>
           </div>
         </div>
-      </div><!-- /.container-fluid -->
+      </div>
     </section>
     <!-- /.content-header -->
 
@@ -27,60 +28,46 @@
         <div class="col-12">
           <div class="card">
             <div class="card-header">
-              <h3 class="card-title">DataTable with default features</h3>
             </div>
-            <!-- /.card-header -->
-            <div class="card-body">
+            <div class="card-body text-center">
               <table id="example1" class="table table-bordered table-striped">
                 <thead>
                   <tr>
-                    <th>Rendering engine</th>
-                    <th>Browser</th>
-                    <th>Platform(s)</th>
-                    <th>Engine version</th>
-                    <th>CSS grade</th>
+                    <th>ID</th>
+                    <th>Order User Name</th>
+                    <th>Delivery Address</th>
+                    <th>Creation Date</th>
+                    <th>Doctor Name</th>
+                    <th>Is_insured</th>
+                    <th>Status</th>
+                    <th>Actions</th>
                   </tr>
                 </thead>
                   <tbody>
+                    
+                    @foreach ($orders as $order)
                   <tr>
-                    <td>Trident</td>
-                    <td>Internet
-                      Explorer 4.0
+                    <td>{{ $order['id'] }}</td>
+                    <td>{{ $order['user_name'] }}</td>
+                    <td>{{ $order['user_address'] }}</td>
+                    <td>{{ $order['created_at'] }}</td>
+                    <td>{{ $order['doctor_name'] }}</td>
+                    <td>{{ $order['user_is_insured'] }}</td>
+                    <td>{{ $order['status']}}</td>
+                    <td>
+                    <a href="" class="btn btn-primary mr-2">Edit</a>
+                    <a href="{{route('orders.index')}}" class="btn btn-secondary">Delete</a>
+
                     </td>
-                    <td>Win 95+</td>
-                    <td> 4</td>
-                    <td>X</td>
                   </tr>
-                  <tr>
-                    <td>Trident</td>
-                    <td>Internet
-                      Explorer 5.0
-                    </td>
-                    <td>Win 95+</td>
-                    <td>5</td>
-                    <td>C</td>
-                  </tr>
-                  <tr>
-                    <td>Trident</td>
-                    <td>Internet
-                      Explorer 5.5
-                    </td>
-                    <td>Win 95+</td>
-                    <td>5.5</td>
-                    <td>A</td>
-                  </tr>   
+                  @endforeach
                   </tbody>
               </table>
             </div>
-            <!-- /.card-body -->
           </div>
-          <!-- /.card -->
-
         </div>
-        <!-- /.col -->
       </div>
-      <!-- /.row -->
     </section>
-    <!-- /.content -->
+</div>
 
 @endsection
