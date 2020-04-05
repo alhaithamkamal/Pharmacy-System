@@ -39,6 +39,7 @@
                     <!-- <th></th> -->
                     <th>national id</th>
                     <th>created at</th>
+                    <th>Ban</th>
                   </tr>
                 </thead>
                   <tbody>
@@ -52,6 +53,28 @@
                     </td>
                     <td>{{ $doctor->national_id }}</td>
                     <td> {{ $doctor->created_at }}</td>
+                    <td>
+<!-- <input type="checkbox" data-id="{{ $doctor->id }}" name="status" class="js-switch" {{ $doctor->status == 1 ? 'checked' : '' }}> -->
+null
+</td>
+
+                    
+                  </tr>
+                  @endforeach
+                  @foreach($users as $user)
+                  <tr>
+                    <td>
+                    <a href="{{ route('doctors.show',['doctor'=>$doctor->id]) }}">{{ $user->name }}</a>
+                    </td>
+                    <td>
+                    {{ $user->email }}
+                    </td>
+                    <td>{{ $doctor->id }}</td>
+                    <td> {{ $doctor->created_at }}</td>
+                    <td>
+<input type="checkbox" data-id="{{ $user->id }}" name="status" class="js-switch" {{ $user->status == 1 ? 'checked' : '' }}>
+</td>
+
                     
                   </tr>
                   @endforeach
@@ -68,5 +91,27 @@
       <!-- /.row -->
     </section>
     <!-- /.content -->
+    <script>let elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
+
+elems.forEach(function(html) {
+    let switchery = new Switchery(html,  { size: 'small' });
+});
+$(document).ready(function(){
+    $('.js-switch').change(function () {
+        let status = $(this).prop('checked') === true ? 1 : 0;
+        let userId = $(this).data('id');
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: '{{ route('users.update.status') }}',
+            data: {'status': status, 'user_id': userId},
+            success: function (data) {
+                console.log(data.message);
+            }
+        });
+    });
+});
+
+</script>
 
 @endsection

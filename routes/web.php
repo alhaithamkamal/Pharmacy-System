@@ -27,6 +27,11 @@ Route::get('/users/create', function () {
 
 
 Route::get('/doctors', 'DoctorController@index')->name('doctors.index');
+//Route::get('/doctors', 'UserController@index');
+
+Route::get('/status/update', 'UserController@updateStatus')->name('users.update.status');
+
+
 
 Route::get('/doctors/create', 'DoctorController@create')->name('doctors.create');
 
