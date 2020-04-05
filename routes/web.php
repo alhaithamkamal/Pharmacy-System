@@ -55,3 +55,7 @@ Route::get('/orders', 'OrdersController@index')->name('orders.index');
 Route::get('/orders/create', 'OrdersController@create')->name('orders.create');
 
 Route::post('/orders', 'OrdersController@store')->name('orders.store');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
