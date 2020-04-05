@@ -11,7 +11,7 @@ class Client extends Model
     public function user()
     {
         return $this->belongsTo('App\User');
-
+    }
     /**
      * The attributes that should be cast to native types.
      *
