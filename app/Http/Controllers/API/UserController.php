@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Client;
 use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Http\Request;
@@ -23,6 +24,7 @@ class UserController extends Controller
         
         return response('A verification email has been sent to your email address');
     }
+
     public function login(Request $request)
     {
         $data = $request->validate([
@@ -36,7 +38,7 @@ class UserController extends Controller
                 'message' => ['Invalid username or password.']
             ], 404);
         }
-    
+        $user->client->update(['last_login_at' => now()]);
         $token = $user->createToken('my-app-token')->plainTextToken;
     
         $response = [

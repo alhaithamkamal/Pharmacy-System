@@ -35,9 +35,9 @@ Route::get('/status/update', 'UserController@updateStatus')->name('users.update.
 
 Route::get('/doctors/create', 'DoctorController@create')->name('doctors.create');
 
-Route::post('/doctors','DoctorController@store')->name('doctors.store') ;
+Route::post('/doctors', 'DoctorController@store')->name('doctors.store');
 
-Route::get('/doctors/{doctor}','DoctorController@show')->name('doctors.show');
+Route::get('/doctors/{doctor}', 'DoctorController@show')->name('doctors.show');
 
 
 Auth::routes();
@@ -49,12 +49,18 @@ Route::get('/home', 'HomeController@index')->name('home')->middleware('verified'
 Route::get('/pharmacies', function () {
     return view('pharmacies.index');
 });
-Route::get('/orders', function () {
-    return view('orders.index');
-});
-
 
 Route::get('/revenues', function () {
     return view('revenues.index');
 });
 
+//============== Orders routes ================
+Route::get('/orders', 'OrdersController@index')->name('orders.index');
+
+Route::get('/orders/create', 'OrdersController@create')->name('orders.create');
+
+Route::post('/orders', 'OrdersController@store')->name('orders.store');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
