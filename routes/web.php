@@ -39,7 +39,6 @@ Route::get('/doctors/{doctor}', 'DoctorController@show')->name('doctors.show');
 Auth::routes();
 Auth::routes(['verify' => true]);
 
-
 Route::get('/home', 'HomeController@index')->name('home')->middleware('verified');
 
 Route::get('/pharmacies', function () {
@@ -60,3 +59,9 @@ Route::post('/orders', 'OrdersController@store')->name('orders.store');
 Route::get('/orders/{order}/edit', 'OrdersController@edit')->name('orders.edit');
 
 Route::put('/orders/{order}', 'OrdersController@update')->name('orders.update');
+
+//=============================================
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
