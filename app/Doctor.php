@@ -12,7 +12,16 @@ class Doctor extends Model
         'name',
         'email',
         'national_id',
+        'image'
         
     ];
-    
+    // public static function storePostImage($request)
+    // {
+    //     if ($request->file('image')) {
+    //         $path = $request->file('image')->store('public/images');
+    //         $path = str_replace('public/', '', $path);
+    //     }else
+    //         $path = null;
+    //     return $path;
+    // }
 }

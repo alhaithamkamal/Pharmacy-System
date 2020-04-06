@@ -17,7 +17,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'national_id','name', 'email', 
+        'national_id','name', 'email', 'image'
     ];
     protected $primaryKey = 'national_id';
 
@@ -49,5 +49,6 @@ class User extends Authenticatable implements MustVerifyEmail
     public function client()
     {
         return $this->hasOne('App\Client');
+    }
     }
 }

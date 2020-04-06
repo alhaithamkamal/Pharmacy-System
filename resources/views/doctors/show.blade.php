@@ -39,6 +39,15 @@
     <p class="card-text">{{$doctor->national_id}}</p>
     
     <p class="card-text">{{ $doctor->email ? $doctor->email : 'not exist'}}</p>
+    
+    <div class="row">
+      <div class="col-12">
+        <div class="row">
+          <div class="col-12"><img src="{{asset('storage/'.$doctor->image)}}" alt="" class="img-thumbnail"></div>
+        </div>
+      </div>
+    </div>
+    
     <p class="card-text">{{ $doctor->created_at ? $doctor->created_at : 'not exist'}}</p>
     
     <a href="#" class="btn btn-primary">Go somewhere</a>

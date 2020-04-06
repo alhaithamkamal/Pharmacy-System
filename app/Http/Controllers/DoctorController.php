@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Doctor;
 use App\User;
+use Illuminate\Support\Facades\Storage;
 
 class DoctorController extends Controller
 {
@@ -102,17 +103,17 @@ return redirect()->route('doctors.index');
             
         
     
-        User::create([
+        $doctor=User::create([
             'national_id'=>$request->national_id,
             'name'=>$request->name,
             'email'=>$request->email,
-           'password'=>$request->password
-            //'user_id'=>$request->user_id,
+           'password'=>$request->password,
+//           'image' => User::storePostImage($request),
             
         ]);
-        
+
         return redirect()->route('doctors.index');
     }
-    
+
 
 }
