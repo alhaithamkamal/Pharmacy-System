@@ -17,10 +17,16 @@ class Client extends Model
         'last_login_at' => 'datetime',
     ];
 
-    public function client_info()
+    // public function client_info()
+    // {
+    //     return $this->hasOne('App\User');
+    // }
+
+    public function users()
     {
-        return $this->hasOne('App\User');
+        return $this->belongsTo('App\User','user_id');
     }
+
     public function adresses()
     {
         return $this->hasMany('App\UserAddress');
