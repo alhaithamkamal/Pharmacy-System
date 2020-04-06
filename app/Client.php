@@ -8,10 +8,7 @@ class Client extends Model
 {
     protected $guarded = [];
 
-    public function user()
-    {
-        return $this->belongsTo('App\User');
-    }
+  
     /**
      * The attributes that should be cast to native types.
      *
@@ -21,11 +18,12 @@ class Client extends Model
         'last_login_at' => 'datetime',
     ];
 
-    public function client_info()
+    public function user()
     {
-        return $this->hasOne('App\User');
+        return $this->belongsTo('App\User');
     }
-    public function adresses()
+
+    public function addresses()
     {
         return $this->hasMany('App\UserAddress');
     }

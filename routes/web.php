@@ -18,13 +18,15 @@ Route::get('/', function () {
     return view('Dashboard');
 });
 
-Route::get('/users', function () {
-    return view('users.index');
-});
+//show clients in table
+Route::get('/clients','ClientController@index')->name('clients.index');
 
-Route::get('/users/create', function () {
-    return view('users.create');
-});
+//route to client form
+// Route::get('/clients/create','ClientController@create')->name('clients.create');
+
+//to store client data
+// Route::post('/clients','ClientController@store')->name('clients.store');
+
 
 // ==================Doctor routes=======================
 Route::get('/doctors', 'DoctorController@index')->name('doctors.index');

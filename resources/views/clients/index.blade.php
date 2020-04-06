@@ -34,44 +34,17 @@
               <table id="example1" class="table table-bordered table-striped">
                 <thead>
                   <tr>
-                    <th>Rendering engine</th>
-                    <th>Browser</th>
-                    <th>Platform(s)</th>
-                    <th>Engine version</th>
-                    <th>CSS grade</th>
+                    <th>ID</th>
+                    <th>gender</th>
+                    <th>Email</th>
+                    <th>Actions</th>
                   </tr>
                 </thead>
-                  <tbody>
-                  <tr>
-                    <td>Trident</td>
-                    <td>Internet
-                      Explorer 4.0
-                    </td>
-                    <td>Win 95+</td>
-                    <td> 4</td>
-                    <td>X</td>
-                  </tr>
-                  <tr>
-                    <td>Trident</td>
-                    <td>Internet
-                      Explorer 5.0
-                    </td>
-                    <td>Win 95+</td>
-                    <td>5</td>
-                    <td>C</td>
-                  </tr>
-                  <tr>
-                    <td>Trident</td>
-                    <td>Internet
-                      Explorer 5.5
-                    </td>
-                    <td>Win 95+</td>
-                    <td>5.5</td>
-                    <td>A</td>
-                  </tr>   
+                  <tbody> 
                   </tbody>
               </table>
             </div>
+           
             <!-- /.card-body -->
           </div>
           <!-- /.card -->
@@ -83,4 +56,24 @@
     </section>
     <!-- /.content -->
 
+@endsection
+
+@section('datatable_script')
+        <script>
+              $(document).ready( function () {
+                console.log('hello');
+                var table = $('#example1').DataTable({
+                    processing: true,
+                    serverSide: true,
+                    ajax: "{{ route('clients.index') }}",
+                    columns: [
+                        {data: 'id', name: 'id'},
+                        {data: 'gender', name: 'gender'},
+                        {data: 'mobile', name: 'mobile'},
+                        {data: 'action', name: 'action', orderable: true, searchable: true},
+                    ]
+                });
+                
+              });
+            </script>
 @endsection

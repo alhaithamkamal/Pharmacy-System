@@ -35,6 +35,7 @@
                 <thead>
                   <tr>
                     <th>Name</th>
+                    <th>Avatar Image</th>
                     <th>Email</th>
                     <!-- <th></th> -->
                     <th>national id</th>
@@ -49,8 +50,19 @@
                     <a href="{{ route('doctors.show',['doctor'=>$doctor->national_id]) }}">{{ $doctor->name }}</a>
                     </td>
                     <td>
+                    @if($doctor->image)
+            
+                <a href="{{ route('doctors.show',['doctor'=>$doctor->national_id]) }}">        
+            <img src="{{asset('storage/'.$doctor->image)}}" alt="" height="50" width="50" >
+            </a>
+            @endif
+                    </td>
+                    <td>
                     {{ $doctor->email }}
                     </td>
+                    
+                    
+                    
                     <td>{{ $doctor->national_id }}</td>
                     <td> {{ $doctor->created_at }}</td>
                     <td>

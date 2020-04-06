@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Doctor;
 use App\User;
 use Illuminate\Support\Facades\Storage;
-
+use App\Http\Requests\DoctorRequest;
 class DoctorController extends Controller
 {
     public function index(){
@@ -48,30 +48,46 @@ class DoctorController extends Controller
         ]);
     }
 
-    public function update(Request $request)
-    {
-        $doctorId = $request->doctor;
-        // dd($request->post);
-        $doctor = User::find($doctorId);
-        //$slug = SlugService::createSlug(Post::class, 'slug', $request->title);
+//     public function update(Request $request)
+//     {
+//         $doctorId = $request->doctor;
+//         // dd($request->post);
+//         $doctor = User::find($doctorId);
+//         //$slug = SlugService::createSlug(Post::class, 'slug', $request->title);
 
 
-        $data = $request->only(['national_id', 'name', 'email',]);
-        //$data += array('slug' => $slug);
-        $doctor->update($data);
+//         $data = $request->only(['national_id', 'name', 'email',]);
+//         //$data += array('slug' => $slug);
+//         $doctor->update($data);
 
-//        return redirect()->route('doctors.show', ['doctor' => $request->doctor]);
-return redirect()->route('doctors.index');
+// //        return redirect()->route('doctors.show', ['doctor' => $request->doctor]);
+// return redirect()->route('doctors.index');
 
+//     }
+public function update(DoctorRequest $request, User $doctor)
+    {   
+        $attributes = [
+            [
+                'national_id' => $request->national_id,
+                'name' =>  $request->name,
+                'email' =>  $request->email,
+            ]
+        ];
+        if ($request->hasFile('image')){
+            $attributes['image'] = User::storeUserImage($request);
+            Storage::delete('public/'.$doctor->image);
+        }
+        $doctor->update($attributes);
+        return redirect()->route('doctors.show', ['doctor' => $request->doctor]);
     }
-    public function destroy(){
-        $request=request();
-        $doctorId=$request->doctor;
-        $doctor=User::find($doctorId);
+    
+
+    public function destroy(User $doctor)
+    {
+        if ($doctor->image) Storage::delete('public/'.$doctor->image);
         $doctor->delete();
         return redirect()->route('doctors.index');
     }
-
      // public function show()
     // {
     //     //take the id from url param
@@ -98,8 +114,8 @@ return redirect()->route('doctors.index');
         return view('doctors.create');
     }
 
-    public function store(){
-         $request=request();
+    public function store(DoctorRequest $request){
+         //$request=request();
             
         
     
@@ -108,7 +124,7 @@ return redirect()->route('doctors.index');
             'name'=>$request->name,
             'email'=>$request->email,
            'password'=>$request->password,
-//           'image' => User::storePostImage($request),
+           'image' => User::storeUserImage($request),
             
         ]);
 
