@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -41,7 +42,6 @@ Route::delete('/doctors/{doctor}','DoctorController@destroy')->name('doctors.des
 Auth::routes();
 Auth::routes(['verify' => true]);
 
-
 Route::get('/home', 'HomeController@index')->name('home')->middleware('verified');
 
 Route::get('/pharmacies', function () {
@@ -58,6 +58,12 @@ Route::get('/orders', 'OrdersController@index')->name('orders.index');
 Route::get('/orders/create', 'OrdersController@create')->name('orders.create');
 
 Route::post('/orders', 'OrdersController@store')->name('orders.store');
+
+Route::get('/orders/{order}/edit', 'OrdersController@edit')->name('orders.edit');
+
+Route::put('/orders/{order}', 'OrdersController@update')->name('orders.update');
+
+//=============================================
 
 Auth::routes();
 

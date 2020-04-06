@@ -38,8 +38,8 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    
-     /**
+
+    /**
      * Add a mutator to ensure hashed passwords
      */
     public function setPasswordAttribute($password)
