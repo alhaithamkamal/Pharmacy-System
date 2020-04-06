@@ -4,21 +4,29 @@ namespace App\Http\Controllers\API;
 
 use App\Client;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UserRequest;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
-    public function register()
+    public function register(UserRequest $request)
     {
-        $this->validate(request(), [
-            'name' => 'required',
-            'email' => 'required|email',
-            'password' => 'required|confirmed'
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => $request->password,
+            'image' => User::storeUserImage($request),
+            'national_id' => $request->national_id,
         ]);
-        
-        $user = User::create(request(['name', 'email', 'password']));
+        $user->client()->create([
+            'gender' => $request->gender,
+            'birthdate' => $request->birthdate,
+            'mobile' => $request->mobile
+        ]);
+
         auth()->login($user);
         $user->sendEmailVerificationNotification();
         
