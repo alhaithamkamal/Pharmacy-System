@@ -3,11 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
-use Illuminate\Validation\ValidationException;
 
 class UserRequest extends FormRequest
 {
@@ -30,13 +26,12 @@ class UserRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'email' => 'required|email|unique:users',
             'password' => 'required|confirmed',
             'gender' => ['required', Rule::in(['male', 'female'])],
             'birthdate' => 'required|date',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'mobile' => 'required|regex:/(01)[0-9]{9}/',
-            'national_id' => 'required'
+            'image' => 'sometimes|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'mobile' => 'required|unique:clients|regex:/(01)[0-9]{9}/',
+            'national_id' => 'required|unique:users'
         ];
     }
 }
