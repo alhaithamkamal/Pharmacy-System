@@ -23,9 +23,12 @@ Route::put('/users/{user}', 'API\UserController@update');
 
 Route::group([], function()
 {
-    Route::get('/users/{user}/addresses', 'API\AddressController@index');
-    Route::post('/users/{user}/addresses', 'API\AddressController@store');
-    Route::get('/users/{user}/addresses/{address}', 'API\AddressController@show');
-    Route::put('/users/{user}/addresses/{address}', 'API\AddressController@update');
-    Route::delete('/users/{user}/addresses/{address}', 'API\AddressController@destroy');
+    Route::get('/clients/{client}/addresses', 'API\AddressController@index');
+    Route::post('/clients/{client}/addresses', 'API\AddressController@store');
+    Route::get('/addresses/{address}', 'API\AddressController@show');
+    Route::put('/addresses/{address}', 'API\AddressController@update');
+    Route::delete('/addresses/{address}', 'API\AddressController@destroy');
 });
+
+Route::get('/clients/{client}/orders', 'API\OrderController@index');
+Route::get('/orders/{order}', 'API\OrderController@show');

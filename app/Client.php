@@ -27,4 +27,9 @@ class Client extends Model
     {
         return $this->hasMany('App\UserAddress');
     }
+    
+    public function oreders()
+    {
+        return $this->hasMany('App\Order');
+    }
 }
