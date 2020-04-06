@@ -10,15 +10,7 @@ use Yajra\DataTables\Facades\DataTables;
 
 class ClientController extends Controller
 {
-    // public function index(){
-    
-    // $clients= Post::paginate(3);
-
-	// return view('clients.index',[
-    // 	'clients' => $clients
-    // ]);
-    // }
-
+   
     public function index(Request $request)
     {
         if ($request->ajax()) {
@@ -65,6 +57,10 @@ class ClientController extends Controller
                     ->make(true);
             }
             return view('clients.index');
+    }
+
+    public function create(){
+        return view('clients.create');
     }
 }
 

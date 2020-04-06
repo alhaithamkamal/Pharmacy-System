@@ -22,7 +22,7 @@ Route::get('/', function () {
 Route::get('/clients','ClientController@index')->name('clients.index');
 
 //route to client form
-// Route::get('/clients/create','ClientController@create')->name('clients.create');
+Route::get('/clients/create','ClientController@create')->name('clients.create');
 
 //to store client data
 // Route::post('/clients','ClientController@store')->name('clients.store');
