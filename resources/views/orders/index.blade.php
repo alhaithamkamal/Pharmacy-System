@@ -47,15 +47,15 @@
                     
                     @foreach ($orders as $order)
                   <tr>
-                    <td>{{ $order['id'] }}</td>
-                    <td>{{ $order['user_name'] }}</td>
+                    <td>{{ $order->id }}</td>
+                    <td>{{ $order->client->user->name}}</td>
                     <td>{{ $order['user_address'] }}</td>
-                    <td>{{ $order['created_at'] }}</td>
-                    <td>{{ $order['doctor_name'] }}</td>
-                    <td>{{ $order['user_is_insured'] }}</td>
-                    <td>{{ $order['status']}}</td>
+                    <td>{{ $order->created_at}}</td>
+                    <td>{{ $order->user->name}}</td>
+                    <td>{{ $order->client->is_insured }}</td>
+                    <td>{{ $order->status}}</td>
                     <td>
-                    <a href="" class="btn btn-primary mr-2">Edit</a>
+                    <a href="{{route('orders.edit')}}" class="btn btn-primary mr-2">Edit</a>
                     <a href="{{route('orders.index')}}" class="btn btn-secondary">Delete</a>
 
                     </td>
