@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Client extends Model
 {
     protected $guarded = [];
-
+    protected $dateFormat = 'Y-m-d';
   
     /**
      * The attributes that should be cast to native types.
