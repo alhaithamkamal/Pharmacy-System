@@ -14,19 +14,6 @@
 <!-- AdminLTE for demo purposes -->
 <script src="{{ asset('dist/js/demo.js') }}"></script>
 <!-- page script -->
-<!-- <script>
-  $(function () {
-    $("#example1").DataTable();
-    $('#example2').DataTable({
-      "paging": true,
-      "lengthChange": false,
-      "searching": false,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false,
-    });
-  });
-</script> -->
 <script>
 
 $(".nav-link").click(function () {
@@ -34,20 +21,7 @@ $(".nav-link").click(function () {
           $(this).addClass("active");
     });
 </script>
-<script>
-              $(document).ready( function () {
-                console.log('hello');
-                var table = $('#example1').DataTable({
-                    processing: true,
-                    serverSide: true,
-                    ajax: "{{ route('clients.index') }}",
-                    columns: [
-                        {data: 'id', name: 'id'},
-                        {data: 'gender', name: 'gender'},
-                        {data: 'mobile', name: 'mobile'},
-                        {data: 'action', name: 'action', orderable: false, searchable: false},
-                    ]
-                });
-                
-              });
-            </script>
+
+<!-- /.content-wrapper -->
+  @yield('datatable_script')
+<!-- datatable script -->

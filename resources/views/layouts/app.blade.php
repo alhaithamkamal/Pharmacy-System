@@ -19,7 +19,9 @@
         <div class="content-wrapper">
             @yield('content')
         </div>
-        <!-- /.content-wrapper -->
+      
+
+        <!-- /.datatable script -->
 
         <!-- Main Footer -->
         <footer class="main-footer">  

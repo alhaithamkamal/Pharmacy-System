@@ -57,3 +57,23 @@
     <!-- /.content -->
 
 @endsection
+
+@section('datatable_script')
+        <script>
+              $(document).ready( function () {
+                console.log('hello');
+                var table = $('#example1').DataTable({
+                    processing: true,
+                    serverSide: true,
+                    ajax: "{{ route('clients.index') }}",
+                    columns: [
+                        {data: 'id', name: 'id'},
+                        {data: 'gender', name: 'gender'},
+                        {data: 'mobile', name: 'mobile'},
+                        {data: 'action', name: 'action', orderable: true, searchable: true},
+                    ]
+                });
+                
+              });
+            </script>
+@endsection
