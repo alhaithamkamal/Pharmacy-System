@@ -2,32 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Client;
+use App\Order;
+use App\User;
 use Illuminate\Http\Request;
 
 class OrdersController extends Controller
 {
     public function index()
     {
-        $orders = [
-            [
-                'id' => '1',
-                'user_name' => 'nour',
-                'user_address' => 'Alex Smoha street',
-                'created_at' => '29/2/2020',
-                'doctor_name' => 'Khaled',
-                'user_is_insured' => 'yes',
-                'status' => 'Wating For User Confirmation'
-            ],
-            [
-                'id' => '12',
-                'user_name' => 'ahmed',
-                'user_address' => 'Tanta elgalaa street',
-                'created_at' => '14/3/2020',
-                'doctor_name' => 'Haitham',
-                'user_is_insured' => 'no',
-                'status' => 'Confirmed'
-            ]
-        ];
+        $orders = Order::all();
         return view('orders.index', [
             'orders' => $orders,
         ]);
@@ -35,34 +19,45 @@ class OrdersController extends Controller
 
     public function create()
     {
-        $orders = [
-            [
-                'id' => '1',
-                'user_name' => 'nour',
-                'user_address' => 'Alex Smoha street',
-                'created_at' => '29/2/2020',
-                'doctor_name' => 'Khaled',
-                'user_is_insured' => 'yes',
-                'status' => 'Wating For User Confirmation'
-            ],
-            [
-                'id' => '12',
-                'user_name' => 'ahmed',
-                'user_address' => 'Tanta elgalaa street',
-                'created_at' => '14/3/2020',
-                'doctor_name' => 'Haitham',
-                'user_is_insured' => 'no',
-                'status' => 'Confirmed'
-            ]
-        ];
+        $clients = Client::all();
         return view('orders.create', [
-            'orders' => $orders
+            'clients' => $clients,
         ]);
     }
 
     public function store()
     {
+        Order::create([
+            'user_id' => 11,
+            'client_id' => request()->client_id,
+            'status' => 'processing'
+        ]);
 
+        return redirect()->route('orders.index');
+    }
+
+    public function edit()
+    {
+        $orderId = request()->order;
+        $order = Order::find($orderId);
+        $clients = Client::all();
+
+        return view('orders.edit', [
+            'order' => $order,
+            'clients' => $clients,
+        ]);
+    }
+
+    public function update()
+    {
+        $orderId = request()->order;
+        $order = Order::find($orderId);
+
+        $data = request()->only([
+            'client_id',
+            'status',
+        ]);
+        $order->update($data);
         return redirect()->route('orders.index');
     }
 }
