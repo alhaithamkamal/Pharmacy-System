@@ -94,7 +94,7 @@ public function update(DoctorRequest $request, User $doctor)
     //     $request = request();
         
     //     $postId = $request->post;
-    //     dd($request->post);
+
     //     //query to retrieve the post by id
     //     $post = Post::find($postId);
     //     // $post = Post::where('id', $postId)->get();
