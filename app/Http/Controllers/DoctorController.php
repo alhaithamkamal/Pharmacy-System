@@ -9,44 +9,13 @@ use App\User;
 class DoctorController extends Controller
 {
     public function index(){
-        $doctors=Doctor::all();
+        $doctors=User::all();
         return view('doctors.index',[
             'doctors'=>$doctors
         ]);
     }
-    // public function changeStatus(Request $request)
-    // {
-    //     $doctorId=$request->doctor;
-    //     dd($request->doctorId);
-    //     $doctor = Doctor::find($request->doctor);
-    //     dd($request->doctor);
-    //     $user->status = $request->status;
-    //     $user->save();
-  
-    //     return response()->json(['success'=>'Status change successfully.']);
-    // }
-
-    // public function updateStatus(Request $request)
-    // {
-    //     $doctorId=$request->doctor;
-    //     //dd($request);
-
-    //     $doctor = Doctor::findOrFail($request->doctor);
-    //     //dd($request->status);
-    //     $doctor->status = $request->status;
-    //     //dd($doctor->status);
-    //     $doctor->save();
     
-    //     return response()->json(['message' => 'User status updated successfully.']);
-    // }
-    public function updateStatus(Request $request)
-    {
-        $user = Doctor::findOrFail($request->user_id);
-        $user->status = $request->status;
-        $user->save();
     
-        return response()->json(['message' => 'User status updated successfully.']);
-    }
             
 
      public function show()
@@ -54,24 +23,53 @@ class DoctorController extends Controller
         $request=request();  
         
         $doctorId=$request->doctor;
-        $doctorstatus=$request->
-        //dd($request->doctor);
-//        dd($request->doctor);
-        $doctor=Doctor::find($doctorId);      
-        //dd($request->doctor);
+        
+        
+        $doctor=User::find($doctorId);      
+        
                 
 
         return view('doctors.show',[
                     'doctor' => $doctor,
                 ]);
-        
-        
-        
-        
-    //     return view('doctors.show',[
-    //         'doctor'=>Doctor::find(request()->doctor),
-    //     ]);
-     }
+   
+      
+         }
+         public function edit()
+    {
+     //   $users = User::all();
+        $doctor_id = request('doctor');
+        //dd($doctor_id);
+        $doctor = User::find($doctor_id);
+        //dd($doctor);
+        return view('doctors.edit', [
+            'doctor' => $doctor, 
+        ]);
+    }
+
+    public function update(Request $request)
+    {
+        $doctorId = $request->doctor;
+        // dd($request->post);
+        $doctor = User::find($doctorId);
+        //$slug = SlugService::createSlug(Post::class, 'slug', $request->title);
+
+
+        $data = $request->only(['national_id', 'name', 'email',]);
+        //$data += array('slug' => $slug);
+        $doctor->update($data);
+
+//        return redirect()->route('doctors.show', ['doctor' => $request->doctor]);
+return redirect()->route('doctors.index');
+
+    }
+    public function destroy(){
+        $request=request();
+        $doctorId=$request->doctor;
+        $doctor=User::find($doctorId);
+        $doctor->delete();
+        return redirect()->route('doctors.index');
+    }
 
      // public function show()
     // {
@@ -104,15 +102,17 @@ class DoctorController extends Controller
             
         
     
-        Doctor::create([
+        User::create([
+            'national_id'=>$request->national_id,
             'name'=>$request->name,
             'email'=>$request->email,
-            'national_id'=>$request->national_id,
+           'password'=>$request->password
             //'user_id'=>$request->user_id,
             
         ]);
         
         return redirect()->route('doctors.index');
     }
+    
 
 }

@@ -39,14 +39,14 @@
                     <!-- <th></th> -->
                     <th>national id</th>
                     <th>created at</th>
-                    <th>Ban</th>
+                    <th>Actions</th>
                   </tr>
                 </thead>
                   <tbody>
                   @foreach($doctors as $doctor)
                   <tr>
                     <td>
-                    <a href="{{ route('doctors.show',['doctor'=>$doctor->id]) }}">{{ $doctor->name }}</a>
+                    <a href="{{ route('doctors.show',['doctor'=>$doctor->national_id]) }}">{{ $doctor->name }}</a>
                     </td>
                     <td>
                     {{ $doctor->email }}
@@ -54,30 +54,16 @@
                     <td>{{ $doctor->national_id }}</td>
                     <td> {{ $doctor->created_at }}</td>
                     <td>
-<!-- <input type="checkbox" data-id="{{ $doctor->id }}" name="status" class="js-switch" {{ $doctor->status == 1 ? 'checked' : '' }}> -->
-null
-</td>
-
+                    <a href="{{ route('doctors.edit',['doctor'=>$doctor->national_id]) }}" class="btn btn-success">Edit</a>
+                    <form action="{{ route('doctors.destroy',['doctor'=>$doctor->national_id]) }}" method="POST" class="d-inline">
+                      @csrf
+                      @method('DELETE')
+                      <button  class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this doctor ?')">Delete</button>
+                    </td>
                     
                   </tr>
                   @endforeach
-                  @foreach($users as $user)
-                  <tr>
-                    <td>
-                    <a href="{{ route('doctors.show',['doctor'=>$doctor->id]) }}">{{ $user->name }}</a>
-                    </td>
-                    <td>
-                    {{ $user->email }}
-                    </td>
-                    <td>{{ $doctor->id }}</td>
-                    <td> {{ $doctor->created_at }}</td>
-                    <td>
-<input type="checkbox" data-id="{{ $user->id }}" name="status" class="js-switch" {{ $user->status == 1 ? 'checked' : '' }}>
-</td>
-
-                    
-                  </tr>
-                  @endforeach
+                  
                   </tbody>
               </table>
             </div>
@@ -91,27 +77,5 @@ null
       <!-- /.row -->
     </section>
     <!-- /.content -->
-    <script>let elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
-
-elems.forEach(function(html) {
-    let switchery = new Switchery(html,  { size: 'small' });
-});
-$(document).ready(function(){
-    $('.js-switch').change(function () {
-        let status = $(this).prop('checked') === true ? 1 : 0;
-        let userId = $(this).data('id');
-        $.ajax({
-            type: "GET",
-            dataType: "json",
-            url: '{{ route('users.update.status') }}',
-            data: {'status': status, 'user_id': userId},
-            success: function (data) {
-                console.log(data.message);
-            }
-        });
-    });
-});
-
-</script>
 
 @endsection
