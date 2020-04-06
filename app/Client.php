@@ -8,7 +8,7 @@ class Client extends Model
 {
     protected $guarded = [];
 
-  
+
     /**
      * The attributes that should be cast to native types.
      *
@@ -26,5 +26,10 @@ class Client extends Model
     public function addresses()
     {
         return $this->hasMany('App\UserAddress');
+    }
+    
+    public function oreders()
+    {
+        return $this->hasMany('App\Order');
     }
 }
