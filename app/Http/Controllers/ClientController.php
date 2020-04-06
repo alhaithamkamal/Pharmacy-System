@@ -21,31 +21,27 @@ class ClientController extends Controller
 
     public function index(Request $request)
     {
-        $users =Client::with('users')->get();
-        
         if ($request->ajax()) {
-      //  $client = Client::all();
-        $client=Client::all();
-        
-   //    dd($client);
-        return Datatables::of($users)
-                ->addColumn('id', function($users) {
-                    return $users->id;
-                })
-                ->addColumn('gender', function($users) {
-                    return $users->users->name;
-                })
-                ->addColumn('email', function($users) {
-                    return $users->email;
-                })
-                ->addColumn('action', function($row){
+            $clients =Client::with('user')->get();
 
-                        $btn = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">View</a>';
-    
-                        return $btn;
-                })
-                ->rawColumns(['action'])
-                ->make(true);
+            return Datatables::of($clients)
+                    ->addColumn('id', function($clients) {
+                        return $clients->id;
+                    })
+                    ->addColumn('gender', function($clients) {
+                        return $clients->user->name;
+                    })
+                    ->addColumn('email', function($clients) {
+                        return $clients->email;
+                    })
+                    ->addColumn('action', function($row){
+
+                            $btn = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">View</a>';
+        
+                            return $btn;
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
             }
             return view('clients.index');
     }

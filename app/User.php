@@ -47,9 +47,9 @@ class User extends Authenticatable implements MustVerifyEmail
         $this->attributes['password'] = bcrypt($password);
     }
 
-    // public function clients()
-    // {
-    //     return $this->belongsTo('App\Client');
-    // }
+    public function client()
+    {
+        return $this->hasOne('App\Client');
+    }
 
 }
