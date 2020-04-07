@@ -18,7 +18,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     protected $fillable = [
 
-        'national_id' ,'name', 'email', 'password', 'image'
+        'national_id' ,'name', 'email', 'password', 'image', 'role_id'
 
     ];
      //protected $primaryKey = 'national_id';
