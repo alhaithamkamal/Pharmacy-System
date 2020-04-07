@@ -7,6 +7,7 @@ use App\Client;
 use App\User;
 use Yajra\DataTables\Facades\DataTables; 
 use App\Http\Requests\StoreClientRequest;
+use App\Http\Requests\UpdateClientRequest;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -40,7 +41,11 @@ class ClientController extends Controller
                         return $clients->birthdate;
                     })
                     ->addColumn('is_insured', function($clients) {
-                        return $clients->is_insured;
+                        if($clients->is_insured){
+                            return '<p style="color:green;">Insured</p>';
+                        }else{
+                            return '<p style="color:red;">Not insured</p>';
+                        }
                     })
                     ->addColumn('last_login', function($clients) {
                         return $clients->last_login_at;
@@ -52,13 +57,13 @@ class ClientController extends Controller
                         $url = asset('storage/'.$clients->user->image);
                         return '<img src='.$url.' border="0" width="100" height="90" class="img-rounded" align="center" />'; 
                     })
-                    ->addColumn('action', function($row){
+                    ->addColumn('action', function($clients){
 
-                            $btn = '<a href="{{ route("clients.edit",["client"=> '.$clients->id.'])}}" class="edit btn btn-primary btn-sm">Edit</a>';
+                            $btn = '<a href="'.route("clients.edit",["client" => $clients->id]).'" class="edit btn btn-primary btn-sm">Edit</a>';
         
                             return $btn;
                     })
-                    ->rawColumns(['image','action'])
+                    ->rawColumns(['is_insured','image','action'])
                     ->make(true);
             }
             return view('clients.index');
@@ -72,18 +77,21 @@ class ClientController extends Controller
         //get the request data
         //store the request data in the database
         //redirect to show page
-
+       
+        //dd($insured);
         $validate = $request->validated();
         if($validate){
-            $insured =1;
-            if(!$request->is_insured){
+            if($request->has('is_insured')){
+                //Checkbox checked
+                $insured = 1;
+            }else{
+                //Checkbox not checked
                 $insured = 0;
             }
             if ($request->hasfile('image')){
                 // $path = $request->file('image')->store('avatarss');
                 // dd($path);
-
-                $path = Storage::putFile('clients_avatars', $request->file('image'));
+                $path = Storage::disk('public')->put('clients_avatars', $request->file('image'));
             }
             // else if($request->gender == "female"){
             //     $path = 'female.png';
@@ -113,6 +121,67 @@ class ClientController extends Controller
        
         //Auth::login($user);
        
+        return redirect()->route('clients.index');
+    }
+
+
+    public function edit(Request $request){
+        
+        $clientID = $request->client;
+        $client = Client::with('user')->find($clientID);
+        if(!$client){
+            return redirect()->route('clients.index')->with('error', 'client is not found');
+        }
+        //dd($client);
+        return view('clients.edit',[
+            'client' => $client
+        ]);
+
+    }
+
+    public function update(UpdateClientRequest $request){
+
+        $client= Client::find($request->client);
+ 
+        $validate = $request->validated();
+ 
+        if($validate){
+            $client= Client::with('user')->find($request->client);
+            if($request->has('is_insured')){
+                //Checkbox checked
+                $insured = 1;
+            }else{
+                //Checkbox not checked
+                $insured = 0;
+            }
+            $path = $client->user->image;
+            if ($request->hasfile('image')){
+                Storage::disk('public')->delete($path);
+                $path = Storage::disk('public')->put('clients_avatars', $request->file('image'));
+
+              //  $path = Storage::putFile('clients_avatars', $request->file('image'));
+            }
+            
+            $client -> update([
+                'gender' => $request->gender,
+                'birthdate'=> $request->birthdate,
+                'is_insured' =>$insured,
+                'mobile' => $request->mobile,
+                'user_id' => $request->user_id
+            ]); 
+
+            $user= User::find($request->user_id);
+
+            $user -> update([
+                'name' => $request->name,
+                'email' => $request->email,
+                'national_id' => $request->national_id,
+                'image' => $path
+            ]);
+
+              
+        }
+
         return redirect()->route('clients.index');
     }
 }

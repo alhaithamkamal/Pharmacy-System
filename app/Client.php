@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Client extends Model
 {
@@ -13,6 +14,9 @@ class Client extends Model
     {
         return Carbon::createFromFormat('Y-m-d H:i:s', $last_login_at)->format('d. M, Y ');
     }
+    
+    use SoftDeletes;
+
     /**
      * The attributes that should be cast to native types.
      *

@@ -31,7 +31,7 @@ Route::get('/clients/create','ClientController@create')->name('clients.create');
 Route::get('/clients/{client}/edit','ClientController@edit')->name('clients.edit');
 
 //update client
-// Route::patch('/clients/{client}','ClientController@update')->name('clients.update');
+Route::patch('/clients/{client}','ClientController@update')->name('clients.update');
 
 
 // ==================Doctor routes=======================
