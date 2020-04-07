@@ -18,25 +18,25 @@
         
         <div class="form-group mt-2">
             <label >Medicine Name</label>
-            <input name="" type="text" class="form-control" aria-describedby="emailHelp">
+            <input name="name" type="text" class="form-control">
         </div>
         <div class="form-group mt-2">
             <label >Medicine Quantity</label>
-            <input name="" type="number" class="form-control" aria-describedby="emailHelp">
+            <input name="quantity" type="number" class="form-control">
         </div>
         <div class="form-group mt-2">
             <label >Medicine Type</label>
-            <input name="" type="text" class="form-control" aria-describedby="emailHelp">
+            <input name="type" type="text" class="form-control">
         </div>
         <div class="form-group mt-2">
             <label >Medicine Price</label>
-            <input name="" type="text" class="form-control" aria-describedby="emailHelp">
+            <input name="price" type="text" class="form-control">
         </div>
 
-        <div class="form-group mt-2">
+        {{-- <div class="form-group mt-2">
             <label >Visa Code Number</label>
             <input name="" type="text" class="form-control" aria-describedby="emailHelp">
-        </div>
+        </div> --}}
 
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>

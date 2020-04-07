@@ -21,4 +21,8 @@ class Order extends Model
     {
         return $this->belongsTo('App\User');
     }
+    public function medicine()
+    {
+        return $this->belongsToMany('App\Medicine', 'medicine_order');
+    }
 }
