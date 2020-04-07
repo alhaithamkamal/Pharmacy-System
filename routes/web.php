@@ -20,7 +20,7 @@ Route::get('/', function () {
 
 
 //show clients in table
-Route::get('/clients','ClientController@index')->name('clients.index');
+Route::get('/clients', 'ClientController@index')->name('clients.index');
 
 //route to client form
 Route::get('/clients/create','ClientController@create')->name('clients.create');
@@ -56,7 +56,7 @@ Route::get('/doctors/{doctor}', 'DoctorController@show')->name('doctors.show');
 
 Route::get('/doctors/{doctor}/edit', 'DoctorController@edit')->name('doctors.edit');
 Route::put('/doctors/{doctor}', 'DoctorController@update')->name('doctors.update');
-Route::delete('/doctors/{doctor}','DoctorController@destroy')->name('doctors.destroy') ;
+Route::delete('/doctors/{doctor}', 'DoctorController@destroy')->name('doctors.destroy');
 
 Auth::routes();
 Auth::routes(['verify' => true]);
@@ -81,6 +81,8 @@ Route::post('/orders', 'OrdersController@store')->name('orders.store');
 Route::get('/orders/{order}/edit', 'OrdersController@edit')->name('orders.edit');
 
 Route::put('/orders/{order}', 'OrdersController@update')->name('orders.update');
+
+Route::delete('/orders/{order}', 'OrdersController@destroy')->name('orders.destroy');
 
 //=============================================
 

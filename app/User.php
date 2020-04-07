@@ -20,9 +20,10 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'national_id','image','password'
+        'name', 'email', 'national_id','image','password','role_id'
     ];
     protected $primaryKey = 'id';
+    
 
     /**
      * The attributes that should be hidden for arrays.
@@ -55,5 +56,18 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasOne('App\Client');
     }
+
+    
+
+    public static function storeUserImage($request)
+    {
+        if ($request->file('image')) {
+            $path = $request->file('image')->store('public/images');
+            $path = str_replace('public/', '', $path);
+        }else
+            $path = null;
+        return $path;
+    }
+
 
 }
