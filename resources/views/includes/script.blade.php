@@ -18,6 +18,8 @@
 
 <script src="{{ asset('plugins/inputmask/min/jquery.inputmask.bundle.min.js') }}"></script>
 
+<!-- bs-custom-file-input -->
+<script src="{{ asset('plugins/bs-custom-file-input/bs-custom-file-input.min.js') }}"></script>
 
 <script>
 
@@ -27,7 +29,10 @@
     $('#datemask2').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
     //Money Euro
     $('[data-mask]').inputmask()
-    
+   
+    $(document).ready(function () {
+      bsCustomFileInput.init();
+    });
 </script>
 <!-- page script -->
 <script>

@@ -17,9 +17,9 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'national_id','name', 'email', 
+        'name', 'email', 'national_id','image','password'
     ];
-    protected $primaryKey = 'national_id';
+    protected $primaryKey = 'id';
 
     /**
      * The attributes that should be hidden for arrays.
@@ -42,10 +42,11 @@ class User extends Authenticatable implements MustVerifyEmail
     /**
      * Add a mutator to ensure hashed passwords
      */
-    public function setPasswordAttribute($password)
-    {
-        $this->attributes['password'] = bcrypt($password);
-    }
+    // public function setPasswordAttribute($password)
+    // {
+    //     $this->attributes['password'] = bcrypt($password);
+    
+    // }
 
     public function client()
     {

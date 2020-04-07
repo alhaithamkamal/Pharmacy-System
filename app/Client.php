@@ -3,20 +3,25 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Client extends Model
 {
     protected $guarded = [];
-    protected $dateFormat = 'Y-m-d';
-  
+
+    public function getLastLoginAtAttribute($last_login_at)
+    {
+        return Carbon::createFromFormat('Y-m-d H:i:s', $last_login_at)->format('d. M, Y ');
+    }
     /**
      * The attributes that should be cast to native types.
      *
      * @var array
      */
-    protected $casts = [
-        'last_login_at' => 'datetime',
-    ];
+
+    // protected $casts = [
+    //     'last_login_at' => 'date',
+    // ];
 
     // public function client_info()
     // {

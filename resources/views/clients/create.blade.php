@@ -29,7 +29,9 @@
             <div class="card-header">
               <h1 class="card-title" style="font-size:1.3rem !important;">User Form</h1>
             </div>
-            <div class="card-body">
+          <div class="card-body">
+            <form method="POST" action="{{route('clients.store')}}" enctype="multipart/form-data">
+            @csrf
             <div class="row" style="margin:20px;">
                   <div class="col-lg-6">
                   <h4 class="mt-4 mb-2">User name</h4>
@@ -38,9 +40,12 @@
                       <div class="input-group-prepend">
                         <span class="input-group-text">@</span>
                       </div>
-                      <input type="text" class="form-control form-control-lg" placeholder="Username">
+                      <input type="text" class="form-control form-control-lg" name="name" value="{{old('name')}}" placeholder="Username">
                     </div>
                     <!-- /input-group -->
+                    @error('name')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
                   </div>
                   <!-- /.col-lg-6 -->
                   <div class="col-lg-6">
@@ -50,9 +55,12 @@
                       <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fas fa-envelope"></i></span>
                       </div>
-                      <input type="email" class="form-control form-control-lg" placeholder="Email">
+                      <input type="email" class="form-control form-control-lg"  name="email" value="{{old('email')}}" placeholder="Email">
                     </div>
                     <!-- /input-group -->
+                    @error('email')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
                   </div>
                   <!-- /.col-lg-6 -->
             </div>
@@ -63,15 +71,18 @@
                   <div class="col-lg-6">
                   <h4 class="mt-4 mb-2">Password</h4>
                     <div class="input-group">
-                      <input type="password" class="form-control form-control-lg" id="exampleInputPassword1" placeholder="Password">
+                      <input type="password" class="form-control form-control-lg" id="exampleInputPassword1" name="password" placeholder="Password">
                     </div>
                     <!-- /input-group -->
+                    @error('password')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
                   </div>
                   <!-- /.col-lg-6 -->
                   <div class="col-lg-6">
                   <h4 class="mt-4 mb-2">Password Confirmation</h4>
                     <div class="input-group">
-                      <input type="password" class="form-control form-control-lg" id="exampleInputPassword1" placeholder="Password Confirmation">
+                      <input type="password" class="form-control form-control-lg" id="exampleInputPassword2" name="password_confirmation" placeholder="Password Confirmation">
                     </div>
                     <!-- /input-group -->
                   </div>
@@ -84,10 +95,28 @@
                <div class="col-lg-6">
                <h4 class="mt-4 mb-2">National ID</h4>
                  <div class="input-group">
-                   <input type="number" class="form-control form-control-lg"  placeholder="National ID">
+                   <input type="number" class="form-control form-control-lg"  name="national_id" value="{{old('national_id')}}" placeholder="National ID">
                  </div>
                  <!-- /input-group -->
+                  @error('national_id')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                  @enderror
                </div>
+               <!-- /.col-lg-6 -->
+               <div class="col-lg-6">
+                <h4 class="mt-4 mb-2">Image</h4>
+                <div class="input-group">
+                  <div class="custom-file">
+                      <label class="custom-file-label form-control-lg" for="exampleInputFile">Choose file</label>
+                      <input type="file" class="custom-file-input" name="image" id="exampleInputFile">
+                  </div>
+                 
+                </div>
+                 <!-- /input-group -->
+                @error('image')
+                      <div class="alert alert-danger">{{ $message }}</div>
+                @enderror
+              </div>
                <!-- /.col-lg-6 -->
              
             </div>
@@ -95,21 +124,44 @@
 
             <div class="row" style="margin:20px;">
                
-              <div class="col-lg-6">
-                <h4 class="mt-4 mb-2">Image</h4>
-                <div class="input-group">
-                  <div class="custom-file">
-                      <input type="file" class="custom-file-input" id="exampleInputFile">
-                      <label class="custom-file-label form-control-lg" for="exampleInputFile">Choose file</label>
+               <div class="col-lg-6">
+               <h4 class="mt-4 mb-2">Gender</h4>
+                 <div class="form-group">
+                    <div class="form-check">
+                            <input class="form-check-input" type="radio" name="gender" value="male" {{(old('gender') == 'male') ? 'checked' : ''}}>
+                            <label class="form-check-label">male</label>
+                    </div>
+                    <div class="form-check">
+                            <input class="form-check-input" type="radio" name="gender" value="female" {{(old('gender') == 'female') ? 'checked' : ''}}>
+                            <label class="form-check-label">female</label>
+                    </div>
                   </div>
-                 
-                </div>
+                  
                  <!-- /input-group -->
-              </div>
+                  @error('gender')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                  @enderror
+               </div>
+               <!-- /.col-lg-6 -->
+               
+               <div class="col-lg-6">
+               <h4 class="mt-4 mb-2">Insurance</h4>
+                 <div class="form-group">
+                      <div class="form-check">
+                          <input class="form-check-input" type="checkbox" name="is_insured" value="0" {{(old('is_insured')) ? 'checked' : ''}}>
+                          <label class="form-check-label">insured</label>
+                      </div>
+                  </div>
+                 <!-- /input-group -->
+                  @error('is_insured')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                  @enderror
+               </div>
                <!-- /.col-lg-6 -->
              
             </div>
             <!-- /.row -->
+            
 
             <div class="row" style="margin:20px;">
                
@@ -119,9 +171,12 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
                     </div>
-                      <input type="text" class="form-control form-control-lg" data-inputmask-alias="datetime" data-inputmask-inputformat="dd/mm/yyyy" data-mask="" im-insert="false">
+                      <input type="text" class="form-control form-control-lg"  name="birthdate" value="{{old('birthdate')}}" data-inputmask-alias="datetime" data-inputmask-inputformat="yyyy-mm-dd" data-mask="" im-insert="false">
                     </div>  
                     <!-- /input-group -->
+                    @error('birthdate')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
                   </div>
                   <!-- /.col-lg-6 -->
                   <div class="col-lg-6">
@@ -130,9 +185,12 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="fas fa-phone"></i></span>
                     </div>
-                    <input type="text" class="form-control form-control-lg" data-inputmask="&quot;mask&quot;: &quot;(999) 9999-9999&quot;" data-mask="" im-insert="true">
+                    <input type="number" class="form-control form-control-lg"  name="mobile" value="{{old('mobile')}}" placeholder="mobile phone">
                   </div>
-                    <!-- /input-group -->
+                  <!-- /input-group -->
+                  @error('mobile')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                  @enderror
                   </div>
                   <!-- /.col-lg-6 -->
             </div>
@@ -142,6 +200,7 @@
 
             </div>
             <!-- /.card-body -->
+            </form>
           </div>
           <!-- /.card -->
 

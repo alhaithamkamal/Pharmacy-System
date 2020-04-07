@@ -25,7 +25,13 @@ Route::get('/clients','ClientController@index')->name('clients.index');
 Route::get('/clients/create','ClientController@create')->name('clients.create');
 
 //to store client data
-// Route::post('/clients','ClientController@store')->name('clients.store');
+ Route::post('/clients','ClientController@store')->name('clients.store');
+
+//route to edit client
+Route::get('/clients/{client}/edit','ClientController@edit')->name('clients.edit');
+
+//update client
+// Route::patch('/clients/{client}','ClientController@update')->name('clients.update');
 
 
 // ==================Doctor routes=======================

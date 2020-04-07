@@ -299,6 +299,9 @@ input[type=radio],
 input[type=checkbox] {
   box-sizing: border-box;
   padding: 0;
+  width: 9%;
+  height: 1.2em;
+  margin-top: 8px;
 }
 
 input[type=date],
@@ -2336,6 +2339,9 @@ textarea.form-control {
 
 .form-check-label {
   margin-bottom: 0;
+  font-family: unset;
+  margin-left: 23px;
+  font-size: 20px;
 }
 
 .form-check-inline {
@@ -2829,14 +2835,14 @@ fieldset:disabled a.btn {
 
 .btn-info:hover {
   color: #fff;
-  background-color: #4aa0e6;
+  background-color: #17a2b8;
   border-color: #3f9ae5;
 }
 
 .btn-info:focus,
 .btn-info.focus {
   color: #fff;
-  background-color: #4aa0e6;
+  background-color: #17a2b8;
   border-color: #3f9ae5;
   box-shadow: 0 0 0 0.2rem rgba(97, 157, 206, 0.5);
 }
