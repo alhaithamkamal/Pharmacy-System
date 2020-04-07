@@ -16,6 +16,7 @@ class Client extends Model
     }
     
     use SoftDeletes;
+    protected $dates = ['deleted_at'];
 
     /**
      * The attributes that should be cast to native types.
@@ -34,7 +35,7 @@ class Client extends Model
 
     public function user()
     {
-        return $this->belongsTo('App\User','user_id','id');
+        return $this->belongsTo('App\User','user_id','id')->withTrashed();
     }
 
     public function addresses()

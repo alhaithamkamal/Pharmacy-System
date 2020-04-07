@@ -18,6 +18,7 @@ Route::get('/', function () {
     return view('Dashboard');
 });
 
+
 //show clients in table
 Route::get('/clients','ClientController@index')->name('clients.index');
 
@@ -32,6 +33,16 @@ Route::get('/clients/{client}/edit','ClientController@edit')->name('clients.edit
 
 //update client
 Route::patch('/clients/{client}','ClientController@update')->name('clients.update');
+
+//soft delete client
+Route::post('/clients/{client}','ClientController@destroy')->name('clients.destroy');
+
+//show trashed clients
+Route::get('/trashed-client', 'ClientController@trashed')->name('clients.trashed');
+
+//restore clients
+Route::post('/trashed-client/{client}', 'ClientController@restoreClient')->name('clients.restore');
+
 
 
 // ==================Doctor routes=======================

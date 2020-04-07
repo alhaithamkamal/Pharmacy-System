@@ -58,10 +58,11 @@ class ClientController extends Controller
                         return '<img src='.$url.' border="0" width="100" height="90" class="img-rounded" align="center" />'; 
                     })
                     ->addColumn('action', function($clients){
+                        $btn = '<a href="'.route("clients.edit",["client" => $clients->id]).'" class="edit btn btn-primary btn-sm">Edit</a>';
+                        //$btn .= '<a href="javascript:void(0);" class="btn btn-danger btn-sm deleteClient" data-toggle="tooltip" data-original-title="Delete" id="delete-client" data-id="'. $clients->id .'" >Delete</a>';
+                        $btn .= '<button type="button" data-id="'.$clients->id.'" data-toggle="modal" data-target="#DeleteProductModal" class="btn btn-danger btn-sm" id="getDeleteId">Delete</button>';
 
-                            $btn = '<a href="'.route("clients.edit",["client" => $clients->id]).'" class="edit btn btn-primary btn-sm">Edit</a>';
-        
-                            return $btn;
+                        return $btn;
                     })
                     ->rawColumns(['is_insured','image','action'])
                     ->make(true);
@@ -120,7 +121,7 @@ class ClientController extends Controller
         }
        
         //Auth::login($user);
-       
+
         return redirect()->route('clients.index');
     }
 
@@ -182,6 +183,83 @@ class ClientController extends Controller
               
         }
 
+        return redirect()->route('clients.index');
+    }
+
+
+
+        /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Client  $client
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Request $request)
+    {
+
+        $client = Client::with('user')->find($request->client);
+        $client->user()->delete();
+        $client->delete();      
+        return redirect()->back();
+    }
+
+
+    public function trashed(Request $request)
+    {
+        $clients =Client::with('user')->onlyTrashed()->get();
+        
+        if ($request->ajax()) {
+            
+            return Datatables::of($clients)
+                    ->addColumn('national_id', function($clients) {
+                        return $clients->user->national_id;
+                    })
+                    ->addColumn('name', function($clients) {
+                        return $clients->user->name;
+                    })
+                    ->addColumn('email', function($clients) {
+                        return $clients->user->email;
+                    })
+                    ->addColumn('gender', function($clients) {
+                        return $clients->gender;
+                    })
+                    ->addColumn('mobile', function($clients) {
+                        return $clients->mobile;
+                    })
+                    ->addColumn('birthdate', function($clients) {
+                        return $clients->birthdate;
+                    })
+                    ->addColumn('is_insured', function($clients) {
+                        if($clients->is_insured){
+                            return '<p style="color:green;">Insured</p>';
+                        }else{
+                            return '<p style="color:red;">Not insured</p>';
+                        }
+                    })
+                    ->addColumn('last_login', function($clients) {
+                        return $clients->last_login_at;
+                    })
+                    ->addColumn('role_id', function($clients) {
+                        return $clients->user->role_id;
+                    })
+                    ->addColumn('image', function($clients){   
+                        $url = asset('storage/'.$clients->user->image);
+                        return '<img src='.$url.' border="0" width="100" height="90" class="img-rounded" align="center" />'; 
+                    })
+                    ->addColumn('action', function($clients){
+                        $btn = '<button type="button" data-id="'.$clients->id.'" data-toggle="modal" data-target="#restoreModal" class="btn btn-danger btn-sm" id="getRestoreId">restore</button>';
+                        return $btn;
+                    })
+                    ->rawColumns(['is_insured','image','action'])
+                    ->make(true);
+            }
+            return view('clients.trashed');
+    }
+
+
+    public function restoreClient($id)
+    {
+        Client::withTrashed()->find($id)->restore();
         return redirect()->route('clients.index');
     }
 }

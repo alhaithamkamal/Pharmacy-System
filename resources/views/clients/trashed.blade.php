@@ -63,39 +63,34 @@
       <!-- /.row -->
     </section>
     <!-- /.content -->
-
-    <!-- Delete Product Modal -->
-    <div class="modal" id="DeleteProductModal">
+<!-- Restore Confirm Model Box -->
+<div id="restoreModal" class="modal fade" role="dialog">
         <div class="modal-dialog">
-            <div class="modal-content">
-                <!-- Modal Header -->
-                <div class="modal-header">
-                    <h4 class="modal-title">Product Delete</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <div class="modal-content bg-default">
+                <div class="modal-header bg-danger">
+                    <h4 class="modal-title">Restore <span id="jcId">Job</span></h4>
                 </div>
-                <!-- Modal body -->
                 <div class="modal-body">
-                    <h4>Are you sure want to delete this product?</h4>
+                    <h5 style="text-alignment:left;">Are you sure you want to restore this job?</h5>
                 </div>
-                <!-- Modal footer -->
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" id="SubmitDeleteProductForm">Yes</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-outline-success" data-dismiss="modal">Cancel</button>
+                    <button type="button" name="restore_btn" id="restore_btn" class="btn btn-outline-danger">Restore</button>
                 </div>
             </div>
         </div>
     </div>
+    <!-- /.Restore Confirm Model Box -->
 
 @endsection
 
 @section('datatable_script')
 <script>
   $(document).ready( function () {
-    console.log('hello');
     var table = $('#example1').DataTable({
         processing: true,
         serverSide: true,
-        ajax: "{{ route('clients.index') }}",
+        ajax: "{{ route('clients.trashed') }}",
         columns: [
             {data: 'national_id', name: 'national_id'},
             {data: 'name', name: 'user name'},
@@ -110,48 +105,48 @@
             {data: 'action', name: 'action', orderable: true, searchable: true},
         ]
     });
-    
-        // Delete product Ajax request.
-        var deleteID;
-        $('body').on('click', '#getDeleteId', function(){
-            deleteID = $(this).data('id');
-            console.log(deleteID);
-            
-        })
 
-        $('#SubmitDeleteProductForm').click(function(e) {
-            e.preventDefault();
-            var id = deleteID;
-            var deleteurl = '{{route('clients.destroy', ['client'=> ':id'])}}';
-		        deleteurl = deleteurl.replace(':id',id);
+    // restore client Ajax request.
+    var restoreID;
+    $('body').on('click', '#getRestoreId', function(){
+        restoreID = $(this).data('id');
+        console.log(restoreID);
+        
+    })
+
+    $("#restore_btn").click(function() {
+            var id = restoreID;
+            var restoreurl = '{{route('clients.restore', ['client'=> ':id'])}}';
+            restoreurl = restoreurl.replace(':id',id);
+            console.log(restoreurl);
 
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
-            $.ajax({
-                url: deleteurl,
-                method: 'post',
-                beforeSend:function(){
-                  $('#SubmitDeleteProductForm').text('Deleting...');
-                },
-                success: function(result) {
-                //  Toastr::success('Client deleted successfully  :)','Success');
-                    //  toastr()->success('Client deleted successfully ');
+        $.ajax({
+            type: "post",
+            url: restoreurl,
+            beforeSend:function(){
+              $('#restore_btn').text('restoring...');
+            },
+            success: function(data) {
+              setTimeout(function(){
+                $('#restoreModal').modal('hide');
+                $('#example1').DataTable().ajax.reload();
+              }, 2000);
 
-                  setTimeout(function(){
-                    $('#DeleteProductModal').modal('hide');
-                    $('#example1').DataTable().ajax.reload();
-                  }, 2000);
-
-                 
-                },
-                error: function (data) {
-               //toastr()->error('can\'t delete this client');
-               }
-            });
+              
+            },
+            error: function (data) {
+            //toastr()->error('can\'t delete this client');
+            }
+          
         });
+    });
+    
+
 
   });
 

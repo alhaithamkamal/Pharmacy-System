@@ -16,6 +16,10 @@
 <!-- AdminLTE for demo purposes -->
 <script src="{{ asset('dist/js/demo.js') }}"></script>
 
+<!-- toastr cdn -->
+<!-- <script src="http://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script> -->
+
 <script src="{{ asset('plugins/inputmask/min/jquery.inputmask.bundle.min.js') }}"></script>
 
 <!-- bs-custom-file-input -->
@@ -42,6 +46,7 @@ $(".nav-link").click(function () {
           $(this).addClass("active");
     });
 </script>
+
 
 <!-- /.content-wrapper -->
   @yield('datatable_script')

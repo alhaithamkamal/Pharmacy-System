@@ -32,7 +32,7 @@ class StoreClientRequest extends FormRequest
             'gender'=> 'required|in:male,female',
             'image' => 'required|image|mimes:jpeg,jpg',
             'birthdate' => 'required|date_format:Y-m-d',
-            'mobile' => 'required|size:11',
+            'mobile' => 'required|unique:clients|size:11',
         ];
     }
 
