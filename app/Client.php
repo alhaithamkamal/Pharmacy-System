@@ -28,8 +28,8 @@ class Client extends Model
         return $this->hasMany('App\UserAddress');
     }
     
-    public function oreders()
+    public function orders()
     {
-        return $this->hasMany('App\Order');
+        return $this->hasMany('App\Order', 'creator_id');
     }
 }
