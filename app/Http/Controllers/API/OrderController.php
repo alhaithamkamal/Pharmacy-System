@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Order;
 use Illuminate\Http\Request;
 
-class OrederController extends Controller
+class OrderController extends Controller
 {
     public function index(Client $client)
     {

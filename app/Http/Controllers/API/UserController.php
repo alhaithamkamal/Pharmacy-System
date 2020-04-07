@@ -77,4 +77,8 @@ class UserController extends Controller
         $user->client->update($clientAttributes);
         return response('Your profile info has been updatd');
     }
+    public function show(User $user)
+    {
+        return $user;
+    }
 }
