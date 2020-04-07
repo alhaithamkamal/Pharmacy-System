@@ -6,6 +6,7 @@ use App\Client;
 use App\Http\Controllers\Controller;
 use App\UserAddress;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AddressController extends Controller
 {
@@ -14,9 +15,9 @@ class AddressController extends Controller
         return $client->addresses;
     }
 
-    public function store(Request $request, Client $client)
+    public function store(Request $request)
     {
-        $client->addresses()->create([
+        Auth::user()->client->addresses()->create([
             'area_id' => $request->area_id,
             'street_name' => $request->street_name,
             'building_number' => $request->building_number,
