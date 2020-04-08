@@ -59,7 +59,6 @@ class ClientController extends Controller
                     })
                     ->addColumn('action', function($clients){
                         $btn = '<a href="'.route("clients.edit",["client" => $clients->id]).'" class="edit btn btn-primary btn-sm">Edit</a>';
-                        //$btn .= '<a href="javascript:void(0);" class="btn btn-danger btn-sm deleteClient" data-toggle="tooltip" data-original-title="Delete" id="delete-client" data-id="'. $clients->id .'" >Delete</a>';
                         $btn .= '<button type="button" data-id="'.$clients->id.'" data-toggle="modal" data-target="#DeleteProductModal" class="btn btn-danger btn-sm" id="getDeleteId">Delete</button>';
 
                         return $btn;
