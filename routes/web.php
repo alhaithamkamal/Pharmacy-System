@@ -75,20 +75,20 @@ Route::get('/clients-addresses/create','ClientAddressController@create')->name('
 //to store client-addresses data
  Route::post('/clients-addresses','ClientAddressController@store')->name('clientsAddresses.store');
 
-// //route to edit client-addresses
-// Route::get('/clients-addresses/{address}/edit','ClientAddressController@edit')->name('clientsAddresses.edit');
+//route to edit client-addresses
+Route::get('/clients-addresses/{clientAddress}/edit','ClientAddressController@edit')->name('clientsAddresses.edit');
 
-// //update client
-// Route::patch('/clients-addresses/{address}','ClientAddressController@update')->name('clientsAddresses.update');
+//update client
+Route::patch('/clients-addresses/{clientAddress}','ClientAddressController@update')->name('clientsAddresses.update');
 
-// //soft delete client-addresses
-// Route::post('/clients-addresses/{address}','ClientAddressController@destroy')->name('clientsAddresses.destroy');
+//soft delete client-addresses
+Route::post('/clients-addresses/{clientAddress}','ClientAddressController@destroy')->name('clientsAddresses.destroy');
 
-// //show trashed clients
-// Route::get('/trashed-client-addresses', 'ClientAddressController@trashed')->name('clientsAddresses.trashed');
+//show trashed clients
+Route::get('/trashed-client-addresses', 'ClientAddressController@trashed')->name('clientsAddresses.trashed');
 
-// //restore clients
-// Route::post('/trashed-client-addresses/{address}', 'ClientAddressController@restoreClient')->name('clientsAddresses.restore');
+//restore clients
+Route::post('/trashed-client-addresses/{clientAddress}', 'ClientAddressController@restoreClient')->name('clientsAddresses.restore');
 
 
 

@@ -106,7 +106,7 @@
         ]
     });
     
-        // Delete product Ajax request.
+        // Delete address Ajax request.
         var deleteID;
         $('body').on('click', '#getDeleteId', function(){
             deleteID = $(this).data('id');
@@ -114,10 +114,10 @@
             
         })
 
-        $('#SubmitDeleteProductForm').click(function(e) {
+        $('#SubmitDeleteAddressForm').click(function(e) {
             e.preventDefault();
             var id = deleteID;
-            var deleteurl = '{{route('clients.destroy', ['client'=> ':id'])}}';
+            var deleteurl = '{{route('clientsAddresses.destroy', ['clientAddress'=> ':id'])}}';
 		        deleteurl = deleteurl.replace(':id',id);
 
             $.ajaxSetup({
@@ -136,8 +136,8 @@
                     //  toastr()->success('Client deleted successfully ');
 
                   setTimeout(function(){
-                    $('#DeleteProductModal').modal('hide');
-                    $('#example1').DataTable().ajax.reload();
+                    $('#DeleteAddressModal').modal('hide');
+                    $('#address').DataTable().ajax.reload();
                   }, 2000);
 
                  

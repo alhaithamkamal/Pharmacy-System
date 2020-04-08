@@ -30,6 +30,8 @@
               <h1 class="card-title" style="font-size:1.3rem !important;">Area Form</h1>
             </div>
           <div class="card-body">
+          {{dd(route('areas.update',['area'=> $area->id]))}}
+
             <form method="POST" action="{{route('areas.update',['area'=> $area->id])}}" enctype="multipart/form-data">
             @csrf
             {{ method_field('PATCH') }} 
