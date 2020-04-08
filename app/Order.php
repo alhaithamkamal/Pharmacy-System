@@ -8,13 +8,19 @@ class Order extends Model
 {
     protected $guarded = [];
 
-    public function client()
+    public function creator()
     {
-        return $this->belongsTo('App\Client');
+        return $this->belongsTo('App\Client', 'creator_id');
     }
-    public function user()
+
+    public function pharmacy()
     {
         return $this->belongsTo('App\User');
+    }
+
+    public function address()
+    {
+        return $this->belongsTo('App\UserAddress', 'delivering_address_id');
     }
 
     public function medicine()

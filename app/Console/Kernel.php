@@ -26,6 +26,7 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->command('notify:users-not-logged-in-for-month')->daily();
+        $schedule->command('scan:new-orders-and-assign-them-pharmacy')->everyMinute();
     }
 
     /**
