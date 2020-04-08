@@ -50,10 +50,15 @@
                     @foreach ($orders as $order)
                   <tr>
                     <td>{{ $order->id }}</td>
-                    <td>{{ $order->client ? $order->client->user->name : ''}}</td>
-                    <td>{{ $order->user->client ? $order->user->client->addresses[0]['street_name'] : ''}}</td>
+                    <td>{{ $order->creator ? $order->creator->user->name : ''}}</td>
+                    <td>{{ $order->address}}</td>
                     <td>{{ $order->created_at}}</td>
-                    <td>{{ $order->user ? $order->user->name : ''}}</td>
+                    @if ($order->user->role_id == 2)
+                      <td>{{ $order->doctor ? $order->user->name : ''}}</td>
+                    @else
+                      <td></td>
+                    @endif
+                    
                     <td>{{ $order->client ? $order->client->is_insured : '' }}</td>
                     <td>{{ $order->status}}</td>
                     @switch($order->user->role_id)
