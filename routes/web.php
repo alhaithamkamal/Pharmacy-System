@@ -43,6 +43,27 @@ Route::get('/trashed-client', 'ClientController@trashed')->name('clients.trashed
 //restore clients
 Route::post('/trashed-client/{client}', 'ClientController@restoreClient')->name('clients.restore');
 
+// ==================Area routes=======================
+
+//show areas in table
+Route::get('/areas','AreaController@index')->name('areas.index');
+
+//route to areas form
+Route::get('/areas/create','AreaController@create')->name('areas.create');
+
+//to store area data
+ Route::post('/areas','AreaController@store')->name('areas.store');
+
+//route to edit area
+Route::get('/areas/{area}/edit','AreaController@edit')->name('areas.edit');
+
+//update areas
+Route::patch('/areas/{area}','AreaController@update')->name('areas.update');
+
+//soft delete area
+Route::post('/areas/{area}','AreaController@destroy')->name('areas.destroy');
+
+
 
 
 // ==================Doctor routes=======================
