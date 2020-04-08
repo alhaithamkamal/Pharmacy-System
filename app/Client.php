@@ -22,7 +22,7 @@ class Client extends Model
     
     use SoftDeletes, CascadeSoftDeletes;
 
-    // protected $cascadeDeletes = ['UserAddress'];
+    protected $cascadeDeletes = ['addresses'];
 
     /**
      * The attributes that should be cast to native types.
@@ -36,7 +36,7 @@ class Client extends Model
 
     public function user()
     {
-        return $this->belongsTo('App\User','user_id','id')->withTrashed();
+    return $this->belongsTo('App\User','user_id','id')->withTrashed();
     }
 
     public function addresses()

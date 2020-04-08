@@ -144,20 +144,6 @@
                </div>
                <!-- /.col-lg-6 -->
                
-               <div class="col-lg-6">
-               <h4 class="mt-4 mb-2">Insurance</h4>
-                 <div class="form-group">
-                      <div class="form-check">
-                          <input class="form-check-input" type="checkbox" name="is_insured" value="" {{(old('is_insured')) ? 'checked' : ''}}>
-                          <label class="form-check-label">insured</label>
-                      </div>
-                  </div>
-                 <!-- /input-group -->
-                  @error('is_insured')
-                        <div class="alert alert-danger">{{ $message }}</div>
-                  @enderror
-               </div>
-               <!-- /.col-lg-6 -->
              
             </div>
             <!-- /.row -->

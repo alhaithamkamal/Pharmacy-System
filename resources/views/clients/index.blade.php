@@ -40,7 +40,6 @@
                     <th>Gender</th>
                     <th>Mobile</th>
                     <th>Birth Date</th>
-                    <th>is_insured</th>
                     <th>last login</th>
                     <th>Role</th>
                     <th>Image</th>
@@ -103,7 +102,6 @@
             {data: 'gender', name: 'gender'},
             {data: 'mobile', name: 'mobile'},
             {data: 'birthdate', name: 'birth date'},
-            {data: 'is_insured', name: 'is_insured'},
             {data: 'last_login_at', name: 'last_login'},
             {data: 'role_id', name: 'role_id'},
             {data: 'image', name: 'image'},
