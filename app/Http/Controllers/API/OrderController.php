@@ -36,7 +36,7 @@ class OrderController extends Controller
 
     public function update(OrderRequest $request, Order $order)
     {
-        if ($order->status !== 'new') {
+        if ($order->status === 'new') {
             $request->validate(['cancel' => 'required|boolean']);
             $attributes = [
                 'is_insured' => $request->is_insured,
