@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDoctorsTable extends Migration
+class ModifyOrdersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,10 @@ class CreateDoctorsTable extends Migration
      */
     public function up()
     {
-        Schema::create('doctors', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('pharmacy_id');
-            $table->boolean('is_banned');
-
-
+        Schema::table('orders', function (Blueprint $table) {
+            $table->string('creator_type');
+            $table->renameColumn('user_id', 'creator_id');
+            $table->renameColumn('client_id', 'pharmacy_id');
         });
     }
 
@@ -30,6 +27,8 @@ class CreateDoctorsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('doctors');
+        Schema::table('orders', function (Blueprint $table) {
+            //
+        });
     }
 }

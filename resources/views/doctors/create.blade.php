@@ -1,6 +1,15 @@
 @extends('layouts.app')
 
 @section('content')
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
 	
 
     <!-- Content Header (Page header) -->
@@ -34,7 +43,7 @@
             </div>
             <!-- /.card-header -->
             <!-- form start -->
-            <form class="form-horizontal" method="POST" action="{{ route('doctors.store') }}">
+            <form class="form-horizontal" method="POST" action="{{ route('doctors.store') }}" enctype="multipart/form-data">
             @csrf
               <div class="card-body">
               <!-- name -->
@@ -42,6 +51,7 @@
                     <label for="inputEmail3" class="col-sm-2 col-form-label">Name</label>
                       <div class="col-sm-10">
                           <input name="name" type="name" class="form-control" id="name" placeholder="name">
+                          
                       </div>
                 </div>
                 <div class="form-group row">
@@ -55,6 +65,33 @@
                     <label for="inputEmail3" class="col-sm-2 col-form-label">National ID</label>
                       <div class="col-sm-10">
                           <input name="national_id" type="number" class="form-control" id="national_id" placeholder="national_id">
+                      </div>
+                </div>
+                <div class="form-group row">
+                            <label for="password" class="col-sm-2 col-form-label">{{ __('Password') }}</label>
+
+                            <div class="col-sm-10">
+                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
+
+                                @error('password')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="password-confirm" class="col-sm-2 col-form-label">{{ __('Confirm Password') }}</label>
+
+                            <div class="col-sm-10">
+                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                            </div>
+                        </div>
+                <div class="form-group row">
+                    <label for="inputEmail3" class="col-sm-2 col-form-label">Avatar image</label>
+                      <div class="col-sm-10">
+                          <input name="image" type="file" class="py-3" id="image" placeholder="image" accept="image/*">
                       </div>
                 </div>
                 
