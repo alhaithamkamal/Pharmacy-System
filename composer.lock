@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e83cb002bce3a32f3359493938f60a80",
+    "content-hash": "8ca2d73b17b89957321cd2226594170f",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -57,6 +57,64 @@
                 "stack"
             ],
             "time": "2019-12-24T22:41:47+00:00"
+        },
+        {
+            "name": "brian2694/laravel-toastr",
+            "version": "5.53",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/brian2694/laravel-toastr.git",
+                "reference": "8822a4888cfa4625c90aa9b3928fa117514796a7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/brian2694/laravel-toastr/zipball/8822a4888cfa4625c90aa9b3928fa117514796a7",
+                "reference": "8822a4888cfa4625c90aa9b3928fa117514796a7",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/session": ">=5.2.7",
+                "illuminate/support": ">=5.2.7",
+                "php": ">=5.5.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Brian2694\\Toastr\\ToastrServiceProvider"
+                    ],
+                    "aliases": {
+                        "Toastr": "Brian2694\\Toastr\\Facades\\Toastr"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Brian2694\\Toastr\\": "src/"
+                },
+                "files": [
+                    "src/helper.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "brian2694",
+                    "email": "briansanchez2694@gmail.com"
+                }
+            ],
+            "description": "toastr.js for laravel 5.5",
+            "homepage": "https://github.com/brian2694/laravel-toastr",
+            "keywords": [
+                "laravel",
+                "notification",
+                "php",
+                "toastr"
+            ],
+            "time": "2020-03-30T16:11:10+00:00"
         },
         {
             "name": "brick/math",
@@ -2400,6 +2458,63 @@
             "time": "2020-03-03T21:31:02+00:00"
         },
         {
+            "name": "stripe/stripe-php",
+            "version": "v7.28.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/stripe/stripe-php.git",
+                "reference": "618ee7211ee571ba5873650e3a6f4a3f538c8f69"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/618ee7211ee571ba5873650e3a6f4a3f538c8f69",
+                "reference": "618ee7211ee571ba5873650e3a6f4a3f538c8f69",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "php": ">=5.6.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.15",
+                "php-coveralls/php-coveralls": "^2.1",
+                "phpunit/phpunit": "^5.7",
+                "squizlabs/php_codesniffer": "^3.3",
+                "symfony/process": "~3.4"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Stripe\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Stripe and contributors",
+                    "homepage": "https://github.com/stripe/stripe-php/contributors"
+                }
+            ],
+            "description": "Stripe PHP Library",
+            "homepage": "https://stripe.com/",
+            "keywords": [
+                "api",
+                "payment processing",
+                "stripe"
+            ],
+            "time": "2020-04-03T19:26:27+00:00"
+        },
+        {
             "name": "swiftmailer/swiftmailer",
             "version": "v6.2.3",
             "source": {
@@ -4010,6 +4125,81 @@
                 "laravel"
             ],
             "time": "2020-03-03T16:29:31+00:00"
+        },
+        {
+            "name": "yoeunes/toastr",
+            "version": "v1.2.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yoeunes/toastr.git",
+                "reference": "1a2d58aaa6add715f16ad76112f3a2b32bd89d92"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yoeunes/toastr/zipball/1a2d58aaa6add715f16ad76112f3a2b32bd89d92",
+                "reference": "1a2d58aaa6add715f16ad76112f3a2b32bd89d92",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/session": "^5.5 || ^6.0 || ^7.0",
+                "illuminate/support": "^5.5 || ^6.0 || ^7.0",
+                "php": ">=7.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Yoeunes\\Toastr\\ToastrServiceProvider"
+                    ],
+                    "aliases": {
+                        "Toastr": "Yoeunes\\Toastr\\Facades\\Toastr"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Yoeunes\\Toastr\\": "src"
+                },
+                "files": [
+                    "src/helpers.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Younes Khoubza",
+                    "email": "younes.khoubza@gmail.com",
+                    "homepage": "https://github.com/yoeunes",
+                    "role": "Developer"
+                }
+            ],
+            "description": "toastr.js flush notifications for Laravel 5, 6, 7 and Lumen",
+            "homepage": "https://github.com/yoeunes/toastr",
+            "keywords": [
+                "alerts",
+                "flush",
+                "flush messages",
+                "flush notifications",
+                "laravel",
+                "laravel 5",
+                "laravel 6",
+                "laravel 7",
+                "laravel flush notifications",
+                "laravel notification",
+                "laravel notify",
+                "laravel toastr",
+                "lumen",
+                "messages",
+                "notification",
+                "php",
+                "toastr",
+                "toastr js",
+                "yoeunes"
+            ],
+            "time": "2020-03-13T07:27:21+00:00"
         }
     ],
     "packages-dev": [

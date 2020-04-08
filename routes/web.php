@@ -18,14 +18,31 @@ Route::get('/', function () {
     return view('Dashboard');
 });
 
+
 //show clients in table
-Route::get('/clients','ClientController@index')->name('clients.index');
+Route::get('/clients', 'ClientController@index')->name('clients.index');
 
 //route to client form
-// Route::get('/clients/create','ClientController@create')->name('clients.create');
+Route::get('/clients/create','ClientController@create')->name('clients.create');
 
 //to store client data
-// Route::post('/clients','ClientController@store')->name('clients.store');
+ Route::post('/clients','ClientController@store')->name('clients.store');
+
+//route to edit client
+Route::get('/clients/{client}/edit','ClientController@edit')->name('clients.edit');
+
+//update client
+Route::patch('/clients/{client}','ClientController@update')->name('clients.update');
+
+//soft delete client
+Route::post('/clients/{client}','ClientController@destroy')->name('clients.destroy');
+
+//show trashed clients
+Route::get('/trashed-client', 'ClientController@trashed')->name('clients.trashed');
+
+//restore clients
+Route::post('/trashed-client/{client}', 'ClientController@restoreClient')->name('clients.restore');
+
 
 
 // ==================Doctor routes=======================
@@ -39,7 +56,7 @@ Route::get('/doctors/{doctor}', 'DoctorController@show')->name('doctors.show');
 
 Route::get('/doctors/{doctor}/edit', 'DoctorController@edit')->name('doctors.edit');
 Route::put('/doctors/{doctor}', 'DoctorController@update')->name('doctors.update');
-Route::delete('/doctors/{doctor}','DoctorController@destroy')->name('doctors.destroy') ;
+Route::delete('/doctors/{doctor}', 'DoctorController@destroy')->name('doctors.destroy');
 
 Auth::routes();
 Auth::routes(['verify' => true]);
@@ -64,6 +81,8 @@ Route::post('/orders', 'OrdersController@store')->name('orders.store');
 Route::get('/orders/{order}/edit', 'OrdersController@edit')->name('orders.edit');
 
 Route::put('/orders/{order}', 'OrdersController@update')->name('orders.update');
+
+Route::delete('/orders/{order}', 'OrdersController@destroy')->name('orders.destroy');
 
 //=============================================
 
