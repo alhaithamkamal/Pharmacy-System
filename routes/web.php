@@ -63,6 +63,32 @@ Route::patch('/areas/{area}','AreaController@update')->name('areas.update');
 //soft delete area
 Route::post('/areas/{area}','AreaController@destroy')->name('areas.destroy');
 
+// ==================Client addresses routes=======================
+
+
+//show clients-addresses in table
+Route::get('/clients-addresses','ClientAddressController@index')->name('clientsAddresses.index');
+
+//route to client-addresses form
+Route::get('/clients-addresses/create','ClientAddressController@create')->name('clientsAddresses.create');
+
+//to store client-addresses data
+ Route::post('/clients-addresses','ClientAddressController@store')->name('clientsAddresses.store');
+
+// //route to edit client-addresses
+// Route::get('/clients-addresses/{address}/edit','ClientAddressController@edit')->name('clientsAddresses.edit');
+
+// //update client
+// Route::patch('/clients-addresses/{address}','ClientAddressController@update')->name('clientsAddresses.update');
+
+// //soft delete client-addresses
+// Route::post('/clients-addresses/{address}','ClientAddressController@destroy')->name('clientsAddresses.destroy');
+
+// //show trashed clients
+// Route::get('/trashed-client-addresses', 'ClientAddressController@trashed')->name('clientsAddresses.trashed');
+
+// //restore clients
+// Route::post('/trashed-client-addresses/{address}', 'ClientAddressController@restoreClient')->name('clientsAddresses.restore');
 
 
 

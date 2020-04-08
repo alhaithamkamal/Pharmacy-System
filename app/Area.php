@@ -10,4 +10,9 @@ class Area extends Model
         'name'
         
     ];
+
+    public function addresses()
+    {
+        return $this->hasMany('App\UserAddress');
+    }
 }
