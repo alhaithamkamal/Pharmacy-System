@@ -36,20 +36,26 @@ class OrderController extends Controller
 
     public function update(OrderRequest $request, Order $order)
     {
-        $request->validate(['cancel' => 'required|boolean']);
-        $attributes = [
-            'is_insured' => $request->is_insured,
-            'delivering_address_id' => $request->delivering_address_id,
-        ];
-        if ($request->hasfile('prescription')) {
-            $attributes['prescription'] = Order::storeOrderPrescription($request);
-            $prescriptions = explode(',', $order->prescription);
-            foreach($prescriptions as $prescription){
-                Storage::delete('public/'.$prescription);
+        if ($order->status !== 'new') {
+            $request->validate(['cancel' => 'required|boolean']);
+            $attributes = [
+                'is_insured' => $request->is_insured,
+                'delivering_address_id' => $request->delivering_address_id,
+            ];
+            if ($request->hasfile('prescription')) {
+                $attributes['prescription'] = Order::storeOrderPrescription($request);
+                $prescriptions = explode(',', $order->prescription);
+                foreach ($prescriptions as $prescription) {
+                    Storage::delete('public/'.$prescription);
+                }
             }
+            if ((bool)$request->cancel) {
+                $attributes['status'] = 'canceled';
+            }
+            $order->update($attributes);
+            return response('Order has been updated');
         }
-        if ((bool)$request->cancel) $attributes['status'] = 'canceled';
-        $order->update($attributes);
-        return response('Order has been updated');
+        else
+            return response('You can only modify new orders', 203);
     }
 }
