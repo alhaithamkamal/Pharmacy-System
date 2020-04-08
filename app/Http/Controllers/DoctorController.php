@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use App\Doctor;
 use App\User;
@@ -116,16 +116,18 @@ public function update(DoctorRequest $request, User $doctor)
 
     public function store(DoctorRequest $request){
          //$request=request();
-            
+            // dd($request->email);
         
     
         $doctor=User::create([
             'national_id'=>$request->national_id,
             'name'=>$request->name,
             'email'=>$request->email,
-           'password'=>$request->password,
+           //'password'=>$request->password,
+           'password' => Hash::make($request->password),
+
            'image' => User::storeUserImage($request),
-            
+            'role_id'=>'2',
         ]);
 
         return redirect()->route('doctors.index');

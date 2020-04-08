@@ -21,8 +21,9 @@ class User extends Authenticatable implements MustVerifyEmail
         'national_id' ,'name', 'email', 'password', 'image'
 
     ];
-     //protected $primaryKey = 'national_id';
+    //protected $primaryKey = 'national_id';
 
+    
     /**
      * The attributes that should be hidden for arrays.
      *

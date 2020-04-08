@@ -47,12 +47,12 @@
                   @foreach($doctors as $doctor)
                   <tr>
                     <td>
-                    <a href="{{ route('doctors.show',['doctor'=>$doctor->national_id]) }}">{{ $doctor->name }}</a>
+                    <a href="{{ route('doctors.show',['doctor'=>$doctor->id]) }}">{{ $doctor->name }}</a>
                     </td>
                     <td>
                     @if($doctor->image)
             
-                <a href="{{ route('doctors.show',['doctor'=>$doctor->national_id]) }}">        
+                <a href="{{ route('doctors.show',['doctor'=>$doctor->id]) }}">        
             <img src="{{asset('storage/'.$doctor->image)}}" alt="" height="50" width="50" >
             </a>
             @endif
@@ -66,8 +66,8 @@
                     <td>{{ $doctor->national_id }}</td>
                     <td> {{ $doctor->created_at }}</td>
                     <td>
-                    <a href="{{ route('doctors.edit',['doctor'=>$doctor->national_id]) }}" class="btn btn-success">Edit</a>
-                    <form action="{{ route('doctors.destroy',['doctor'=>$doctor->national_id]) }}" method="POST" class="d-inline">
+                    <a href="{{ route('doctors.edit',['doctor'=>$doctor->id]) }}" class="btn btn-success">Edit</a>
+                    <form action="{{ route('doctors.destroy',['doctor'=>$doctor->id]) }}" method="POST" class="d-inline">
                       @csrf
                       @method('DELETE')
                       <button  class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this doctor ?')">Delete</button>

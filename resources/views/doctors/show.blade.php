@@ -39,7 +39,7 @@
     <p class="card-text">{{$doctor->national_id}}</p>
     
     <p class="card-text">{{ $doctor->email ? $doctor->email : 'not exist'}}</p>
-    
+
     <div class="row">
       <div class="col-12">
         <div class="row">

@@ -24,19 +24,20 @@ class DoctorRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'=>'required|min:3|alpha',
+            'name'=>'required|min:3|regex:/^[\pL\s\-]+$/u',
             'email' => [
                 'required',
                 'regex:/(.+)@(.+)\.(.+)/i',
-                $this->doctor ? Rule::unique('doctors')->ignore($this->doctor->national_id) : 'unique:doctors',
+                //$this->user ? Rule::unique('users')->ignore($this->user->id) : 'unique:users',
+                $this->user ? Rule::unique('users')->ignore($this->doctor->id) : 'unique:users',
             ],
             'national_id' => [
                 'required',
                 'min:14',
                 'max:14',
-                $this->doctor ? Rule::unique('doctors')->ignore($this->doctor->national_id) : 'unique:doctors',
+                $this->user ? Rule::unique('users')->ignore($this->user->id) : 'unique:users',
             ],
-            
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
             'image' => 'sometimes|image|mimes:jpeg,jpg|max:2048',
         ];
     }
@@ -50,3 +51,4 @@ class DoctorRequest extends FormRequest
     ];
 }
 }
+

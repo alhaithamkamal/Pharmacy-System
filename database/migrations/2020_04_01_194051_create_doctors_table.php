@@ -15,10 +15,11 @@ class CreateDoctorsTable extends Migration
     {
         Schema::create('doctors', function (Blueprint $table) {
             $table->id();
-            $table->string('name',50);
-            $table->timestamps();
-            $table->unsignedBigInteger('national_id');
-            $table->string('email');
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('pharmacy_id');
+            $table->boolean('is_banned');
+
+
         });
     }
 
