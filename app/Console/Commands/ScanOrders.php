@@ -43,6 +43,8 @@ class ScanOrders extends Command
         foreach ($newOrders as $order){
             $pharmacy = Pharmacy::where('area_id', $order->address->area->id)->orderBy('priority', 'desc')->first();
             $pharmacy->orders()->save($order);
+            $order->status = 'processing';
+            $order->save();
         }
     }
 }
