@@ -43,6 +43,9 @@ Route::get('/trashed-client', 'ClientController@trashed')->name('clients.trashed
 //restore clients
 Route::post('/trashed-client/{client}', 'ClientController@restoreClient')->name('clients.restore');
 
+Auth::routes(['verify' => true]);
+
+
 // ==================Area routes=======================
 
 //show areas in table

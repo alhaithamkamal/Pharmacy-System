@@ -20,6 +20,7 @@ class ClientController extends Controller
     use RegistersUsers;
     public function index(Request $request)
     {
+
         if ($request->ajax()) {
             $clients =Client::with('user')->get();
             return Datatables::of($clients)
@@ -91,7 +92,7 @@ class ClientController extends Controller
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
-                'password' => Hash::make($request->password),
+                'password' => $request->password,
                 'national_id' => $request->national_id,
                 'image' => $path
             ]);
@@ -104,8 +105,6 @@ class ClientController extends Controller
             ]);
             
         }
-       
-        //Auth::login($user);
 
         return redirect()->route('clients.index');
     }
