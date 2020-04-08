@@ -299,6 +299,9 @@ input[type=radio],
 input[type=checkbox] {
   box-sizing: border-box;
   padding: 0;
+  width: 9%;
+  height: 1.2em;
+  margin-top: 8px;
 }
 
 input[type=date],
@@ -2336,6 +2339,9 @@ textarea.form-control {
 
 .form-check-label {
   margin-bottom: 0;
+  font-family: unset;
+  margin-left: 23px;
+  font-size: 20px;
 }
 
 .form-check-inline {
@@ -2819,20 +2825,24 @@ fieldset:disabled a.btn {
 
 .btn-info {
   color: #212529;
-  background-color: #6cb2eb;
-  border-color: #6cb2eb;
+  background-color: #17a2b8;
+  border-color: #17a2b8;
+  margin: 30px;
+  font-size: 22px;
+  padding-left: 25px;
+  padding-right: 25px;
 }
 
 .btn-info:hover {
   color: #fff;
-  background-color: #4aa0e6;
+  background-color: #17a2b8;
   border-color: #3f9ae5;
 }
 
 .btn-info:focus,
 .btn-info.focus {
   color: #fff;
-  background-color: #4aa0e6;
+  background-color: #17a2b8;
   border-color: #3f9ae5;
   box-shadow: 0 0 0 0.2rem rgba(97, 157, 206, 0.5);
 }
@@ -3782,6 +3792,7 @@ input[type=button].btn-block {
   flex-wrap: wrap;
   align-items: stretch;
   width: 100%;
+
 }
 
 .input-group > .form-control,
@@ -4966,6 +4977,8 @@ input[type=button].btn-block {
   background-clip: border-box;
   border: 1px solid rgba(0, 0, 0, 0.125);
   border-radius: 0.25rem;
+  margin-left: 5.input-group0px;
+  margin-right: 50px;
 }
 
 .card > hr {

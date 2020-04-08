@@ -6,22 +6,25 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 
 class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, Notifiable;
-
+    use SoftDeletes;
+    protected $dates = ['deleted_at'];
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-
-        'national_id' ,'name', 'email', 'password', 'image'
-
+        'name', 'email', 'national_id','image','password','role_id'
     ];
-    //protected $primaryKey = 'national_id';
+
+    protected $primaryKey = 'id';
+    
 
     
     /**
@@ -48,6 +51,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public function setPasswordAttribute($password)
     {
         $this->attributes['password'] = bcrypt($password);
+    
     }
 
     public function client()

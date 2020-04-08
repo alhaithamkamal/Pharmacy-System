@@ -9,6 +9,8 @@
     "license": "MIT",
     "require": {
         "php": "^7.2.5",
+        "brian2694/laravel-toastr": "^5.53",
+        "doctrine/dbal": "^2.10",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^1.0",
         "guzzlehttp/guzzle": "^6.3",
@@ -17,7 +19,9 @@
         "laravel/tinker": "^2.0",
         "laravel/ui": "^2.0",
         "spatie/laravel-permission": "^3.11",
-        "yajra/laravel-datatables-oracle": "^9.9"
+        "yajra/laravel-datatables-oracle": "^9.9",
+        "yoeunes/toastr": "^1.2",
+        "stripe/stripe-php": "^7.28"
     },
     "require-dev": {
         "facade/ignition": "^2.0",

@@ -163,6 +163,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
         Yajra\DataTables\DataTablesServiceProvider::class,
+        Brian2694\Toastr\ToastrServiceProvider::class,
 
         /*
          * Package Service Providers...

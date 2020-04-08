@@ -20,6 +20,7 @@ class UserController extends Controller
             'password' => $request->password,
             'image' => User::storeUserImage($request),
             'national_id' => $request->national_id,
+            'role_id' => 3
         ]);
         $user->client()->create([
             'gender' => $request->gender,
