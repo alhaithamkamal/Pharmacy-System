@@ -7,6 +7,7 @@ use App\Medicine;
 use App\Order;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OrdersController extends Controller
 {
@@ -28,6 +29,12 @@ class OrdersController extends Controller
 
     public function store()
     {
+        $creator_type = 'doctor';
+        dd(auth()->user());
+        // if(Auth::user()->role_id)
+
+        $status = '';
+
         $medicine = Medicine::create([
             'name' => request()->name,
             'quantity' => request()->quantity,
@@ -35,9 +42,13 @@ class OrdersController extends Controller
             'price' => request()->price,
         ]);
         $order = Order::create([
-            'user_id' => 11,
+            'creator_id' => 9,
+            'creator_type' => $creator_type,
             'client_id' => request()->client_id,
-            'status' => 'processing'
+            'status' => $status,
+            'is_insured' => '1',
+            'delivering_address_id' => '2',
+            'pharmacy_id' => 2
         ]);
         $medicine->order()->attach($order);
 

@@ -10,4 +10,9 @@ class Pharmacy extends Model
     {
         return $this->hasMany('App\Order');
     }
+
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
 }
