@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Requests;
-
+use App\Doctor;
+use App\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 class DoctorRequest extends FormRequest
@@ -23,19 +24,20 @@ class DoctorRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+        if($this->doctor) $user = Doctor::find($this->doctor)->user;
+            return [
             'name'=>'required|min:3|regex:/^[\pL\s\-]+$/u',
             'email' => [
                 'required',
                 'regex:/(.+)@(.+)\.(.+)/i',
                 //$this->user ? Rule::unique('users')->ignore($this->user->id) : 'unique:users',
-                $this->doctor ? Rule::unique('users')->ignore($this->doctor->id) : 'unique:users',
+                $this->doctor ? Rule::unique('users')->ignore($user->id) : 'unique:users',
             ],
             'national_id' => [
                 'required',
                 'min:14',
                 'max:14',
-                $this->doctor ? Rule::unique('users')->ignore($this->doctor->id) : 'unique:users',
+                $this->doctor ? Rule::unique('users')->ignore($user->id) : 'unique:users',
             ],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'image' => 'sometimes|image|mimes:jpeg,jpg|max:2048',
