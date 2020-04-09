@@ -18,7 +18,7 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
     use SoftDeletes;
     use Bannable;
     use HasRoles;
-  
+
 
     protected $dates = ['deleted_at'];
     /**
@@ -27,13 +27,15 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
      * @var array
      */
     protected $fillable = [
-        'name', 'email','national_id' ,'image','password','role_id',
+
+        'name', 'email', 'national_id', 'image', 'password', 'role_id',
+
     ];
 
     protected $primaryKey = 'id';
-    
 
-    
+
+
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -58,7 +60,6 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
     public function setPasswordAttribute($password)
     {
         $this->attributes['password'] = bcrypt($password);
-    
     }
 
     public function client()
@@ -70,17 +71,14 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
     {
         return $this->hasOne('App\Doctor');
     }
-    
 
     public static function storeUserImage($request)
     {
         if ($request->file('image')) {
             $path = $request->file('image')->store('public/images');
             $path = str_replace('public/', '', $path);
-        }else
+        } else
             $path = null;
         return $path;
     }
-
-
 }

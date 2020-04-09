@@ -32,18 +32,18 @@
             <!-- /.card-header -->
             <div class="card text-center">
   <div class="card-header">
-  <h3 class="card-title">{{$doctor->name}}</h3>
+  <h3 class="card-title">{{$doctor->user->name}}</h3>
   </div>
   <div class="card-body">
    
-    <p class="card-text">{{$doctor->national_id}}</p>
+    <p class="card-text">{{$doctor->user->national_id}}</p>
     
-    <p class="card-text">{{ $doctor->email ? $doctor->email : 'not exist'}}</p>
+    <p class="card-text">{{ $doctor->user->email }}</p>
 
     <div class="row">
       <div class="col-12">
         <div class="row">
-          <div class="col-12"><img src="{{asset('storage/'.$doctor->image)}}" alt="" class="img-thumbnail"></div>
+          <div class="col-12"><img src="{{asset('storage/'.$doctor->user->image)}}" alt="" class="img-thumbnail"></div>
         </div>
       </div>
     </div>

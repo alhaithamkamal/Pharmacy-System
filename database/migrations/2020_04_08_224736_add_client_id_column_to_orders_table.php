@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddUpdatedAtAndCreatedAtColumnsToDoctorsTable extends Migration
+class AddClientIdColumnToOrdersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,8 @@ class AddUpdatedAtAndCreatedAtColumnsToDoctorsTable extends Migration
      */
     public function up()
     {
-        Schema::table('doctors', function (Blueprint $table) {
-            $table->timestamps();
-
+        Schema::table('orders', function (Blueprint $table) {
+            $table->unsignedBigInteger('client_id');
         });
     }
 
@@ -26,7 +25,7 @@ class AddUpdatedAtAndCreatedAtColumnsToDoctorsTable extends Migration
      */
     public function down()
     {
-        Schema::table('doctors', function (Blueprint $table) {
+        Schema::table('orders', function (Blueprint $table) {
             //
         });
     }

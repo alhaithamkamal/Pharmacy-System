@@ -46,6 +46,7 @@
                 </thead>
                   <tbody>
                   @foreach($doctors as $doctor)
+                
                   <tr>
                     <td>
                     <a href="{{ route('doctors.show',['doctor'=>$doctor->id]) }}">{{ $doctor->user->name }}</a>
