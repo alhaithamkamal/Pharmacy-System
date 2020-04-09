@@ -60,7 +60,17 @@ class OrdersController extends Controller
 
         return redirect()->route('orders.index');
     }
+    public function show()
+    {
+        $orderId = request()->order;
+        $order = Order::find($orderId);
+        $medicines = $order->medicine;
 
+        return view('orders.show', [
+            'order' => $order,
+            'medicines' =>  $medicines,
+        ]);
+    }
     public function edit()
     {
         $orderId = request()->order;

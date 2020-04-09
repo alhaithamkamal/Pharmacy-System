@@ -123,7 +123,9 @@ Route::get('/revenues', function () {
 
 //============== Orders routes ================
 Route::group(
-    [],
+    ['middleware' => [
+        'verified',
+    ]],
     function () {
         Route::get('/orders', 'OrdersController@index')->name('orders.index');
 
@@ -134,6 +136,8 @@ Route::group(
         Route::get('/orders/{order}/edit', 'OrdersController@edit')->name('orders.edit');
 
         Route::put('/orders/{order}', 'OrdersController@update')->name('orders.update');
+
+        Route::get('/orders/{order}', 'OrderController@show')->name('orders.show');
 
         Route::delete('/orders/{order}', 'OrdersController@destroy')->name('orders.destroy');
     }
