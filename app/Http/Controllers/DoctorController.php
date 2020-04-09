@@ -101,17 +101,9 @@ class DoctorController extends Controller
 // return redirect()->route('doctors.index');
 
 //     }
-public function destroy(){
-    $request=request();
-    $doctorId=$request->doctor;
-    $doctor=Doctor::find($doctorId);
-    
-    $user=User::find($doctor->user_id);
-    dd($user);
+public function destroy(Doctor $doctor){
+    $doctor->user->delete();
     $doctor->delete();
-    $user->delete();
-    
-    //return redirect()->route('posts.index');
     return redirect()->route('doctors.index');
 }
 
