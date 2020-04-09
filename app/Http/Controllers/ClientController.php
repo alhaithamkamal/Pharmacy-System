@@ -11,13 +11,12 @@ use App\Http\Requests\StoreClientRequest;
 use App\Http\Requests\UpdateClientRequest;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Foundation\Auth\RegistersUsers;
+use Spatie\Permission\Models\Role;
 use Auth;
 
 
 class ClientController extends Controller
 {
-    use RegistersUsers;
     public function index(Request $request)
     {
 
@@ -96,6 +95,7 @@ class ClientController extends Controller
                 'national_id' => $request->national_id,
                 'image' => $path
             ]);
+            $user->assignRole('user');
     
             $client = Client::create([
                 'gender' => $request->gender,
