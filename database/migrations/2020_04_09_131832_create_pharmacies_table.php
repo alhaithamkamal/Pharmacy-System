@@ -15,9 +15,9 @@ class CreatePharmaciesTable extends Migration
     {
         Schema::create('pharmacies', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->unsignedBigInteger('area_id');
-            $table->unsignedBigInteger('priority');
+            $table->unsignedBigInteger('priority')->nullable();
             $table->timestamps();
         });
     }
