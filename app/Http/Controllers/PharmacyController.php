@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\StorePharmacyRequest;
 use App\Pharmacy;
 use App\User;
+use App\Revenue;
 class PharmacyController extends Controller
 {
     public function create(){
@@ -14,14 +15,23 @@ class PharmacyController extends Controller
     }
     public function store(StorePharmacyRequest $request){
         // $request=request();
+        if($request->hasfile('image')){
+            $file=$request->file('image');
+            $extension=$file->getClientOriginalExtension();
+            $filename=time().'.'.$extension;
+            $file->move('uploads/images/',$filename);
+        }else{
+            $filename='default.png';
+        }
         User::create([
             'name'=>$request->name,
             'email'=>$request->email,
             'national_id'=>$request->national_id,
             'password'=>$request->password,
+            'image'=>$filename,
             'role_id'=>$request->role_id,
-            'image'=>$request->image,
         ]);
+
         $user=User::where('name',$request->name)->first();
         $id=$user->id;
         Pharmacy::create([
@@ -51,7 +61,9 @@ class PharmacyController extends Controller
     public function delete(){
         $request=request();
         $id=$request->delId;
+        $user=Pharmacy::where('id',$id)->first()->user_id;
         $pharmacy=Pharmacy::where('id',$id)->delete();
+        $userdel=User::where('id',$user)->first()->delete();
         return redirect('/pharmacies');
     }
 }

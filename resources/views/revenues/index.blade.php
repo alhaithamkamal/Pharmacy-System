@@ -15,7 +15,7 @@
     @foreach($revenues as $revenue)
     <tr>
       <th scope="row">{{$revenue->id}}</th>
-      <td>{{$revenue->total_orders}}</td>
+      <td><img src="{{assets('uploads/images' . $revenue->user->image)}}"/></td>
       <td>{{$revenue->pharmacy_name}}</td>
       <td>{{$revenue->total_orders}}</td>
       <td>{{$revenue->total_revenue}}</td>

@@ -13,7 +13,7 @@ class DropDoctorsTable extends Migration
      */
     public function up()
     {
-        Schema::drop('doctors');
+       /// Schema::drop('doctors');
 
 
     }

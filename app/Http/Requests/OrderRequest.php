@@ -30,7 +30,7 @@ class OrderRequest extends FormRequest
             'prescription.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'delivering_address_id' => [
                 'required',
-                Rule::in(auth()->user()->client->addresses()->pluck('id')->toArray())
+                Rule::in(auth()->user()->client->addresses()->pluck('id')->toArray()) // to make sure that the address belongs to this client
             ]
         ];
     }

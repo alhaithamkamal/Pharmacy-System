@@ -23,19 +23,19 @@ Route::get('/', function () {
 Route::get('/clients', 'ClientController@index')->name('clients.index');
 
 //route to client form
-Route::get('/clients/create','ClientController@create')->name('clients.create');
+Route::get('/clients/create', 'ClientController@create')->name('clients.create');
 
 //to store client data
- Route::post('/clients','ClientController@store')->name('clients.store');
+Route::post('/clients', 'ClientController@store')->name('clients.store');
 
 //route to edit client
-Route::get('/clients/{client}/edit','ClientController@edit')->name('clients.edit');
+Route::get('/clients/{client}/edit', 'ClientController@edit')->name('clients.edit');
 
 //update client
-Route::patch('/clients/{client}','ClientController@update')->name('clients.update');
+Route::patch('/clients/{client}', 'ClientController@update')->name('clients.update');
 
 //soft delete client
-Route::post('/clients/{client}','ClientController@destroy')->name('clients.destroy');
+Route::post('/clients/{client}', 'ClientController@destroy')->name('clients.destroy');
 
 //show trashed clients
 Route::get('/trashed-client', 'ClientController@trashed')->name('clients.trashed');
@@ -49,22 +49,22 @@ Auth::routes(['verify' => true]);
 // ==================Area routes=======================
 
 //show areas in table
-Route::get('/areas','AreaController@index')->name('areas.index');
+Route::get('/areas', 'AreaController@index')->name('areas.index');
 
 //route to areas form
-Route::get('/areas/create','AreaController@create')->name('areas.create');
+Route::get('/areas/create', 'AreaController@create')->name('areas.create');
 
 //to store area data
-Route::post('/areas','AreaController@store')->name('areas.store');
+Route::post('/areas', 'AreaController@store')->name('areas.store');
 
 //route to edit area
-Route::get('/areas/{area}/edit','AreaController@edit')->name('areas.edit');
+Route::get('/areas/{area}/edit', 'AreaController@edit')->name('areas.edit');
 
 //update areas
-Route::patch('/areas/{area}','AreaController@update')->name('areas.update');
+Route::patch('/areas/{area}', 'AreaController@update')->name('areas.update');
 
 //soft delete area
-Route::post('/areas/{area}','AreaController@destroy')->name('areas.destroy');
+Route::post('/areas/{area}', 'AreaController@destroy')->name('areas.destroy');
 
 // ==================permission routes=======================
 
@@ -111,22 +111,22 @@ Route::post('/roles/{role}','RoleController@destroy')->name('roles.destroy');
 
 
 //show clients-addresses in table
-Route::get('/clients-addresses','ClientAddressController@index')->name('clientsAddresses.index');
+Route::get('/clients-addresses', 'ClientAddressController@index')->name('clientsAddresses.index');
 
 //route to client-addresses form
-Route::get('/clients-addresses/create','ClientAddressController@create')->name('clientsAddresses.create');
+Route::get('/clients-addresses/create', 'ClientAddressController@create')->name('clientsAddresses.create');
 
 //to store client-addresses data
- Route::post('/clients-addresses','ClientAddressController@store')->name('clientsAddresses.store');
+Route::post('/clients-addresses', 'ClientAddressController@store')->name('clientsAddresses.store');
 
 //route to edit client-addresses
-Route::get('/clients-addresses/{clientAddress}/edit','ClientAddressController@edit')->name('clientsAddresses.edit');
+Route::get('/clients-addresses/{clientAddress}/edit', 'ClientAddressController@edit')->name('clientsAddresses.edit');
 
 //update client
-Route::patch('/clients-addresses/{clientAddress}','ClientAddressController@update')->name('clientsAddresses.update');
+Route::patch('/clients-addresses/{clientAddress}', 'ClientAddressController@update')->name('clientsAddresses.update');
 
 //soft delete client-addresses
-Route::post('/clients-addresses/{clientAddress}','ClientAddressController@destroy')->name('clientsAddresses.destroy');
+Route::post('/clients-addresses/{clientAddress}', 'ClientAddressController@destroy')->name('clientsAddresses.destroy');
 
 //show trashed clients
 Route::get('/trashed-client-addresses', 'ClientAddressController@trashed')->name('clientsAddresses.trashed');
@@ -149,8 +149,6 @@ Route::get('/doctors/{doctor}/edit', 'DoctorController@edit')->name('doctors.edi
 Route::put('/doctors/{doctor}', 'DoctorController@update')->name('doctors.update');
 Route::delete('/doctors/{doctor}', 'DoctorController@destroy')->name('doctors.destroy');
 
-Auth::routes();
-Auth::routes(['verify' => true]);
 
 Route::get('/home', 'HomeController@index')->name('home')->middleware('verified');
 
@@ -163,30 +161,36 @@ Route::get('/revenues', function () {
 });
 
 //============== Orders routes ================
-Route::get('/orders', 'OrdersController@index')->name('orders.index');
+Route::group(
+    [],
+    function () {
+        Route::get('/orders', 'OrdersController@index')->name('orders.index');
 
-Route::get('/orders/create', 'OrdersController@create')->name('orders.create');
+        Route::get('/orders/create', 'OrdersController@create')->name('orders.create');
 
-Route::post('/orders', 'OrdersController@store')->name('orders.store');
+        Route::post('/orders', 'OrdersController@store')->name('orders.store');
 
-Route::get('/orders/{order}/edit', 'OrdersController@edit')->name('orders.edit');
+        Route::get('/orders/{order}/edit', 'OrdersController@edit')->name('orders.edit');
 
-Route::put('/orders/{order}', 'OrdersController@update')->name('orders.update');
+        Route::put('/orders/{order}', 'OrdersController@update')->name('orders.update');
 
+        Route::delete('/orders/{order}', 'OrdersController@destroy')->name('orders.destroy');
+    }
+);
 //==================Medicine===========================
-Route::get('/medicines','MedicineController@show')->name('medicine.show');
-Route::get('/medicine/create','MedicineController@create')->name('medicine.create');
-Route::post('/medicines','MedicineController@store')->name('medicine.store');
-Route::get('/medicines/edit/{medicineId}','MedicineController@edit')->name('medicine.edit');
-Route::post('/medicines/{ID}','MedicineController@update')->name('medicine.update');
-Route::get('/medicines/delete/{id}','MedicineController@delete')->name('medicine.delete');
+Route::get('/medicines', 'MedicineController@show')->name('medicine.show');
+Route::get('/medicine/create', 'MedicineController@create')->name('medicine.create');
+Route::post('/medicines', 'MedicineController@store')->name('medicine.store');
+Route::get('/medicines/edit/{medicineId}', 'MedicineController@edit')->name('medicine.edit');
+Route::post('/medicines/{ID}', 'MedicineController@update')->name('medicine.update');
+Route::get('/medicines/delete/{id}', 'MedicineController@delete')->name('medicine.delete');
 //====================Pharmacy=========================
-Route::get('/pharmacies','PharmacyController@show')->name('pharmacy.show');
-Route::get('/pharmacy/create','PharmacyController@create')->name('pharmacy.create');
-Route::get('/pharmacy/edit/{pharmacyId}','PharmacyController@edit')->name('pharmacy.edit');
-Route::post('/pharmacy/{ID}','PharmacyController@update')->name('pharmacy.update');
-Route::get('/pharmacy/{delId}','PharmacyController@delete')->name('pharmacy.delete');
-Route::post('/pharmacies','PharmacyController@store')->name('pharmacy.store');
+Route::get('/pharmacies', 'PharmacyController@show')->name('pharmacy.show');
+Route::get('/pharmacy/create', 'PharmacyController@create')->name('pharmacy.create');
+Route::get('/pharmacy/edit/{pharmacyId}', 'PharmacyController@edit')->name('pharmacy.edit');
+Route::post('/pharmacy/{ID}', 'PharmacyController@update')->name('pharmacy.update');
+Route::get('/pharmacy/{delId}', 'PharmacyController@delete')->name('pharmacy.delete');
+Route::post('/pharmacies', 'PharmacyController@store')->name('pharmacy.store');
 //======================Revenue=========================
 Route::get('/revenues','RevenueController@show')->name('revenue.show');
 Route::get('/revenue/create','RevenueController@create')->name('revenue.create');
@@ -195,10 +199,10 @@ Route::get('/revenue/edit/{revenueId}','RevenueController@edit')->name('revenue.
 Route::post('/revenue/{ID}','RevenueController@update')->name('revenue.update');
 Route::get('/revenue/{delId}','RevenueController@delete')->name('revenue.delete');
 //======================================================
-Route::delete('/orders/{order}', 'OrdersController@destroy')->name('orders.destroy');
 
-//=============================================
-
-Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+//=============== Stripe Routes ==========================
+Route::get('stripe', 'StripePaymentController@stripe')->name('stripe.stripe');
+Route::post('stripe', 'StripePaymentController@stripePost')->name('stripe.post');

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class DropPrimaryKeyFromUsersTable extends Migration
+class ModifyRevenuesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,8 @@ class DropPrimaryKeyFromUsersTable extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropPrimary();
-
+        Schema::table('revenues', function (Blueprint $table) {
+            $table->unsignedBigInteger('user_id');
         });
     }
 
@@ -26,7 +25,7 @@ class DropPrimaryKeyFromUsersTable extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('revenues', function (Blueprint $table) {
             //
         });
     }
