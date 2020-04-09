@@ -9,7 +9,7 @@ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Cog\Contracts\Ban\Bannable as BannableContract;
 use Cog\Laravel\Ban\Traits\Bannable;
-
+use Spatie\Permission\Traits\HasRoles;
 
 
 class User extends Authenticatable implements MustVerifyEmail, BannableContract
@@ -17,6 +17,8 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
     use HasApiTokens, Notifiable;
     use SoftDeletes;
     use Bannable;
+    use HasRoles;
+
 
     protected $dates = ['deleted_at'];
     /**
@@ -25,7 +27,9 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'national_id', 'image', 'password', 'role_id'
+
+        'name', 'email', 'national_id', 'image', 'password', 'role_id',
+
     ];
 
     protected $primaryKey = 'id';

@@ -23,6 +23,11 @@
 
     <!-- Main content -->
     <section class="content">
+    @if(session('message'))
+        <div class="col-lg-12">
+            <div class="alert alert-success" role="alert">{{ session('message') }}</div>
+        </div>
+    @endif
       <div class="row">
         <div class="col-12">
           <div class="card">
@@ -125,7 +130,7 @@
                 success: function(result) {
                 //  Toastr::success('Client deleted successfully  :)','Success');
                     //  toastr()->success('Client deleted successfully ');
-
+                    alert('yess');
                   setTimeout(function(){
                     $('#DeleteAreaModal').modal('hide');
                     $('#area-table').DataTable().ajax.reload();
@@ -134,6 +139,7 @@
                  
                 },
                 error: function (data) {
+                  alert('noo');
                //toastr()->error('can\'t delete this client');
                }
             });
@@ -142,6 +148,7 @@
   
   });
 
+//  toastr 
 
 </script>
 @endsection

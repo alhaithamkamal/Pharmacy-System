@@ -11,7 +11,7 @@ use App\Http\Requests\DoctorRequest;
 class DoctorController extends Controller
 {
     public function index(){
-        $doctors=User::all();
+        $doctors=Doctor::all();
         return view('doctors.index',[
             'doctors'=>$doctors
         ]);
@@ -27,7 +27,7 @@ class DoctorController extends Controller
         $doctorId=$request->doctor;
         
         
-        $doctor=User::find($doctorId);      
+        $doctor=Doctor::find($doctorId);      
         
                 
 
@@ -42,7 +42,7 @@ class DoctorController extends Controller
      //   $users = User::all();
         $doctor_id = request('doctor');
         //dd($doctor_id);
-        $doctor = User::find($doctor_id);
+        $doctor = Doctor::find($doctor_id);
         //dd($doctor);
         return view('doctors.edit', [
             'doctor' => $doctor, 
@@ -65,7 +65,7 @@ class DoctorController extends Controller
 // return redirect()->route('doctors.index');
 
 //     }
-public function update(DoctorRequest $request, User $doctor)
+public function update(DoctorRequest $request, Doctor $doctor)
     {   
         $attributes = [
             [
@@ -78,7 +78,7 @@ public function update(DoctorRequest $request, User $doctor)
             $attributes['image'] = User::storeUserImage($request);
             Storage::delete('public/'.$doctor->image);
         }
-        $doctor->update($attributes);
+        $doctor->user->update($attributes);
         return redirect()->route('doctors.show', ['doctor' => $request->doctor]);
     }
     
