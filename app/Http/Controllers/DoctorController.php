@@ -8,6 +8,7 @@ use App\User;
 use Cog\Laravel\Ban\Traits\Bannable;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\DoctorRequest;
+
 class DoctorController extends Controller
 {
     public function index(){
@@ -48,6 +49,41 @@ class DoctorController extends Controller
             'doctor' => $doctor, 
         ]);
     }
+    public function update(DoctorRequest $request)
+    {
+        $doctorId = $request->doctor;
+        $doctor =Doctor::find($doctorId);
+        $data = $request->only(['national_id', 'name', 'email','password']);
+        if ($request->hasFile('image')){
+               //         $attributes['image'] = User::storeUserImage($request);
+               $data += array('image' => User::storeUserImage($request));
+
+                        if($doctor->user->image !== 'images/default.jpeg')Storage::delete('public/'.$doctor->user->image);
+                    }
+
+        $doctor->user->update($data);
+
+        
+        return redirect()->route('doctors.show', ['doctor' => $request->doctor]);
+    }
+    //$data += array('slug' => $slug);
+// public function update(DoctorRequest $request, Doctor $doctor)
+//     {   
+//         $attributes = [
+//             [
+//                 'national_id' => $request->national_id,
+//                 'name' =>  $request->name,
+//                 'email' =>  $request->email,
+//             ]
+//         ];
+//         if ($request->hasFile('image')){
+//             $attributes['image'] = User::storeUserImage($request);
+//             Storage::delete('public/'.$doctor->image);
+//         }
+//         $doctor->user->update($attributes);
+//         return redirect()->route('doctors.show', ['doctor' => $request->doctor]);
+//     }
+
 
 //     public function update(Request $request)
 //     {
@@ -65,30 +101,27 @@ class DoctorController extends Controller
 // return redirect()->route('doctors.index');
 
 //     }
-public function update(DoctorRequest $request, Doctor $doctor)
-    {   
-        $attributes = [
-            [
-                'national_id' => $request->national_id,
-                'name' =>  $request->name,
-                'email' =>  $request->email,
-            ]
-        ];
-        if ($request->hasFile('image')){
-            $attributes['image'] = User::storeUserImage($request);
-            Storage::delete('public/'.$doctor->image);
-        }
-        $doctor->user->update($attributes);
-        return redirect()->route('doctors.show', ['doctor' => $request->doctor]);
-    }
+public function destroy(){
+    $request=request();
+    $doctorId=$request->doctor;
+    $doctor=Doctor::find($doctorId);
     
+    $user=User::find($doctor->user_id);
+    dd($user);
+    $doctor->delete();
+    $user->delete();
+    
+    //return redirect()->route('posts.index');
+    return redirect()->route('doctors.index');
+}
 
-    public function destroy(User $doctor)
-    {
-        if ($doctor->image) Storage::delete('public/'.$doctor->image);
-        $doctor->delete();
-        return redirect()->route('doctors.index');
-    }
+
+    // public function destroy(User $doctor)
+    // {
+    //     if ($doctor->image) Storage::delete('public/'.$doctor->image);
+    //     $doctor->user->delete();
+    //     return redirect()->route('doctors.index');
+    // }
      // public function show()
     // {
     //     //take the id from url param
@@ -136,7 +169,8 @@ public function update(DoctorRequest $request, Doctor $doctor)
                     'national_id'=>$request->national_id,
                     'name'=>$request->name,
                     'email'=>$request->email,
-                    'password' => Hash::make($request->password),
+                  //  'password' => Hash::make($request->password),
+                  'password' => $request->password,
                     'image' => User::storeUserImage($request),
                     'role_id'=>'2',
                     ]);
@@ -147,7 +181,8 @@ public function update(DoctorRequest $request, Doctor $doctor)
                 'national_id'=>$request->national_id,
                 'name'=>$request->name,
                 'email'=>$request->email,
-                'password' => Hash::make($request->password),
+                //'password' => Hash::make($request->password),
+                'password' => $request->password,
                 //'image' => User::storeUserImage($request),
                 'role_id'=>'2',
                 ]);
