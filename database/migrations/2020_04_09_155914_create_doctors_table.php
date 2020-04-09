@@ -18,8 +18,7 @@ class CreateDoctorsTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('pharmacy_id');
             $table->boolean('is_banned');
-
-
+            $table->timestamps();
         });
     }
 
