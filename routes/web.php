@@ -108,8 +108,6 @@ Route::get('/doctors/{doctor}/edit', 'DoctorController@edit')->name('doctors.edi
 Route::put('/doctors/{doctor}', 'DoctorController@update')->name('doctors.update');
 Route::delete('/doctors/{doctor}', 'DoctorController@destroy')->name('doctors.destroy');
 
-Auth::routes();
-Auth::routes(['verify' => true]);
 
 Route::get('/home', 'HomeController@index')->name('home')->middleware('verified');
 
@@ -161,8 +159,6 @@ Route::post('/revenue/{ID}', 'RevenueController@update')->name('revenue.update')
 Route::get('/revenue/{delId}', 'RevenueController@delete')->name('revenue.delete');
 //======================================================
 
-
-Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
