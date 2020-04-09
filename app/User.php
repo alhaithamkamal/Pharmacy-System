@@ -27,7 +27,7 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'national_id','image','password','role_id'
+        'name', 'email','national_id' ,'image','password','role_id',
     ];
 
     protected $primaryKey = 'id';

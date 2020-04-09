@@ -132,6 +132,28 @@ Route::get('/orders/{order}/edit', 'OrdersController@edit')->name('orders.edit')
 
 Route::put('/orders/{order}', 'OrdersController@update')->name('orders.update');
 
+//==================Medicine===========================
+Route::get('/medicines','MedicineController@show')->name('medicine.show');
+Route::get('/medicine/create','MedicineController@create')->name('medicine.create');
+Route::post('/medicines','MedicineController@store')->name('medicine.store');
+Route::get('/medicines/edit/{medicineId}','MedicineController@edit')->name('medicine.edit');
+Route::post('/medicines/{ID}','MedicineController@update')->name('medicine.update');
+Route::get('/medicines/delete/{id}','MedicineController@delete')->name('medicine.delete');
+//====================Pharmacy=========================
+Route::get('/pharmacies','PharmacyController@show')->name('pharmacy.show');
+Route::get('/pharmacy/create','PharmacyController@create')->name('pharmacy.create');
+Route::get('/pharmacy/edit/{pharmacyId}','PharmacyController@edit')->name('pharmacy.edit');
+Route::post('/pharmacy/{ID}','PharmacyController@update')->name('pharmacy.update');
+Route::get('/pharmacy/{delId}','PharmacyController@delete')->name('pharmacy.delete');
+Route::post('/pharmacies','PharmacyController@store')->name('pharmacy.store');
+//======================Revenue=========================
+Route::get('/revenues','RevenueController@show')->name('revenue.show');
+Route::get('/revenue/create','RevenueController@create')->name('revenue.create');
+Route::post('/revenues','RevenueController@store')->name('revenue.store');
+Route::get('/revenue/edit/{revenueId}','RevenueController@edit')->name('revenue.edit');
+Route::post('/revenue/{ID}','RevenueController@update')->name('revenue.update');
+Route::get('/revenue/{delId}','RevenueController@delete')->name('revenue.delete');
+//======================================================
 Route::delete('/orders/{order}', 'OrdersController@destroy')->name('orders.destroy');
 
 //=============================================

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDoctorsTable extends Migration
+class CreatePharmaciesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,12 @@ class CreateDoctorsTable extends Migration
      */
     public function up()
     {
-        Schema::create('doctors', function (Blueprint $table) {
+        Schema::create('pharmacies', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('pharmacy_id');
-            $table->boolean('is_banned');
-
-
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('area_id');
+            $table->unsignedBigInteger('priority')->nullable();
+            $table->timestamps();
         });
     }
 
@@ -30,6 +29,6 @@ class CreateDoctorsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('doctors');
+        Schema::dropIfExists('pharmacies');
     }
 }

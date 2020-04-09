@@ -48,23 +48,23 @@
                   @foreach($doctors as $doctor)
                   <tr>
                     <td>
-                    <a href="{{ route('doctors.show',['doctor'=>$doctor->id]) }}">{{ $doctor->name }}</a>
+                    <a href="{{ route('doctors.show',['doctor'=>$doctor->id]) }}">{{ $doctor->user->name }}</a>
                     </td>
                     <td>
-                    @if($doctor->image)
+                    @if($doctor->user->image)
             
                 <a href="{{ route('doctors.show',['doctor'=>$doctor->id]) }}">        
-            <img src="{{asset('storage/'.$doctor->image)}}" alt="" height="50" width="50" >
+            <img src="{{asset('storage/'.$doctor->user->image)}}" alt="" height="50" width="50" >
             </a>
             @endif
                     </td>
                     <td>
-                    {{ $doctor->email }}
+                    {{ $doctor->user->email }}
                     </td>
                     
                     
                     
-                    <td>{{ $doctor->national_id }}</td>
+                    <td>{{ $doctor->user->national_id }}</td>
                     <td> {{ $doctor->created_at }}</td>
                     <td>lsa</td>
                     <td>
