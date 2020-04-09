@@ -95,7 +95,7 @@ class ClientController extends Controller
                 'national_id' => $request->national_id,
                 'image' => $path
             ]);
-            $user->assignRole('user');
+            $user->assignRole('client');
     
             $client = Client::create([
                 'gender' => $request->gender,

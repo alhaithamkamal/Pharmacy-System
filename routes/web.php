@@ -66,6 +66,26 @@ Route::patch('/areas/{area}','AreaController@update')->name('areas.update');
 //soft delete area
 Route::post('/areas/{area}','AreaController@destroy')->name('areas.destroy');
 
+// ==================permission routes=======================
+
+//show permissions in table
+Route::get('/permissions','PermissionController@index')->name('permissions.index');
+
+//route to permissions form
+Route::get('/permissions/create','PermissionController@create')->name('permissions.create');
+
+//to store permission data
+Route::post('/permissions','PermissionController@store')->name('permissions.store');
+
+//route to edit permission
+Route::get('/permissions/{permission}/edit','PermissionController@edit')->name('permissions.edit');
+
+//update permissions
+Route::patch('/permissions/{permission}','PermissionController@update')->name('permissions.update');
+
+//soft delete permission
+Route::post('/permissions/{permission}','PermissionController@destroy')->name('permissions.destroy');
+
 // ==================Client addresses routes=======================
 
 
