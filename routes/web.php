@@ -43,6 +43,56 @@ Route::get('/trashed-client', 'ClientController@trashed')->name('clients.trashed
 //restore clients
 Route::post('/trashed-client/{client}', 'ClientController@restoreClient')->name('clients.restore');
 
+Auth::routes(['verify' => true]);
+
+
+// ==================Area routes=======================
+
+//show areas in table
+Route::get('/areas','AreaController@index')->name('areas.index');
+
+//route to areas form
+Route::get('/areas/create','AreaController@create')->name('areas.create');
+
+//to store area data
+ Route::post('/areas','AreaController@store')->name('areas.store');
+
+//route to edit area
+Route::get('/areas/{area}/edit','AreaController@edit')->name('areas.edit');
+
+//update areas
+Route::patch('/areas/{area}','AreaController@update')->name('areas.update');
+
+//soft delete area
+Route::post('/areas/{area}','AreaController@destroy')->name('areas.destroy');
+
+// ==================Client addresses routes=======================
+
+
+//show clients-addresses in table
+Route::get('/clients-addresses','ClientAddressController@index')->name('clientsAddresses.index');
+
+//route to client-addresses form
+Route::get('/clients-addresses/create','ClientAddressController@create')->name('clientsAddresses.create');
+
+//to store client-addresses data
+ Route::post('/clients-addresses','ClientAddressController@store')->name('clientsAddresses.store');
+
+//route to edit client-addresses
+Route::get('/clients-addresses/{clientAddress}/edit','ClientAddressController@edit')->name('clientsAddresses.edit');
+
+//update client
+Route::patch('/clients-addresses/{clientAddress}','ClientAddressController@update')->name('clientsAddresses.update');
+
+//soft delete client-addresses
+Route::post('/clients-addresses/{clientAddress}','ClientAddressController@destroy')->name('clientsAddresses.destroy');
+
+//show trashed clients
+Route::get('/trashed-client-addresses', 'ClientAddressController@trashed')->name('clientsAddresses.trashed');
+
+//restore clients
+Route::post('/trashed-client-addresses/{clientAddress}', 'ClientAddressController@restoreClient')->name('clientsAddresses.restore');
+
 
 
 // ==================Doctor routes=======================

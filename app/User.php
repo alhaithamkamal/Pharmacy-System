@@ -7,12 +7,17 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Cog\Contracts\Ban\Bannable as BannableContract;
+use Cog\Laravel\Ban\Traits\Bannable;
 
 
-class User extends Authenticatable implements MustVerifyEmail
+
+class User extends Authenticatable implements MustVerifyEmail, BannableContract
 {
     use HasApiTokens, Notifiable;
     use SoftDeletes;
+    use Bannable;
+
     protected $dates = ['deleted_at'];
     /**
      * The attributes that are mass assignable.
@@ -58,7 +63,10 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasOne('App\Client');
     }
 
-
+    public function doctor()
+    {
+        return $this->hasOne('App\Doctor');
+    }
 
     public static function storeUserImage($request)
     {

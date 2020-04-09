@@ -164,6 +164,8 @@ return [
         Spatie\Permission\PermissionServiceProvider::class,
         Yajra\DataTables\DataTablesServiceProvider::class,
         Brian2694\Toastr\ToastrServiceProvider::class,
+        Cog\Laravel\Ban\Providers\BanServiceProvider::class,
+
 
         /*
          * Package Service Providers...

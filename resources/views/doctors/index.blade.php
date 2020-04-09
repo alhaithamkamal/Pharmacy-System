@@ -40,6 +40,7 @@
                     <!-- <th></th> -->
                     <th>national id</th>
                     <th>created at</th>
+                    <th>banned at</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
@@ -65,6 +66,7 @@
                     
                     <td>{{ $doctor->national_id }}</td>
                     <td> {{ $doctor->created_at }}</td>
+                    <td>lsa</td>
                     <td>
                     <a href="{{ route('doctors.edit',['doctor'=>$doctor->id]) }}" class="btn btn-success">Edit</a>
                     <form action="{{ route('doctors.destroy',['doctor'=>$doctor->id]) }}" method="POST" class="d-inline">

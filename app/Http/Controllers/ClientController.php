@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Client;
 use App\User;
+use App\UserAddress;
 use Yajra\DataTables\Facades\DataTables; 
 use App\Http\Requests\StoreClientRequest;
 use App\Http\Requests\UpdateClientRequest;
@@ -19,6 +20,7 @@ class ClientController extends Controller
     use RegistersUsers;
     public function index(Request $request)
     {
+
         if ($request->ajax()) {
             $clients =Client::with('user')->get();
             return Datatables::of($clients)
@@ -40,13 +42,6 @@ class ClientController extends Controller
                     ->addColumn('birthdate', function($clients) {
                         return $clients->birthdate;
                     })
-                    ->addColumn('is_insured', function($clients) {
-                        if($clients->is_insured){
-                            return '<p style="color:green;">Insured</p>';
-                        }else{
-                            return '<p style="color:red;">Not insured</p>';
-                        }
-                    })
                     ->addColumn('last_login', function($clients) {
                         return $clients->last_login_at;
                     })
@@ -59,12 +54,11 @@ class ClientController extends Controller
                     })
                     ->addColumn('action', function($clients){
                         $btn = '<a href="'.route("clients.edit",["client" => $clients->id]).'" class="edit btn btn-primary btn-sm">Edit</a>';
-                        //$btn .= '<a href="javascript:void(0);" class="btn btn-danger btn-sm deleteClient" data-toggle="tooltip" data-original-title="Delete" id="delete-client" data-id="'. $clients->id .'" >Delete</a>';
                         $btn .= '<button type="button" data-id="'.$clients->id.'" data-toggle="modal" data-target="#DeleteProductModal" class="btn btn-danger btn-sm" id="getDeleteId">Delete</button>';
 
                         return $btn;
                     })
-                    ->rawColumns(['is_insured','image','action'])
+                    ->rawColumns(['image','action'])
                     ->make(true);
             }
             return view('clients.index');
@@ -82,13 +76,6 @@ class ClientController extends Controller
         //dd($insured);
         $validate = $request->validated();
         if($validate){
-            if($request->has('is_insured')){
-                //Checkbox checked
-                $insured = 1;
-            }else{
-                //Checkbox not checked
-                $insured = 0;
-            }
             if ($request->hasfile('image')){
                 // $path = $request->file('image')->store('avatarss');
                 // dd($path);
@@ -105,7 +92,7 @@ class ClientController extends Controller
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
-                'password' => Hash::make($request->password),
+                'password' => $request->password,
                 'national_id' => $request->national_id,
                 'image' => $path
             ]);
@@ -113,14 +100,11 @@ class ClientController extends Controller
             $client = Client::create([
                 'gender' => $request->gender,
                 'birthdate'=> $request->birthdate,
-                'is_insured' =>$insured,
                 'mobile' => $request->mobile,
                 'user_id' => $user->id
             ]);
             
         }
-       
-        //Auth::login($user);
 
         return redirect()->route('clients.index');
     }
@@ -148,30 +132,21 @@ class ClientController extends Controller
  
         if($validate){
             $client= Client::with('user')->find($request->client);
-            if($request->has('is_insured')){
-                //Checkbox checked
-                $insured = 1;
-            }else{
-                //Checkbox not checked
-                $insured = 0;
-            }
             $path = $client->user->image;
             if ($request->hasfile('image')){
                 Storage::disk('public')->delete($path);
                 $path = Storage::disk('public')->put('clients_avatars', $request->file('image'));
 
-              //  $path = Storage::putFile('clients_avatars', $request->file('image'));
             }
             
             $client -> update([
                 'gender' => $request->gender,
                 'birthdate'=> $request->birthdate,
-                'is_insured' =>$insured,
                 'mobile' => $request->mobile,
                 'user_id' => $request->user_id
             ]); 
-
-            $user= User::find($request->user_id);
+            
+            $user= User::withTrashed()->find($request->user_id);
 
             $user -> update([
                 'name' => $request->name,
@@ -229,13 +204,6 @@ class ClientController extends Controller
                     ->addColumn('birthdate', function($clients) {
                         return $clients->birthdate;
                     })
-                    ->addColumn('is_insured', function($clients) {
-                        if($clients->is_insured){
-                            return '<p style="color:green;">Insured</p>';
-                        }else{
-                            return '<p style="color:red;">Not insured</p>';
-                        }
-                    })
                     ->addColumn('last_login', function($clients) {
                         return $clients->last_login_at;
                     })
@@ -250,7 +218,7 @@ class ClientController extends Controller
                         $btn = '<button type="button" data-id="'.$clients->id.'" data-toggle="modal" data-target="#restoreModal" class="btn btn-danger btn-sm" id="getRestoreId">restore</button>';
                         return $btn;
                     })
-                    ->rawColumns(['is_insured','image','action'])
+                    ->rawColumns(['image','action'])
                     ->make(true);
             }
             return view('clients.trashed');
@@ -259,7 +227,8 @@ class ClientController extends Controller
 
     public function restoreClient($id)
     {
-        Client::withTrashed()->find($id)->restore();
+        Client::onlyTrashed()->find($id)->restore();
+        UserAddress::onlyTrashed()->where('client_id',$id)->restore();
         return redirect()->route('clients.index');
     }
 }
