@@ -86,6 +86,27 @@ Route::patch('/permissions/{permission}','PermissionController@update')->name('p
 //soft delete permission
 Route::post('/permissions/{permission}','PermissionController@destroy')->name('permissions.destroy');
 
+// ==================role routes=======================
+
+//show roles in table
+Route::get('/roles','RoleController@index')->name('roles.index');
+
+//route to roles form
+Route::get('/roles/create','RoleController@create')->name('roles.create');
+
+//to store role data
+Route::post('/roles','RoleController@store')->name('roles.store');
+
+//route to edit role
+Route::get('/roles/{role}/edit','RoleController@edit')->name('roles.edit');
+
+//update roles
+Route::patch('/roles/{role}','RoleController@update')->name('roles.update');
+
+//soft delete role
+Route::post('/roles/{role}','RoleController@destroy')->name('roles.destroy');
+
+
 // ==================Client addresses routes=======================
 
 
