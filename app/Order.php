@@ -7,6 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     protected $guarded = [];
+    protected $fillable = [
+        'creator_id',
+        'creator_type',
+        'client_id',
+        'status',
+        'delivering_address_id',
+        'pharmacy_id',
+        'is_insured'
+    ];
 
     public function creator()
     {

@@ -29,11 +29,17 @@ class OrdersController extends Controller
 
     public function store()
     {
-        $creator_type = 'doctor';
-        dd(auth()->user());
-        // if(Auth::user()->role_id)
+        $creator_id = auth()->user()->id;
 
-        $status = '';
+        if (auth()->user()->role_id == 1) {
+            $creator_type = 'pharmacy';
+        } elseif (auth()->user()->role_id == 2) {
+            $creator_type = 'doctor';
+        } elseif (auth()->user()->role_id == 0) {
+            $creator_type = 'admin';
+        }
+
+        $status = 'processing';
 
         $medicine = Medicine::create([
             'name' => request()->name,
@@ -42,14 +48,14 @@ class OrdersController extends Controller
             'price' => request()->price,
         ]);
         $order = Order::create([
-            'creator_id' => 9,
+            'creator_id' => $creator_id,
             'creator_type' => $creator_type,
             'client_id' => request()->client_id,
             'status' => $status,
-            'is_insured' => '1',
-            'delivering_address_id' => '2',
-            'pharmacy_id' => 2
+            'delivering_address_id' => request()->order->address,
         ]);
+
+        $order->pharmacy()->create();
         $medicine->order()->attach($order);
 
         return redirect()->route('orders.index');
