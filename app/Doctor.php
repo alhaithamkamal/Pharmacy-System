@@ -11,7 +11,7 @@ class Doctor extends Model
     protected $fillable=[
        'user_id',
     //    'pharmacy_id',
-       'is_banned'
+    //    'is_banned'
         
     ];
     // //public function user (){
@@ -26,4 +26,8 @@ class Doctor extends Model
     //         $path = null;
     //     return $path;
     // }
+    public function user()
+    {
+        return $this->belongsTo('App\User','user_id','id');
+    }
 }

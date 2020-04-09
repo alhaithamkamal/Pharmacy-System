@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use App\Doctor;
 use App\User;
+use Cog\Laravel\Ban\Traits\Bannable;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\DoctorRequest;
 class DoctorController extends Controller
@@ -115,23 +116,61 @@ public function update(DoctorRequest $request, User $doctor)
     }
 
     public function store(DoctorRequest $request){
-         //$request=request();
-            // dd($request->email);
+        // $attributes = [
+        //     [
+        //         'national_id' => $request->national_id,
+        //         'name' =>  $request->name,
+        //         'email' =>  $request->email,
+        //         'password' => Hash::make($request->password),
+        //         'role_id'=>'2',
+        //     ]
+        // ];    
+        // if ($request->hasFile('image')){
+        //     $attributes['image'] = User::storeUserImage($request);
+        // } 
         
-    
-        $doctor=User::create([
-            'national_id'=>$request->national_id,
-            'name'=>$request->name,
-            'email'=>$request->email,
-           //'password'=>$request->password,
-           'password' => Hash::make($request->password),
-
-           'image' => User::storeUserImage($request),
-            'role_id'=>'2',
-        ]);
+        // $doctor->create($attributes);
+        // dd($request->name);
+             if ($request->hasFile('image')){
+                $doctor=User::create([
+                    'national_id'=>$request->national_id,
+                    'name'=>$request->name,
+                    'email'=>$request->email,
+                    'password' => Hash::make($request->password),
+                    'image' => User::storeUserImage($request),
+                    'role_id'=>'2',
+                    ]);
+                    $doctor->doctor()->create([]);
+        } 
+        else{
+            $doctor=User::create([
+                'national_id'=>$request->national_id,
+                'name'=>$request->name,
+                'email'=>$request->email,
+                'password' => Hash::make($request->password),
+                //'image' => User::storeUserImage($request),
+                'role_id'=>'2',
+                ]);
+                $doctor->doctor()->create([]);
+        }
+            
+        // $doctor=User::create([
+        //     'national_id'=>$request->national_id,
+        //     'name'=>$request->name,
+        //     'email'=>$request->email,
+        //     'password' => Hash::make($request->password),
+        //     'image' => User::storeUserImage($request),
+        //     'role_id'=>'2',
+        // ]);
+        //$doctor->doctor()->create([
+            //dd($doctor->id),
+            //  'user_id' => $doctor->id,
+            //  'pharmacy_id' => $request->birthdate,
+            // 'mobile' => $request->mobile
+        //]);
 
         return redirect()->route('doctors.index');
     }
-
+    
 
 }
