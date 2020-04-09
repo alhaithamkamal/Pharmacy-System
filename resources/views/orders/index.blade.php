@@ -50,13 +50,21 @@
                     @foreach ($orders as $order)
                   <tr>
                     <td>{{ $order->id }}</td>
-                    <td>{{ $order->client ? $order->client->user->name : ''}}</td>
-                    <td>{{ $order->user->client ? $order->user->client->addresses[0]['street_name'] : ''}}</td>
+                    {{-- {{dd($order->client->user->name)}} --}}
+                    <td>{{ $order->client->user->name}}</td>
+                    
+                    <td>{{ $order->address['id']}}</td>
                     <td>{{ $order->created_at}}</td>
-                    <td>{{ $order->user ? $order->user->name : ''}}</td>
-                    <td>{{ $order->client ? $order->client->is_insured : '' }}</td>
+
+                    @if ($order->creator->role_id == 2)
+                      <td>{{$order->creator->name}}</td>
+                    @else
+                      <td></td>
+                    @endif
+                    
+                    <td>{{ $order->is_insured}}</td>
                     <td>{{ $order->status}}</td>
-                    @switch($order->user->role_id)
+                    @switch($order->creator->role_id)
                         @case(1)
                             <td>Pharmacy Owner</td>
                             @break
@@ -69,12 +77,7 @@
                         @default
                           <td>Admin</td> 
                     @endswitch
-
-                    @if ($order->user->role_id == 1)
-                      <td>{{ $order->user->name }}</td>
-                    @else
-                      <td></td>
-                    @endif
+                  <td>{{$order->pharmacy->user->name}}</td>
                     <td>
                       <div class="row">
                         <a href="{{route('orders.edit', ['order' => $order->id])}}" class="btn btn-primary btn-sm ml-2">Edit</a>

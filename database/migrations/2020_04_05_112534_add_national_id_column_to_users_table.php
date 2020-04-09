@@ -15,7 +15,6 @@ class AddNationalIdColumnToUsersTable extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->unsignedBigInteger('national_id')->first();
-            $table->primary('national_id');
         });
     }
 
