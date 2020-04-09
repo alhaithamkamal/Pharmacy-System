@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDoctorsTable extends Migration
+class ModifyPharmacyIdOnOrdersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,8 @@ class CreateDoctorsTable extends Migration
      */
     public function up()
     {
-        Schema::create('doctors', function (Blueprint $table) {
-            $table->id();
-            $table->string('name',50);
-            $table->timestamps();
-            $table->unsignedBigInteger('national_id');
-            $table->string('email');
+        Schema::table('orders', function (Blueprint $table) {
+            $table->unsignedBigInteger('pharmacy_id')->nullable()->change();
         });
     }
 
@@ -29,6 +25,8 @@ class CreateDoctorsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('doctors');
+        Schema::table('orders', function (Blueprint $table) {
+            //
+        });
     }
 }

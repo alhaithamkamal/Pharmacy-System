@@ -3,30 +3,49 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Iatstuti\Database\Support\CascadeSoftDeletes;
+
 
 class Client extends Model
 {
     protected $guarded = [];
 
-    public function user()
+    use SoftDeletes;
+    protected $dates = ['deleted_at'];
+
+    public function getLastLoginAtAttribute($last_login_at)
     {
-        return $this->belongsTo('App\User');
+        return Carbon::createFromFormat('Y-m-d H:i:s', $last_login_at)->format('d. M, Y ');
     }
+    
+    use SoftDeletes, CascadeSoftDeletes;
+
+    protected $cascadeDeletes = ['addresses'];
+
     /**
      * The attributes that should be cast to native types.
      *
      * @var array
      */
-    protected $casts = [
-        'last_login_at' => 'datetime',
-    ];
 
-    public function client_info()
+    // protected $casts = [
+    //     'last_login_at' => 'date',
+    // ];
+
+    public function user()
     {
-        return $this->hasOne('App\User');
+    return $this->belongsTo('App\User','user_id','id')->withTrashed();
     }
-    public function adresses()
+
+    public function addresses()
     {
         return $this->hasMany('App\UserAddress');
+    }
+    
+    public function orders()
+    {
+        return $this->hasMany('App\Order', 'creator_id');
     }
 }

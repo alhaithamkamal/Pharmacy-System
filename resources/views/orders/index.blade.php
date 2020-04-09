@@ -40,24 +40,50 @@
                     <th>Doctor Name</th>
                     <th>Is_insured</th>
                     <th>Status</th>
-                    <th>Actions</th>
+                    <th>Creator Type</th>
+                    <th>Assigned Pharmacy</th>
+                    <th >Actions</th>
                   </tr>
                 </thead>
-                  <tbody>
                     
+                  <tbody>
                     @foreach ($orders as $order)
                   <tr>
                     <td>{{ $order->id }}</td>
-                    <td>{{ $order->client->user->name}}</td>
-                    <td>{{ $order['user_address'] }}</td>
+                    <td>{{ $order->client ? $order->client->user->name : ''}}</td>
+                    <td>{{ $order->user->client ? $order->user->client->addresses[0]['street_name'] : ''}}</td>
                     <td>{{ $order->created_at}}</td>
-                    <td>{{ $order->user->name}}</td>
-                    <td>{{ $order->client->is_insured }}</td>
+                    <td>{{ $order->user ? $order->user->name : ''}}</td>
+                    <td>{{ $order->client ? $order->client->is_insured : '' }}</td>
                     <td>{{ $order->status}}</td>
-                    <td>
-                    <a href="{{route('orders.edit')}}" class="btn btn-primary mr-2">Edit</a>
-                    <a href="{{route('orders.index')}}" class="btn btn-secondary">Delete</a>
+                    @switch($order->user->role_id)
+                        @case(1)
+                            <td>Pharmacy Owner</td>
+                            @break
+                        @case(2)
+                            <td>Doctor</td>
+                            @break
+                        @case(3)
+                            <td>Client</td>
+                            @break
+                        @default
+                          <td>Admin</td> 
+                    @endswitch
 
+                    @if ($order->user->role_id == 1)
+                      <td>{{ $order->user->name }}</td>
+                    @else
+                      <td></td>
+                    @endif
+                    <td>
+                      <div class="row">
+                        <a href="{{route('orders.edit', ['order' => $order->id])}}" class="btn btn-primary btn-sm ml-2">Edit</a>
+                        <form method="POST" action="{{route('orders.destroy',['order' => $order->id])}}" class="">
+                          @csrf  
+                          @method('DELETE')
+                          <button class="btn btn-secondary btn-sm ml-2" onclick="return confirm ('are you sure?')">Delete</button>
+                        </form>
+                      </div>
                     </td>
                   </tr>
                   @endforeach

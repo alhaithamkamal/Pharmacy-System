@@ -1,15 +1,17 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use App\Doctor;
 use App\User;
-
+use Cog\Laravel\Ban\Traits\Bannable;
+use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\DoctorRequest;
 class DoctorController extends Controller
 {
     public function index(){
-        $doctors=User::all();
+        $doctors=Doctor::all();
         return view('doctors.index',[
             'doctors'=>$doctors
         ]);
@@ -25,7 +27,7 @@ class DoctorController extends Controller
         $doctorId=$request->doctor;
         
         
-        $doctor=User::find($doctorId);      
+        $doctor=Doctor::find($doctorId);      
         
                 
 
@@ -40,44 +42,60 @@ class DoctorController extends Controller
      //   $users = User::all();
         $doctor_id = request('doctor');
         //dd($doctor_id);
-        $doctor = User::find($doctor_id);
+        $doctor = Doctor::find($doctor_id);
         //dd($doctor);
         return view('doctors.edit', [
             'doctor' => $doctor, 
         ]);
     }
 
-    public function update(Request $request)
-    {
-        $doctorId = $request->doctor;
-        // dd($request->post);
-        $doctor = User::find($doctorId);
-        //$slug = SlugService::createSlug(Post::class, 'slug', $request->title);
+//     public function update(Request $request)
+//     {
+//         $doctorId = $request->doctor;
+//         // dd($request->post);
+//         $doctor = User::find($doctorId);
+//         //$slug = SlugService::createSlug(Post::class, 'slug', $request->title);
 
 
-        $data = $request->only(['national_id', 'name', 'email',]);
-        //$data += array('slug' => $slug);
-        $doctor->update($data);
+//         $data = $request->only(['national_id', 'name', 'email',]);
+//         //$data += array('slug' => $slug);
+//         $doctor->update($data);
 
-//        return redirect()->route('doctors.show', ['doctor' => $request->doctor]);
-return redirect()->route('doctors.index');
+// //        return redirect()->route('doctors.show', ['doctor' => $request->doctor]);
+// return redirect()->route('doctors.index');
 
+//     }
+public function update(DoctorRequest $request, Doctor $doctor)
+    {   
+        $attributes = [
+            [
+                'national_id' => $request->national_id,
+                'name' =>  $request->name,
+                'email' =>  $request->email,
+            ]
+        ];
+        if ($request->hasFile('image')){
+            $attributes['image'] = User::storeUserImage($request);
+            Storage::delete('public/'.$doctor->image);
+        }
+        $doctor->user->update($attributes);
+        return redirect()->route('doctors.show', ['doctor' => $request->doctor]);
     }
-    public function destroy(){
-        $request=request();
-        $doctorId=$request->doctor;
-        $doctor=User::find($doctorId);
+    
+
+    public function destroy(User $doctor)
+    {
+        if ($doctor->image) Storage::delete('public/'.$doctor->image);
         $doctor->delete();
         return redirect()->route('doctors.index');
     }
-
      // public function show()
     // {
     //     //take the id from url param
     //     $request = request();
         
     //     $postId = $request->post;
-    //     dd($request->post);
+
     //     //query to retrieve the post by id
     //     $post = Post::find($postId);
     //     // $post = Post::where('id', $postId)->get();
@@ -97,20 +115,60 @@ return redirect()->route('doctors.index');
         return view('doctors.create');
     }
 
-    public function store(){
-         $request=request();
-            
+    public function store(DoctorRequest $request){
+        // $attributes = [
+        //     [
+        //         'national_id' => $request->national_id,
+        //         'name' =>  $request->name,
+        //         'email' =>  $request->email,
+        //         'password' => Hash::make($request->password),
+        //         'role_id'=>'2',
+        //     ]
+        // ];    
+        // if ($request->hasFile('image')){
+        //     $attributes['image'] = User::storeUserImage($request);
+        // } 
         
-    
-        User::create([
-            'national_id'=>$request->national_id,
-            'name'=>$request->name,
-            'email'=>$request->email,
-           'password'=>$request->password
-            //'user_id'=>$request->user_id,
+        // $doctor->create($attributes);
+        // dd($request->name);
+             if ($request->hasFile('image')){
+                $doctor=User::create([
+                    'national_id'=>$request->national_id,
+                    'name'=>$request->name,
+                    'email'=>$request->email,
+                    'password' => Hash::make($request->password),
+                    'image' => User::storeUserImage($request),
+                    'role_id'=>'2',
+                    ]);
+                    $doctor->doctor()->create([]);
+        } 
+        else{
+            $doctor=User::create([
+                'national_id'=>$request->national_id,
+                'name'=>$request->name,
+                'email'=>$request->email,
+                'password' => Hash::make($request->password),
+                //'image' => User::storeUserImage($request),
+                'role_id'=>'2',
+                ]);
+                $doctor->doctor()->create([]);
+        }
             
-        ]);
-        
+        // $doctor=User::create([
+        //     'national_id'=>$request->national_id,
+        //     'name'=>$request->name,
+        //     'email'=>$request->email,
+        //     'password' => Hash::make($request->password),
+        //     'image' => User::storeUserImage($request),
+        //     'role_id'=>'2',
+        // ]);
+        //$doctor->doctor()->create([
+            //dd($doctor->id),
+            //  'user_id' => $doctor->id,
+            //  'pharmacy_id' => $request->birthdate,
+            // 'mobile' => $request->mobile
+        //]);
+
         return redirect()->route('doctors.index');
     }
     

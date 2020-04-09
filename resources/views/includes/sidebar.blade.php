@@ -74,20 +74,20 @@
           <a href="#" class="nav-link">
             <i class="nav-icon fas fa-copy"></i>
             <p>
-              Users
+              Clients
               <i class="fas fa-angle-left right"></i>
               <span class="badge badge-info right">2</span>
             </p>
           </a>
           <ul class="nav nav-treeview">
-            <li class="nav-item">
-              <a href="users" class="nav-link">
+            <li class="nav-item {{ Request::is('/clients') ? 'active' : '' }}">
+              <a href="/clients" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Index</p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="users/create" class="nav-link">
+              <a href="/clients/create" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Create</p>
               </a>

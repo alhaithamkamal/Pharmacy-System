@@ -35,10 +35,12 @@
                 <thead>
                   <tr>
                     <th>Name</th>
+                    <th>Avatar Image</th>
                     <th>Email</th>
                     <!-- <th></th> -->
                     <th>national id</th>
                     <th>created at</th>
+                    <th>banned at</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
@@ -46,16 +48,28 @@
                   @foreach($doctors as $doctor)
                   <tr>
                     <td>
-                    <a href="{{ route('doctors.show',['doctor'=>$doctor->national_id]) }}">{{ $doctor->name }}</a>
+                    <a href="{{ route('doctors.show',['doctor'=>$doctor->id]) }}">{{ $doctor->user->name }}</a>
                     </td>
                     <td>
-                    {{ $doctor->email }}
+                    @if($doctor->user->image)
+            
+                <a href="{{ route('doctors.show',['doctor'=>$doctor->id]) }}">        
+            <img src="{{asset('storage/'.$doctor->user->image)}}" alt="" height="50" width="50" >
+            </a>
+            @endif
                     </td>
-                    <td>{{ $doctor->national_id }}</td>
+                    <td>
+                    {{ $doctor->user->email }}
+                    </td>
+                    
+                    
+                    
+                    <td>{{ $doctor->user->national_id }}</td>
                     <td> {{ $doctor->created_at }}</td>
+                    <td>lsa</td>
                     <td>
-                    <a href="{{ route('doctors.edit',['doctor'=>$doctor->national_id]) }}" class="btn btn-success">Edit</a>
-                    <form action="{{ route('doctors.destroy',['doctor'=>$doctor->national_id]) }}" method="POST" class="d-inline">
+                    <a href="{{ route('doctors.edit',['doctor'=>$doctor->id]) }}" class="btn btn-success">Edit</a>
+                    <form action="{{ route('doctors.destroy',['doctor'=>$doctor->id]) }}" method="POST" class="d-inline">
                       @csrf
                       @method('DELETE')
                       <button  class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this doctor ?')">Delete</button>
