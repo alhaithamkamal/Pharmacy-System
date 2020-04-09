@@ -22,8 +22,7 @@
         "laravel/ui": "^2.0",
         "spatie/laravel-permission": "^3.11",
         "stripe/stripe-php": "^7.28",
-        "yajra/laravel-datatables-oracle": "^9.9",
-        "yoeunes/toastr": "^1.2"
+        "yajra/laravel-datatables-oracle": "^9.9"
     },
     "require-dev": {
         "facade/ignition": "^2.0",

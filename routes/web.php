@@ -55,7 +55,7 @@ Route::get('/areas','AreaController@index')->name('areas.index');
 Route::get('/areas/create','AreaController@create')->name('areas.create');
 
 //to store area data
- Route::post('/areas','AreaController@store')->name('areas.store');
+Route::post('/areas','AreaController@store')->name('areas.store');
 
 //route to edit area
 Route::get('/areas/{area}/edit','AreaController@edit')->name('areas.edit');

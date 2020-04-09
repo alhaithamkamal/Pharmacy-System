@@ -67,7 +67,6 @@ class AreaController extends Controller
     public function update(UpdateAreaRequest $request){
 
         $area= Area::find($request->area);
- 
         $validate = $request->validated();
  
         if($validate){
@@ -86,6 +85,10 @@ class AreaController extends Controller
     {
 
         $area = Area::find($request->area);
+        if ($area->addresses()->count()) {
+
+            return back()->withMessage('Cannot delete: this area has addresses');
+        }
         $area->delete();      
         return redirect()->back();
     }
