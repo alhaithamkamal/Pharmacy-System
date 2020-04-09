@@ -1,6 +1,8 @@
 @extends('layouts.app')
 @section('content')
-<table class="table ml-3">
+
+@if (auth()->user()->role_id ==0) 
+    <table class="table ml-3">
   <thead>
     <tr>
       <th scope="col">ID</th>
@@ -26,4 +28,20 @@
     @endforeach
   </tbody>
 </table>
+
+@elseif(auth()->user()->role_id == 1)
+  <div class="container m-5 ">
+    <div class="card ">
+        <div class="card-header text-center bg-primary text-light">
+            Pharmacy Total Revenue
+        </div>
+         {{$revenue = Revenue::where('pharmacy_name', auth->user()->name)->first();}}
+        <div class="card-body">
+            <h5 class="card-title"><b>Pharmacy Name</b>{{$revenue->pharmacy_name}}</h5>
+            <p class="card-text">Total Revenue: </p> {{$revenue->total_revenue}} </p>
+            
+        </div>
+    </div>
+
+@endif
 @endsection
