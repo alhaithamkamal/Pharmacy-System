@@ -153,6 +153,7 @@ Route::post('/revenues','RevenueController@store')->name('revenue.store');
 Route::get('/revenue/edit/{revenueId}','RevenueController@edit')->name('revenue.edit');
 Route::post('/revenue/{ID}','RevenueController@update')->name('revenue.update');
 Route::get('/revenue/{delId}','RevenueController@delete')->name('revenue.delete');
+Route::get('image/{filename}', 'RevenueController@displayImage')->name('revenue.displayImage');
 //======================================================
 Route::delete('/orders/{order}', 'OrdersController@destroy')->name('orders.destroy');
 

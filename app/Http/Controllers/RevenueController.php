@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreRevenueRequest;
 use App\Revenue;
+use App\User;
 
 class RevenueController extends Controller
 {
@@ -14,7 +15,9 @@ class RevenueController extends Controller
     }
     public function store(StoreRevenueRequest $request){
         // $request=request();
+        $id=User::where('name',$request->pharmacy_name)->first();
         Revenue::create([
+            'user_id'=>$id->id,
     		'pharmacy_name'=>$request->pharmacy_name,
     		'total_orders'=>$request->total_orders,
     		'total_revenue'=>$request->total_revenue
