@@ -31,18 +31,17 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-              <table id="example1" class="table table-bordered table-striped">
+              <table id="address" class="table table-bordered table-striped">
                 <thead>
                   <tr>
-                    <th>National ID</th>
+                    <th>ID</th>
                     <th>User Name</th>
-                    <th>Email</th>
-                    <th>Gender</th>
-                    <th>Mobile</th>
-                    <th>Birth Date</th>
-                    <th>last login</th>
-                    <th>Role</th>
-                    <th>Image</th>
+                    <th>Area Name</th>
+                    <th>Street Name</th>
+                    <th>Building Number</th>
+                    <th>Floor Number</th>
+                    <th>Flat Number</th>
+                    <th>Main</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
@@ -63,22 +62,22 @@
     </section>
     <!-- /.content -->
 
-    <!-- Delete Product Modal -->
-    <div class="modal" id="DeleteProductModal">
+    <!-- Delete Address Modal -->
+    <div class="modal" id="DeleteAddressModal">
         <div class="modal-dialog">
             <div class="modal-content">
                 <!-- Modal Header -->
                 <div class="modal-header">
-                    <h4 class="modal-title">Product Delete</h4>
+                    <h4 class="modal-title">Address Delete</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <!-- Modal body -->
                 <div class="modal-body">
-                    <h4>Are you sure want to delete this product?</h4>
+                    <h4>Are you sure want to delete this Address?</h4>
                 </div>
                 <!-- Modal footer -->
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" id="SubmitDeleteProductForm">Yes</button>
+                    <button type="button" class="btn btn-danger" id="SubmitDeleteAddressForm">Yes</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
                 </div>
             </div>
@@ -90,26 +89,24 @@
 @section('datatable_script')
 <script>
   $(document).ready( function () {
-    console.log('hello');
-    var table = $('#example1').DataTable({
+    var table = $('#address').DataTable({
         processing: true,
         serverSide: true,
-        ajax: "{{ route('clients.index') }}",
+        ajax: "{{ route('clientsAddresses.index') }}",
         columns: [
-            {data: 'national_id', name: 'national_id'},
-            {data: 'name', name: 'user name'},
-            {data: 'email', name: 'email'},
-            {data: 'gender', name: 'gender'},
-            {data: 'mobile', name: 'mobile'},
-            {data: 'birthdate', name: 'birth date'},
-            {data: 'last_login_at', name: 'last_login'},
-            {data: 'role_id', name: 'role_id'},
-            {data: 'image', name: 'image'},
+            {data: 'id', name: 'id'},
+            {data: 'client_id', name: 'client name'},
+            {data: 'area_id', name: 'area name'},
+            {data: 'street_name', name: 'street name'},
+            {data: 'building_number', name: 'building number'},
+            {data: 'floor_number', name: 'floor number'},
+            {data: 'falt_number', name: 'flat number'},
+            {data: 'is_main', name: 'main'},
             {data: 'action', name: 'action', orderable: true, searchable: true},
         ]
     });
     
-        // Delete product Ajax request.
+        // Delete address Ajax request.
         var deleteID;
         $('body').on('click', '#getDeleteId', function(){
             deleteID = $(this).data('id');
@@ -117,10 +114,10 @@
             
         })
 
-        $('#SubmitDeleteProductForm').click(function(e) {
+        $('#SubmitDeleteAddressForm').click(function(e) {
             e.preventDefault();
             var id = deleteID;
-            var deleteurl = '{{route('clients.destroy', ['client'=> ':id'])}}';
+            var deleteurl = '{{route('clientsAddresses.destroy', ['clientAddress'=> ':id'])}}';
 		        deleteurl = deleteurl.replace(':id',id);
 
             $.ajaxSetup({
@@ -139,8 +136,8 @@
                     //  toastr()->success('Client deleted successfully ');
 
                   setTimeout(function(){
-                    $('#DeleteProductModal').modal('hide');
-                    $('#example1').DataTable().ajax.reload();
+                    $('#DeleteAddressModal').modal('hide');
+                    $('#address').DataTable().ajax.reload();
                   }, 2000);
 
                  

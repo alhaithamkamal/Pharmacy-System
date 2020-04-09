@@ -53,8 +53,6 @@ class DoctorRequest extends FormRequest
     return [
             'national_id.min'=>"national id must be 14 characters",
             'national_id.max'=>"national id must be 14 characters"
-        
-            
     ];
 }
 }

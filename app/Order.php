@@ -10,7 +10,10 @@ class Order extends Model
 
     public function creator()
     {
-        return $this->belongsTo('App\Client', 'creator_id');
+        if ($this->creator_type == 'client')
+            return $this->belongsTo('App\Client', 'creator_id');
+        else
+            return $this->belongsTo('App\Doctor', 'creator_id');
     }
 
     public function pharmacy()
