@@ -24,7 +24,7 @@ class StoreOrderRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'client_id' => 'required|exists:clients,id',
         ];
     }
 }

@@ -148,7 +148,7 @@ Route::get('/doctors/{doctor}', 'DoctorController@show')->name('doctors.show');
 Route::get('/doctors/{doctor}/edit', 'DoctorController@edit')->name('doctors.edit');
 Route::put('/doctors/{doctor}', 'DoctorController@update')->name('doctors.update');
 Route::delete('/doctors/{doctor}', 'DoctorController@destroy')->name('doctors.destroy');
-
+//===================================================
 
 Route::get('/home', 'HomeController@index')->name('home')->middleware('verified');
 
@@ -160,7 +160,7 @@ Route::get('/revenues', function () {
     return view('revenues.index');
 });
 
-//============== Orders routes ================
+//============== Orders routes =====================
 Route::group(
     [],
     function () {
@@ -174,7 +174,11 @@ Route::group(
 
         Route::put('/orders/{order}', 'OrdersController@update')->name('orders.update');
 
+        Route::get('/orders/{order}', 'OrderController@show')->name('orders.show');
+
         Route::delete('/orders/{order}', 'OrdersController@destroy')->name('orders.destroy');
+
+        Route::post('/orders/fetch', 'OrdersController@fetch')->name('orders.fetch');
     }
 );
 //==================Medicine===========================
