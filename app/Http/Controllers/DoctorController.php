@@ -8,6 +8,9 @@ use App\User;
 use Cog\Laravel\Ban\Traits\Bannable;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\DoctorRequest;
+use Cog\Contracts\Ban\Bannable as BannableContract;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+
 
 class DoctorController extends Controller
 {
@@ -107,14 +110,26 @@ public function destroy(){
     $doctor=Doctor::find($doctorId);
     
     $user=User::find($doctor->user_id);
-    dd($user);
+    //dd($user);
     $doctor->delete();
     $user->delete();
     
     //return redirect()->route('posts.index');
     return redirect()->route('doctors.index');
 }
-
+// public function ban(){
+//     $request=request();
+//     $doctorId=$request->doctor;
+//     $doctor=Doctor::find($doctorId);
+    
+//     $user=User::find($doctor->user_id);
+//     //dd($user);
+//     $doctor->ban();
+//     $user->ban();
+    
+//     //return redirect()->route('posts.index');
+//     return redirect()->route('doctors.index');
+// }
 
     // public function destroy(User $doctor)
     // {
@@ -149,21 +164,7 @@ public function destroy(){
     }
 
     public function store(DoctorRequest $request){
-        // $attributes = [
-        //     [
-        //         'national_id' => $request->national_id,
-        //         'name' =>  $request->name,
-        //         'email' =>  $request->email,
-        //         'password' => Hash::make($request->password),
-        //         'role_id'=>'2',
-        //     ]
-        // ];    
-        // if ($request->hasFile('image')){
-        //     $attributes['image'] = User::storeUserImage($request);
-        // } 
-        
-        // $doctor->create($attributes);
-        // dd($request->name);
+      
              if ($request->hasFile('image')){
                 $doctor=User::create([
                     'national_id'=>$request->national_id,
@@ -175,6 +176,7 @@ public function destroy(){
                     'role_id'=>'2',
                     ]);
                     $doctor->doctor()->create([]);
+                    
         } 
         else{
             $doctor=User::create([
@@ -187,6 +189,7 @@ public function destroy(){
                 'role_id'=>'2',
                 ]);
                 $doctor->doctor()->create([]);
+                
         }
             
         // $doctor=User::create([
@@ -203,7 +206,7 @@ public function destroy(){
             //  'pharmacy_id' => $request->birthdate,
             // 'mobile' => $request->mobile
         //]);
-
+        
         return redirect()->route('doctors.index');
     }
     

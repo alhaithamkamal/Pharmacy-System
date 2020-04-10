@@ -33,6 +33,10 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
     ];
 
     protected $primaryKey = 'id';
+    // public function shouldApplyBannedAtScope()
+    // {
+    //     return false;
+    // }
 
 
 

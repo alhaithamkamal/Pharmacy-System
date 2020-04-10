@@ -40,7 +40,7 @@
                     <!-- <th></th> -->
                     <th>national id</th>
                     <th>created at</th>
-                    <th>banned at</th>
+                    <th>is banned </th>
                     <th>Actions</th>
                   </tr>
                 </thead>
@@ -67,13 +67,18 @@
                     
                     <td>{{ $doctor->user->national_id }}</td>
                     <td> {{ $doctor->created_at }}</td>
-                    <td>lsa</td>
+                    <td>
+                    {{ $doctor->user->isBanned() ? $doctor->is_ban=true :$doctor->is_ban=false }}
+                    </td>
+                    
                     <td>
                     <a href="{{ route('doctors.edit',['doctor'=>$doctor->id]) }}" class="btn btn-success">Edit</a>
                     <form action="{{ route('doctors.destroy',['doctor'=>$doctor->id]) }}" method="POST" class="d-inline">
                       @csrf
                       @method('DELETE')
                       <button  class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this doctor ?')">Delete</button>
+                      <button   class="btn btn-danger" onclick="{{ $doctor->user->isNotBanned() ? $doctor->user->ban()->update() :$doctor->user->unban()->update() }}">Ban</button>
+                                                         
                     </td>
                     
                   </tr>
