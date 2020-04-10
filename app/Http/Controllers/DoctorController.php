@@ -180,7 +180,7 @@ public function destroy(Doctor $doctor){
                 ]);
                 $doctor->doctor()->create([]);
         }
-        $doctor->assignRole('pharmacy');
+        $doctor->assignRole('doctor');
         // $doctor=User::create([
         //     'national_id'=>$request->national_id,
         //     'name'=>$request->name,

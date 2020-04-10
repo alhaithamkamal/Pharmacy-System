@@ -23,8 +23,9 @@ class ClientController extends Controller
         if ($request->ajax()) {
             if ($user->hasRole('admin'))
                 $clients = Client::with('user')->get();
-            elseif ($user->hasRole('pharmacy'))
+            elseif ($user->hasRole('pharmacy|doctor'))
                 $clients = $user->pharmacy->clients;
+             
 
             return Datatables::of($clients)
                     ->addColumn('national_id', function($clients) {
@@ -122,8 +123,24 @@ class ClientController extends Controller
 
     public function edit(Request $request){
         
+        $user = auth()->user();
         $clientID = $request->client;
+
         $client = Client::with('user')->find($clientID);
+        if ($user->hasRole('pharmacy|doctor')){
+            dd($user->pharmacy->clients);
+            // foreach($clients as $clientAddress){
+            //     if($clientAddress->is_main ==1){
+            //         return response()->json(['check'=> 'true']);
+            //     }
+            // }
+            if($client->user->id != $user->id){
+                return  redirect()->route('pharmacy.show');
+            }else{
+               $pharmacy=Pharmacy::where('id',$id)->first();
+            }
+        }
+       
         if(!$client){
             return redirect()->route('clients.index')->with('error', 'client is not found');
         }

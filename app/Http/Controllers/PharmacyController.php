@@ -67,7 +67,7 @@ class PharmacyController extends Controller
                $pharmacy=Pharmacy::where('id',$id)->first();
             }
         }
-       
+        
 		return view('/pharmacies/edit' , ['pharmacy'=>$pharmacy]);
     }
     public function update(StorePharmacyRequest $request){
