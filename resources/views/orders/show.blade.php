@@ -16,7 +16,7 @@
                         Medicine name: {{$medicine->name}}<br>
                         Mideicine Quantity: {{$medicine->quantity}}<br>
                         Medicine Type: {{$medicine->type}}<br>
-                        Medicine Price: {{$medicine->price}}
+                        Medicine Price: {{round(($medicine->price)/100)}}$
                     @endforeach
                 </div>
             </p>

@@ -29,7 +29,7 @@ Route::get('/clients/create', 'ClientController@create')->name('clients.create')
 Route::post('/clients', 'ClientController@store')->name('clients.store');
 
 //show client data
-Route::get('/clients/{client}','ClientController@show')->name('clients.show');
+Route::get('/clients/{client}', 'ClientController@show')->name('clients.show');
 
 //route to edit client
 Route::get('/clients/{client}/edit', 'ClientController@edit')->name('clients.edit');
@@ -62,7 +62,7 @@ Route::get('/areas/create', 'AreaController@create')->name('areas.create');
 Route::post('/areas', 'AreaController@store')->name('areas.store');
 
 //show client data
-Route::get('/areas/{area}','AreaController@show')->name('areas.show');
+Route::get('/areas/{area}', 'AreaController@show')->name('areas.show');
 
 //route to edit area
 Route::get('/areas/{area}/edit', 'AreaController@edit')->name('areas.edit');
@@ -171,21 +171,21 @@ Route::get('/revenues', function () {
 Route::group(
     [],
     function () {
-        Route::get('/orders', 'OrdersController@index')->name('orders.index');
+        Route::get('/orders', 'OrderController@index')->name('orders.index');
 
-        Route::get('/orders/create', 'OrdersController@create')->name('orders.create');
+        Route::get('/orders/create', 'OrderController@create')->name('orders.create');
 
-        Route::post('/orders', 'OrdersController@store')->name('orders.store');
+        Route::post('/orders', 'OrderController@store')->name('orders.store');
 
-        Route::get('/orders/{order}/edit', 'OrdersController@edit')->name('orders.edit');
+        Route::get('/orders/{order}/edit', 'OrderController@edit')->name('orders.edit');
 
-        Route::put('/orders/{order}', 'OrdersController@update')->name('orders.update');
+        Route::put('/orders/{order}', 'OrderController@update')->name('orders.update');
 
         Route::get('/orders/{order}', 'OrderController@show')->name('orders.show');
 
-        Route::delete('/orders/{order}', 'OrdersController@destroy')->name('orders.destroy');
+        Route::delete('/orders/{order}', 'OrderController@destroy')->name('orders.destroy');
 
-        Route::post('/orders/fetch', 'OrdersController@fetch')->name('orders.fetch');
+        Route::post('/orders/fetch', 'OrderController@fetch')->name('orders.fetch');
     }
 );
 //==================Medicine===========================

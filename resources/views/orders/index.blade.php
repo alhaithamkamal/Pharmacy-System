@@ -87,8 +87,12 @@
 
                     <td>
                       <div class="row">
-                        <a href="{{route('orders.show',['order' => $order->id])}}" class="btn btn-primary btn-sm mr-2"> Show Details</a>
-                        <a href="{{route('orders.edit', ['order' => $order->id])}}" class="btn btn-primary btn-sm ml-2">Edit</a>
+                        <a href="{{route('orders.show',['order' => $order->id])}}" class="btn btn-success btn-sm mr-2">Show</a>
+                        @if ($order->status == 'watingForUserConfirmation')
+                          <a href="#" class="btn btn-secondary btn-sm disabled ml-2">Edit</a>
+                        @else
+                          <a href="{{route('orders.edit', ['order' => $order->id])}}" class="btn btn-primary btn-sm ml-2">Edit</a>
+                        @endif
                         <form method="POST" action="{{route('orders.destroy',['order' => $order->id])}}" class="">
                           @csrf  
                           @method('DELETE')

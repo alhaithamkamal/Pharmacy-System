@@ -6,34 +6,24 @@
         @csrf
         @method('PUT')
 
-        <h1 class="mt-5 text-center">Edit order</h1>
-
-        <div class="form-group">
-            <label for="exampleInputPassword1">Users</label>
-            <select name="client_id" class="form-control">
-
-                @foreach($clients as $client)
-                    <option value="{{$client->id}}"> {{ $client->user->name}}</option>
-                @endforeach
-            </select>
-        </div>
+        <h1 class="mt-5 text-center">Edit Order Add Medicines</h1>
 
         @foreach ($medicines as $medicine)
             <div class="form-group mt-2">
                 <label >Medicine Name</label>
-            <input name="name" type="text" class="form-control" value="{{$medicine->name}}">
+            <input name="name" type="text" class="form-control" value="{{$medicine ? $medicine->name : ''}}">
             </div>
             <div class="form-group mt-2">
                 <label >Medicine Quantity</label>
-            <input name="quantity" type="number" class="form-control" value="{{$medicine->quantity}}">
+            <input name="quantity" type="number" class="form-control" value="{{$medicine ? $medicine->quantity : ''}}">
             </div>
             <div class="form-group mt-2">
                 <label >Medicine Type</label>
-            <input name="type" type="text" class="form-control" value="{{$medicine->type}}">
+            <input name="type" type="text" class="form-control" value="{{$medicine ? $medicine->type : ''}}">
             </div>
             <div class="form-group mt-2">
                 <label >Medicine Price</label>
-            <input name="price" type="text" class="form-control" value="{{$medicine->price}}">
+            <input name="price" type="text" class="form-control" value="{{$medicine ? $medicine->price : ''}}">
             </div>
         @endforeach
 

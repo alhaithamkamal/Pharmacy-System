@@ -8,18 +8,18 @@ class Order extends Model
 {
     protected $guarded = [];
     protected $fillable = [
-        'creator_id',
         'creator_type',
         'client_id',
         'status',
         'delivering_address_id',
         'pharmacy_id',
+        'docotr_id',
         'is_insured'
     ];
 
-    public function creator()
+    public function doctor()
     {
-        return $this->belongsTo($this->creator_type == 'client' ? 'App\Client' : 'App\Doctor', 'creator_id');
+        return $this->belongsTo('App\Doctor', 'docotor_id');
     }
 
     public function pharmacy()
