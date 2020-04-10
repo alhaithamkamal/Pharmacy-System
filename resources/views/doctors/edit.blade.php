@@ -39,7 +39,7 @@
           <!-- Horizontal Form -->
           <div class="card card-info">
             <div class="card-header">
-              <h3 class="card-title">Add Doctor</h3>
+              <h3 class="card-title">Edit Doctor</h3>
             </div>
             <!-- /.card-header -->
             <!-- form start -->
@@ -96,19 +96,12 @@
                           <input name="image" type="file" class="py-3" id="image" placeholder="image" accept="image/*">
                       </div>
                 </div>
-                <div class="form-group row">
-                    <div class="offset-sm-2 col-sm-10">
-                      <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="exampleCheck2">
-                        <label class="form-check-label" for="exampleCheck2">Remember me</label>
-                      </div>
-                    </div>
-                </div>
+                
               </div>
                 <!-- /.card-body -->
               <div class="card-footer">
-                <button type="submit" class="btn btn-info">edit</button>
-                <button type="submit" class="btn btn-default float-right">Cancel</button>
+                <button type="submit" class="btn btn-info">SAVE</button>
+                
               </div>
                 <!-- /.card-footer -->
             </form>

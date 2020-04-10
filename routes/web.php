@@ -166,7 +166,7 @@ Route::post('/trashed-client-addresses/{clientAddress}', 'ClientAddressControlle
 
 // ==================Doctor routes=======================
 
-Route::group(['middleware' => ''], function(){
+Route::group([], function(){
     Route::get('/doctors', 'DoctorController@index')->name('doctors.index');
     Route::get('/doctors/create', 'DoctorController@create')->name('doctors.create');
     Route::post('/doctors', 'DoctorController@store')->name('doctors.store');
@@ -196,7 +196,7 @@ Route::get('/revenues', function () {
 
 //============== Orders routes =====================
 Route::group(
-    [],
+    ['middleware' => 'is-ban'],
     function () {
         Route::get('/orders', 'OrderController@index')->name('orders.index');
 

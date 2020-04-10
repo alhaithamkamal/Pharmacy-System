@@ -27,7 +27,7 @@
         <div class="col-12">
           <div class="card">
             <div class="card-header">
-              <h3 class="card-title">DataTable with default features</h3>
+              <h3 class="card-title">Doctor info</h3>
             </div>
             <!-- /.card-header -->
             <div class="card text-center">
@@ -50,7 +50,7 @@
     
     <p class="card-text">{{ $doctor->created_at ? $doctor->created_at : 'not exist'}}</p>
     
-    <a href="#" class="btn btn-primary">Go somewhere</a>
+    
   </div>
   <div class="card-footer text-muted">
     

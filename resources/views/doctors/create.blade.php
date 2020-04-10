@@ -95,19 +95,12 @@
                       </div>
                 </div>
                 
-                <div class="form-group row">
-                    <div class="offset-sm-2 col-sm-10">
-                      <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="exampleCheck2">
-                        <label class="form-check-label" for="exampleCheck2">Remember me</label>
-                      </div>
-                    </div>
-                </div>
+                
               </div>
                 <!-- /.card-body -->
               <div class="card-footer">
-                <button type="submit" class="btn btn-info">Sign in</button>
-                <button type="submit" class="btn btn-danger float-right">Ban</button>
+                <button type="submit" class="btn btn-info">ADD</button>
+            
               </div>
                 <!-- /.card-footer -->
             </form>

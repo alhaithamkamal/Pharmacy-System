@@ -104,31 +104,33 @@ public function banned(){
     }
 
     public function store(DoctorRequest $request){
-      $user = auth()->user();
-      if ($user->hasRole('pharmacy')) {
-          if ($request->hasFile('image')) {
-              $doctor=User::create([
+      
+             if ($request->hasFile('image')){
+                $doctor=User::create([
+                    'national_id'=>$request->national_id,
+                    'name'=>$request->name,
+                    'email'=>$request->email,
+                    'password' => $request->password,
+                    'image' => User::storeUserImage($request),
+                    'role_id'=>'2',
+                    ]);
+                    $doctor->doctor()->create([]);
+                    
+        } 
+        else{
+            $doctor=User::create([
                 'national_id'=>$request->national_id,
                 'name'=>$request->name,
                 'email'=>$request->email,
                 'password' => $request->password,
-                'image' => User::storeUserImage($request),
                 'role_id'=>'2',
                 ]);
-              $doctor->doctor()->create(['pharmacy_id' => $user->pharmacy->id]);
-          } else {
-              $doctor=User::create([
-                'national_id'=>$request->national_id,
-                'name'=>$request->name,
-                'email'=>$request->email,
-                'password' => $request->password,
-                'role_id'=>'2',
-                ]);
-              $doctor->doctor()->create([]);
-          }
-          $doctor->assignRole('doctor');
-          return redirect()->route('doctors.index');
-      }
+                $doctor->doctor()->create([]);
+                
+        }
+            $doctor->assignRole('pharmacy');
+            return redirect()->route('doctors.index');
+
     }
     
 

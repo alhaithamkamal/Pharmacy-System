@@ -76,7 +76,7 @@
                       <a  href="{{ route('doctors.banned',['doctor'=>$doctor->id]) }}" class="btn btn-danger "  >Ban</a>
                          @else
                                          
-                      <a  href="{{ route('doctors.banned',['doctor'=>$doctor->id]) }}" class="btn btn-primary " >unBan</a>
+                      <a  href="{{ route('doctors.banned',['doctor'=>$doctor->id]) }}" class="btn btn-primary " >Unban</a>
                       @endif
                     <a href="{{ route('doctors.edit',['doctor'=>$doctor->id]) }}" class="btn btn-success">Edit</a>
                     
