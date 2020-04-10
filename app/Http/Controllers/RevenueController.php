@@ -13,7 +13,7 @@ class RevenueController extends Controller
     public function create(){
         $revenues=Revenue::all();	
         $pharmacies=Pharmacy::all();
-    	return view('revenues/create',['revenues'=>$revenues,'pharmacies'=>$pharmacies]);
+    	return view('/revenues/create',['revenues'=>$revenues,'pharmacies'=>$pharmacies]);
     }
     public function store(StoreRevenueRequest $request){
         // $request=request();
@@ -29,13 +29,13 @@ class RevenueController extends Controller
     }
     public function show(){
         $revenues=Revenue::all();
-        return view('revenues/index',['revenues'=>$revenues]);
+        return view('/revenues/index',['revenues'=>$revenues]);
     }
     public function edit(){
         $request=request();
 		$id = $request->revenueId;
 		$revenue=Revenue::where('id',$id)->first();
-		return view('revenues/edit' , ['revenue'=>$revenue]);
+		return view('/revenues/edit' , ['revenue'=>$revenue]);
     }
     public function update(StoreRevenueRequest $request){
         // $request=request();

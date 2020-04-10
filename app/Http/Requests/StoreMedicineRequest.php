@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Medicine;
+use Illuminate\Validation\Rule;
 
 class StoreMedicineRequest extends FormRequest
 {
@@ -22,9 +24,14 @@ class StoreMedicineRequest extends FormRequest
      * @return array
      */
     public function rules()
-    {
+    {   if(request()->ID) 
+        {
+        $medicine=Medicine::find(request()->ID);
+        }else{
+            $medicine=null;
+        }
         return [
-        'name'=>'required|min:3',
+        'name'=>['required','min:3',$medicine ? Rule::unique('medicines')->ignore($medicine->id) : 'unique:medicines'],
         'quantity'=>'required',
         'type'=>'required|min:3',
         'price'=>'required',

@@ -14,7 +14,7 @@
     @foreach($pharmacies as $pharmacy)
     <tr>
       <td scope="row">{{$pharmacy->id}}</td>
-      <td scope="row"><img src="{{asset('storage/images/' . $pharmacy->user->image)}}" width="50px" height="50px"/></td>
+      <td scope="row"><img src="{{asset('storage/images/' . $pharmacy->user->image)}}" width="50px" height="50px" alt="image"/></td>
       <td>{{$pharmacy->user->name}}</td>
       <td>{{$pharmacy->area_id}}</td>
       <td>

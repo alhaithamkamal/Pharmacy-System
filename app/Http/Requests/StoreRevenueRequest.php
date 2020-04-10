@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Revenue;
+use Illuminate\Validation\Rule;
 
 class StoreRevenueRequest extends FormRequest
 {
@@ -22,9 +24,14 @@ class StoreRevenueRequest extends FormRequest
      * @return array
      */
     public function rules()
-    {
+    {   if(request()->ID) 
+        {$user = Revenue::find(request()->ID)->user;
+        $revenue=Revenue::find(request()->ID);
+        }else{
+            $revenue=null;
+        }
         return [
-            'pharmacy_name'=>'required|min:3',
+            'pharmacy_name'=>['required','min:3',$revenue ? Rule::unique('revenues')->ignore($revenue->id) : 'unique:revenues'],
             'total_orders'=>'required',
             'total_revenue'=>'required',
         ];
