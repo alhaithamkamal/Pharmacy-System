@@ -135,9 +135,15 @@
                   setTimeout(function(){
                     $('#DeleteAreaModal').modal('hide');
                     $('#area-table').DataTable().ajax.reload();
-                    $('#message').attr('class',"alert alert-success");
-                    $('#message').html('Area deleted succussfully');
-                  }, 2000);
+                    if(result.check === "true"){
+                      $('#message').attr('class',"alert alert-success");
+                      $('#message').html(result.message);
+                    }else{
+                      $('#message').attr('class',"alert alert-danger");
+                      $('#message').html(result.message);
+                    }
+                   
+                  }, 1500);
 
                  
                 },

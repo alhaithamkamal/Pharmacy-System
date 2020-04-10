@@ -98,7 +98,7 @@ class ClientController extends Controller
             ]);
             
         }
-        return redirect()->route('clients.index')   
+        return redirect()->route('clients.index')->with('message', 'client Added successfully');   
     }
 
     
@@ -165,7 +165,7 @@ class ClientController extends Controller
               
         }
 
-        return redirect()->route('clients.index')->with('message', 'client edited successfully');;
+        return redirect()->route('clients.index')->with('message', 'client edited successfully');
     }
 
     public function destroy(Request $request)
@@ -180,7 +180,10 @@ class ClientController extends Controller
     public function trashed(Request $request)
     {
         $clients =Client::with('user')->onlyTrashed()->get();
-        
+        $address = UserAddress::onlyTrashed()->where('client_id',3)->get();
+       // dd($address);
+       // $area = Area::onlyTrashed()->where('id',$address->area_id);
+       // dd($area);
         if ($request->ajax()) {
             
             return Datatables::of($clients)
@@ -215,7 +218,12 @@ class ClientController extends Controller
     public function restoreClient($id)
     {
         Client::onlyTrashed()->find($id)->restore();
-        UserAddress::onlyTrashed()->where('client_id',$id)->restore();
+        $address = UserAddress::onlyTrashed()->where('client_id',$id);
+        $area = Area::onlyTrashed()->where('id',$address->area_id);
+        if ($area !== null) {
+            $area->restore();
+        }
+        $address->restore();
         return redirect()->route('clients.index');
     }
 }

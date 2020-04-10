@@ -61,7 +61,7 @@ Route::get('/areas/create', 'AreaController@create')->name('areas.create');
 //to store area data
 Route::post('/areas', 'AreaController@store')->name('areas.store');
 
-//show client data
+//show area data
 Route::get('/areas/{area}','AreaController@show')->name('areas.show');
 
 //route to edit area
@@ -123,8 +123,12 @@ Route::get('/clients-addresses', 'ClientAddressController@index')->name('clients
 //route to client-addresses form
 Route::get('/clients-addresses/create', 'ClientAddressController@create')->name('clientsAddresses.create');
 
+
 //to store client-addresses data
 Route::post('/clients-addresses', 'ClientAddressController@store')->name('clientsAddresses.store');
+
+//show client-address data
+Route::get('/clients-addresses/{clientAddress}','ClientAddressController@show')->name('clientsAddresses.show');
 
 //route to edit client-addresses
 Route::get('/clients-addresses/{clientAddress}/edit', 'ClientAddressController@edit')->name('clientsAddresses.edit');
@@ -134,6 +138,9 @@ Route::patch('/clients-addresses/{clientAddress}', 'ClientAddressController@upda
 
 //soft delete client-addresses
 Route::post('/clients-addresses/{clientAddress}', 'ClientAddressController@destroy')->name('clientsAddresses.destroy');
+
+//check main client-addresses
+Route::post('/addresses/{check}', 'ClientAddressController@check')->name('clientsAddresses.check');
 
 //show trashed clients
 Route::get('/trashed-client-addresses', 'ClientAddressController@trashed')->name('clientsAddresses.trashed');
