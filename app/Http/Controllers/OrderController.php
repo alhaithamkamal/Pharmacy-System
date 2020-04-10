@@ -47,6 +47,14 @@ class OrderController extends Controller
         $status = 'watingForUserConfirmation';
         $client = Client::find($order_request->client_id);
         $client_address = $client->addresses()->where('is_main', true)->first();
+
+        if (Auth::user()->hasRole('pharmacy')) {
+            $pharmacy_id = Auth::user()->id;
+        } elseif (Auth::user()->hasRole('doctor')) {
+            $doctor_id = Auth::user()->id;
+            $pharmacy_id = Auth::user()->doctor->pharmacy_id;
+        }
+
         $medicine = Medicine::create([
             'name' => $medicine_request->name,
             'quantity' => $medicine_request->quantity,
@@ -58,6 +66,8 @@ class OrderController extends Controller
             'client_id' => $order_request->client_id,
             'status' => $status,
             'delivering_address_id' => $client_address ? $client_address->id : null,
+            'pharmacy_id' => $pharmacy_id,
+            'doctor_id' => $doctor_id ? $doctor_id : null,
         ]);
 
         if (Auth::user()->hasRole('pharmacy')) {
@@ -132,9 +142,7 @@ class OrderController extends Controller
     {
         if ($request->get('query')) {
             $query = $request->get('query');
-            // dd($query);
             $data = DB::table('medicines')->where('name', 'like', '%' . $query . '%')->get();
-            // dd($data);
             $output = '<ul class="dropdown-menu"
                         style="display:block;
                                position:relative">';

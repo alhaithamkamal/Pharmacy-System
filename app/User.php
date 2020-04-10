@@ -33,6 +33,10 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
     ];
 
     protected $primaryKey = 'id';
+    // public function shouldApplyBannedAtScope()
+    // {
+    //     return false;
+    // }
 
 
 
@@ -71,6 +75,7 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
     {
         return $this->hasOne('App\Doctor');
     }
+    
 
     public function pharmacy()
     {
