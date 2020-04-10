@@ -8,17 +8,18 @@ class Order extends Model
 {
     protected $guarded = [];
     protected $fillable = [
-        'doctor_id',
         'creator_type',
         'client_id',
         'status',
         'delivering_address_id',
         'pharmacy_id',
+        'docotr_id',
         'is_insured'
     ];
 
     public function doctor()
     {
+
         return $this->belongsTo('App\Doctor');
     }
 
