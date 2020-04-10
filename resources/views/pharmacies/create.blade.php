@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<form class="table m-3" method="post" action="{{route('pharmacy.store')}}">
+<form class="table m-3" method="post" action="{{route('pharmacy.store')}}" enctype="multipart/form-data">
   @csrf
   @if($errors->any())
 <div class="alert alert-danger">
@@ -28,7 +28,7 @@
   </div>
   <div class="form-group col-lg-3 m-3">
   <label for="img">Select image:</label>
-  <input type="file" id="img" name="image" accept="image/*">
+  <input type="file" id="img" name="image" accept="image">
   </div>
   <div class="form-group col-lg-3 m-3">
     <label>Password</label>

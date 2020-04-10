@@ -36,10 +36,6 @@
             <input name="price" type="text" class="form-control" value="{{$medicine->price}}">
             </div>
         @endforeach
-        {{-- <div class="form-group mt-2">
-            <label >Visa Code Number</label>
-            <input name="" type="text" class="form-control" aria-describedby="emailHelp">
-        </div> --}}
 
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
