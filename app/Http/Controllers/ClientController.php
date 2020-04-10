@@ -76,17 +76,8 @@ class ClientController extends Controller
         $validate = $request->validated();
         if($validate){
             if ($request->hasfile('image')){
-                // $path = $request->file('image')->store('avatarss');
-                // dd($path);
                 $path = Storage::disk('public')->put('clients_avatars', $request->file('image'));
             }
-            // else if($request->gender == "female"){
-            //     $path = 'female.png';
-               
-            // }
-            // else if($request->gender == "male"){
-            //     $path = 'male.png';
-            // }
             
             $user = User::create([
                 'name' => $request->name,
@@ -95,7 +86,8 @@ class ClientController extends Controller
                 'national_id' => $request->national_id,
                 'image' => $path
             ]);
-            $user->assignRole('user');
+            
+            $user->assignRole('client');
     
             $client = Client::create([
                 'gender' => $request->gender,

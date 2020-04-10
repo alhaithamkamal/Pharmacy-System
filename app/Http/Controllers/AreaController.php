@@ -79,7 +79,7 @@ class AreaController extends Controller
 
         return redirect()->route('areas.index');
     }
-
+ 
 
     public function destroy(Request $request)
     {
