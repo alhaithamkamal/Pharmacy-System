@@ -6,13 +6,16 @@ use Illuminate\Http\Request;
 use App\Http\Requests\StoreRevenueRequest;
 use App\Revenue;
 use App\User;
+use App\Pharmacy;
 
 class RevenueController extends Controller
 {
+
     public function create()
     {
         $revenues = Revenue::all();
-        return view('revenues/create', ['revenues' => $revenues]);
+        $pharmacies = Pharmacy::all();
+        return view('revenues/create', ['revenues' => $revenues, 'pharmacies' => $pharmacies]);
     }
     public function store(StoreRevenueRequest $request)
     {
