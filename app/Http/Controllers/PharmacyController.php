@@ -11,7 +11,7 @@ class PharmacyController extends Controller
 {
     public function create(){
         $pharmacies=Pharmacy::all(); 
-        return view('pharmacies/create');
+        return view('/pharmacies/create');
     }
     public function store(StorePharmacyRequest $request){
         // $request=request();
@@ -19,7 +19,7 @@ class PharmacyController extends Controller
             $file=$request->file('image');
             $extension=$file->getClientOriginalExtension();
             $filename=time().'.'.$extension;
-            $file->move('uploads/images/',$filename);
+            $file->storeAs('public/images/',$filename);
         }else{
             $filename='default.png';
         }
@@ -42,26 +42,49 @@ class PharmacyController extends Controller
     }
     public function show(){
         $pharmacies=Pharmacy::all();
-        return view('pharmacies/index',['pharmacies'=>$pharmacies]);
+        return view('/pharmacies/index',['pharmacies'=>$pharmacies]);
     }
     public function edit(){
         $request=request();
 		$id = $request->pharmacyId;
-		$pharmacy=Pharmacy::where('id',$id)->first();
-		return view('pharmacies/edit' , ['pharmacy'=>$pharmacy]);
+        $pharmacy=Pharmacy::where('id',$id)->first();
+		return view('/pharmacies/edit' , ['pharmacy'=>$pharmacy]);
     }
     public function update(StorePharmacyRequest $request){
         $id = $request->ID;
-		$pharmacy=Pharmacy::where('id',$id)->first()->update([
-			'name'=>$request->name,
-			'area_id'=>$request->area_id
-		]);
-		return redirect('/pharmacies');
+        if($request->hasfile('image')){
+            $file=$request->file('image');
+            $extension=$file->getClientOriginalExtension();
+            $filename=time().'.'.$extension;
+            $file->storeAs('public/images/',$filename);
+        }else{
+            $filename='default.png';
+        }
+        $userid=Pharmacy::where('id',$id)->first()->user_id;
+        $user=User::where('id',$userid)->first()->update([
+            'name'=>$request->name,
+            'email'=>$request->email,
+            'national_id'=>$request->national_id,
+            'image'=>$filename,
+            'role_id'=>$request->role_id,
+        ]);
+        
+        $userupdate=User::where('name',$request->name)->first();
+        $user_id=$userupdate->id;
+        $pharmacy=Pharmacy::where('user_id',$user_id)->first()->update([
+			'user_id'=>$user_id,
+			'area_id'=>$request->area_id,
+        ]);
+        $pharmacies=Pharmacy::all();
+		return view('/pharmacies/index',['pharmacies'=>$pharmacies]);
     }
     public function delete(){
         $request=request();
         $id=$request->delId;
         $user=Pharmacy::where('id',$id)->first()->user_id;
+        // dd($user);
+        $revenue=Revenue::where('user_id',$user)->delete();
+        // dd($revenue);
         $pharmacy=Pharmacy::where('id',$id)->delete();
         $userdel=User::where('id',$user)->first()->delete();
         return redirect('/pharmacies');

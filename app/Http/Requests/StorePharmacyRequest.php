@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use App\Pharmacy;
 
 class StorePharmacyRequest extends FormRequest
 {
@@ -22,10 +24,19 @@ class StorePharmacyRequest extends FormRequest
      * @return array
      */
     public function rules()
-    {
+    {   
+        if(request()->ID) 
+        {$user = Pharmacy::find(request()->ID)->user;
+        $pharmacy=Pharmacy::find(request()->ID);
+        }else{
+            $pharmacy=null;
+        }
         return [
-        'name' => 'required|min:3',
+        'name'=>['required','min:3',$pharmacy ? Rule::unique('users')->ignore($user->id) : 'unique:users'],
+        'email'=>['required',$pharmacy ? Rule::unique('users')->ignore($user->id) : 'unique:users'],
+        'national_id'=>['required','min:10','max:10',$pharmacy ? Rule::unique('users')->ignore($user->id) : 'unique:users'],
         'area_id'=>'required',
+        'role_id'=>'required',
         ];
     }
 }

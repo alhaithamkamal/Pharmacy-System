@@ -40,8 +40,12 @@
                     <th>Doctor Name</th>
                     <th>Is_insured</th>
                     <th>Status</th>
-                    <th>Creator Type</th>
-                    <th>Assigned Pharmacy</th>
+
+                    @if (auth()->user()->role_id == 0)
+                      <th>Creator Type</th>
+                      <th>Assigned Pharmacy</th>
+                    @endif
+
                     <th >Actions</th>
                   </tr>
                 </thead>
@@ -50,11 +54,10 @@
                     @foreach ($orders as $order)
                   <tr>
                     <td>{{ $order->id }}</td>
-                    {{-- {{dd($order->client->user->name)}} --}}
                     <td>{{ $order->client->user->name}}</td>
                     
-                    <td>{{ $order->address['id']}}</td>
-                    <td>{{ $order->created_at}}</td>
+                    <td>{{ (string) $order->address}}</td>
+                    <td>{{ $order->created_at->format('d-m-Y')}}</td>
 
                     @if ($order->creator->role_id == 2)
                       <td>{{$order->creator->name}}</td>
@@ -64,7 +67,9 @@
                     
                     <td>{{ $order->is_insured}}</td>
                     <td>{{ $order->status}}</td>
-                    @switch($order->creator->role_id)
+
+                    @if (auth()->user()->role_id == 0)
+                      @switch($order->creator->role_id)
                         @case(1)
                             <td>Pharmacy Owner</td>
                             @break
@@ -76,10 +81,13 @@
                             @break
                         @default
                           <td>Admin</td> 
-                    @endswitch
-                  <td>{{$order->pharmacy->user->name}}</td>
+                        @endswitch
+                      <td>{{$order->pharmacy->user->name}}</td>
+                    @endif
+
                     <td>
                       <div class="row">
+                        <a href="{{route('orders.show',['order' => $order->id])}}" class="btn btn-primary btn-sm mr-2"> Show Details</a>
                         <a href="{{route('orders.edit', ['order' => $order->id])}}" class="btn btn-primary btn-sm ml-2">Edit</a>
                         <form method="POST" action="{{route('orders.destroy',['order' => $order->id])}}" class="">
                           @csrf  

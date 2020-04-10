@@ -81,7 +81,7 @@
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
-              <a href="pharmacies" class="nav-link">
+              <a href="{{route('pharmacy.show')}}" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Index</p>
               </a>
@@ -256,7 +256,7 @@
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
-              <a href="revenues" class="nav-link">
+              <a href="{{route('revenue.show')}}" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Index</p>
               </a>
