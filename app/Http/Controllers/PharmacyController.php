@@ -42,13 +42,32 @@ class PharmacyController extends Controller
         return redirect('/pharmacies');
     }
     public function show(){
-        $pharmacies=Pharmacy::all();
+        $user = auth()->user();
+        if($user->hasRole('admin')){
+            $pharmacies = Pharmacy::all();
+        }else if($user->hasRole('pharmacy')){
+            $user=$user->id;
+            $pharmacies = Pharmacy::where('user_id',$user)->get();
+        }   
+       
         return view('/pharmacies/index',['pharmacies'=>$pharmacies]);
     }
     public function edit(){
         $request=request();
-		$id = $request->pharmacyId;
-        $pharmacy=Pharmacy::where('id',$id)->first();
+        $id = $request->pharmacyId;
+        
+        $user = auth()->user();
+        if ($user->hasRole('admin')){
+            $pharmacy=Pharmacy::where('id',$id)->first();
+        }else if ($user->hasRole('pharmacy')){
+            $pharmacy=Pharmacy::with('user')->where('id',$id)->first();
+            if($pharmacy->user->id != $user->id){
+                return  redirect()->route('pharmacy.show');
+            }else{
+               $pharmacy=Pharmacy::where('id',$id)->first();
+            }
+        }
+       
 		return view('/pharmacies/edit' , ['pharmacy'=>$pharmacy]);
     }
     public function update(StorePharmacyRequest $request){

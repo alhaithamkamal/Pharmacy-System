@@ -76,11 +76,7 @@ class ClientController extends Controller
     }
 
     public function store(StoreClientRequest $request){
-        //get the request data
-        //store the request data in the database
-        //redirect to show page
-       
-        //dd($insured);
+        
         $validate = $request->validated();
         if($validate){
             if ($request->hasfile('image')){

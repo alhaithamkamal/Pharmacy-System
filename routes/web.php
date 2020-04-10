@@ -13,11 +13,12 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::group(['middleware' => ['role:admin|doctor|pharmacy']], function () {
 
-Route::get('/', function () {
-    return view('Dashboard');
+    Route::get('/', function () {
+        return view('Dashboard');
+    });
 });
-
 Auth::routes(['register' => false]);
 
 
@@ -52,70 +53,79 @@ Auth::routes(['verify' => true]);
 
 
 
-// ==================Area routes=======================
 
-//show areas in table
-Route::get('/areas', 'AreaController@index')->name('areas.index');
+// ==================role and permissions ,area and medicines routes=======================
+Route::group(['middleware' => ['role:admin']], function () {
+        //show permissions in table
+    Route::get('/permissions', 'PermissionController@index')->name('permissions.index');
 
-//route to areas form
-Route::get('/areas/create', 'AreaController@create')->name('areas.create');
+    //route to permissions form
+    Route::get('/permissions/create', 'PermissionController@create')->name('permissions.create');
 
-//to store area data
-Route::post('/areas', 'AreaController@store')->name('areas.store');
+    //to store permission data
+    Route::post('/permissions', 'PermissionController@store')->name('permissions.store');
 
+    //route to edit permission
+    Route::get('/permissions/{permission}/edit', 'PermissionController@edit')->name('permissions.edit');
 
-//show area data
-Route::get('/areas/{area}', 'AreaController@show')->name('areas.show');
+    //update permissions
+    Route::patch('/permissions/{permission}', 'PermissionController@update')->name('permissions.update');
 
+    //soft delete permission
+    Route::post('/permissions/{permission}', 'PermissionController@destroy')->name('permissions.destroy');
 
-//route to edit area
-Route::get('/areas/{area}/edit', 'AreaController@edit')->name('areas.edit');
+    // ==================role routes=======================
 
-//update areas
-Route::patch('/areas/{area}', 'AreaController@update')->name('areas.update');
+    //show roles in table
+    Route::get('/roles', 'RoleController@index')->name('roles.index');
 
-//soft delete area
-Route::post('/areas/{area}', 'AreaController@destroy')->name('areas.destroy');
+    //route to roles form
+    Route::get('/roles/create', 'RoleController@create')->name('roles.create');
 
-// ==================permission routes=======================
+    //to store role data
+    Route::post('/roles', 'RoleController@store')->name('roles.store');
 
-//show permissions in table
-Route::get('/permissions', 'PermissionController@index')->name('permissions.index');
+    //route to edit role
+    Route::get('/roles/{role}/edit', 'RoleController@edit')->name('roles.edit');
 
-//route to permissions form
-Route::get('/permissions/create', 'PermissionController@create')->name('permissions.create');
+    //update roles
+    Route::patch('/roles/{role}', 'RoleController@update')->name('roles.update');
 
-//to store permission data
-Route::post('/permissions', 'PermissionController@store')->name('permissions.store');
+    //soft delete role
+    Route::post('/roles/{role}', 'RoleController@destroy')->name('roles.destroy');
 
-//route to edit permission
-Route::get('/permissions/{permission}/edit', 'PermissionController@edit')->name('permissions.edit');
+    // ==================Area routes=======================
 
-//update permissions
-Route::patch('/permissions/{permission}', 'PermissionController@update')->name('permissions.update');
+    //show areas in table
+    Route::get('/areas', 'AreaController@index')->name('areas.index');
 
-//soft delete permission
-Route::post('/permissions/{permission}', 'PermissionController@destroy')->name('permissions.destroy');
+    //route to areas form
+    Route::get('/areas/create', 'AreaController@create')->name('areas.create');
 
-// ==================role routes=======================
+    //to store area data
+    Route::post('/areas', 'AreaController@store')->name('areas.store');
 
-//show roles in table
-Route::get('/roles', 'RoleController@index')->name('roles.index');
+    //show area data
+    Route::get('/areas/{area}', 'AreaController@show')->name('areas.show');
 
-//route to roles form
-Route::get('/roles/create', 'RoleController@create')->name('roles.create');
+    //route to edit area
+    Route::get('/areas/{area}/edit', 'AreaController@edit')->name('areas.edit');
 
-//to store role data
-Route::post('/roles', 'RoleController@store')->name('roles.store');
+    //update areas
+    Route::patch('/areas/{area}', 'AreaController@update')->name('areas.update');
 
-//route to edit role
-Route::get('/roles/{role}/edit', 'RoleController@edit')->name('roles.edit');
+    //soft delete area
+    Route::post('/areas/{area}', 'AreaController@destroy')->name('areas.destroy');
 
-//update roles
-Route::patch('/roles/{role}', 'RoleController@update')->name('roles.update');
+    //==================Medicine===========================
+    Route::get('/medicines', 'MedicineController@show')->name('medicine.show');
+    Route::get('/medicines/create', 'MedicineController@create')->name('medicine.create');
+    Route::post('/medicines', 'MedicineController@store')->name('medicine.store');
+    Route::get('/medicines/edit/{medicineId}', 'MedicineController@edit')->name('medicine.edit');
+    Route::post('/medicines/{ID}', 'MedicineController@update')->name('medicine.update');
+    Route::get('/medicines/delete/{id}', 'MedicineController@delete')->name('medicine.delete');
 
-//soft delete role
-Route::post('/roles/{role}', 'RoleController@destroy')->name('roles.destroy');
+});
 
 
 // ==================Client addresses routes=======================
@@ -168,7 +178,7 @@ Route::put('/doctors/{doctor}', 'DoctorController@update')->name('doctors.update
 Route::delete('/doctors/{doctor}', 'DoctorController@destroy')->name('doctors.destroy');
 //===================================================
 
-Route::get('/home', 'HomeController@index')->name('home')->middleware('verified');
+//Route::get('/home', 'HomeController@index')->name('home')->middleware('verified');
 
 Route::get('/pharmacies', function () {
     return view('pharmacies.index');
@@ -199,20 +209,20 @@ Route::group(
         Route::post('/orders/fetch', 'OrderController@fetch')->name('orders.fetch');
     }
 );
-//==================Medicine===========================
-Route::get('/medicines', 'MedicineController@show')->name('medicine.show');
-Route::get('/medicines/create', 'MedicineController@create')->name('medicine.create');
-Route::post('/medicines', 'MedicineController@store')->name('medicine.store');
-Route::get('/medicines/edit/{medicineId}', 'MedicineController@edit')->name('medicine.edit');
-Route::post('/medicines/{ID}', 'MedicineController@update')->name('medicine.update');
-Route::get('/medicines/delete/{id}', 'MedicineController@delete')->name('medicine.delete');
+
 //====================Pharmacy=========================
-Route::get('/pharmacies', 'PharmacyController@show')->name('pharmacy.show');
-Route::get('/pharmacies/create', 'PharmacyController@create')->name('pharmacy.create');
-Route::get('/pharmacies/edit/{pharmacyId}', 'PharmacyController@edit')->name('pharmacy.edit');
-Route::post('/pharmacies/{ID}', 'PharmacyController@update')->name('pharmacy.update');
-Route::get('/pharmacies/{delId}', 'PharmacyController@delete')->name('pharmacy.delete');
-Route::post('/pharmacies', 'PharmacyController@store')->name('pharmacy.store');
+Route::group(['middleware' => ['role:admin|pharmacy']], function () {
+    Route::get('/pharmacies', 'PharmacyController@show')->name('pharmacy.show');
+    Route::get('/pharmacies/edit/{pharmacyId}', 'PharmacyController@edit')->name('pharmacy.edit');
+    Route::post('/pharmacies/{ID}', 'PharmacyController@update')->name('pharmacy.update');
+});
+
+Route::group(['middleware' => ['role:admin']], function () {
+
+    Route::get('/pharmacies/create', 'PharmacyController@create')->name('pharmacy.create');
+    Route::get('/pharmacies/{delId}', 'PharmacyController@delete')->name('pharmacy.delete');
+    Route::post('/pharmacies', 'PharmacyController@store')->name('pharmacy.store');
+});
 //======================Revenue=========================
 Route::get('/revenues', 'RevenueController@show')->name('revenue.show');
 Route::get('/revenues/create', 'RevenueController@create')->name('revenue.create');
