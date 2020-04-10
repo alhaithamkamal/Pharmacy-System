@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+//->middleware(['can:create pharmacy'])
 // ==================clients and home routes=======================
 Route::group(['middleware' => ['auth','role:admin|doctor|pharmacy']], function () {
     Route::get('/', function () {

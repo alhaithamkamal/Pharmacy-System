@@ -246,10 +246,14 @@ class ClientController extends Controller
 
     public function trashed(Request $request)
     {
-        $clients = Client::with('user')->onlyTrashed()->get();
-        
+         
+        $user = auth()->user();
 
         if ($request->ajax()) {
+            if ($user->hasRole('admin'))
+                $clients = Client::with('user')->onlyTrashed()->get();
+            elseif ($user->hasRole('pharmacy|doctor'))
+                $clients = $user->pharmacy->clients()->onlyTrashed()->get();
 
             return Datatables::of($clients)
                 ->addColumn('national_id', function ($clients) {
@@ -294,12 +298,7 @@ class ClientController extends Controller
     public function restoreClient($id)
     {
         Client::onlyTrashed()->find($id)->restore();
-
         $address = UserAddress::onlyTrashed()->where('client_id', $id);
-        $area = Area::onlyTrashed()->where('id', $address->area_id);
-        if ($area !== null) {
-            $area->restore();
-        }
         $address->restore();
 
         return redirect()->route('clients.index');

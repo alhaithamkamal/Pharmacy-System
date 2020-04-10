@@ -50,7 +50,7 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $exception)
     {
-        if ($exception instanceof \Spatie\Permission\Exceptions\UnauthorizedException) {
+        if ($exception instanceof \Spatie\Permission\Exceptions\UnauthorizedException && Auth::user()->hasRole('client')) {
             return redirect('login')->with(Auth::logout())->with('error',"it's not authorized to login");
       }
         return parent::render($request, $exception);
