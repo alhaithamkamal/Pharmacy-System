@@ -31,7 +31,7 @@ class OrderController extends Controller
         ]);
     }
 
-    public function store(Request $order_request, StoreMedicineRequest $medicine_request)
+    public function store(StoreOrderRequest $order_request, StoreMedicineRequest $medicine_request)
     {
 
         if (auth()->user()->role_id == 1) {
@@ -60,8 +60,19 @@ class OrderController extends Controller
             'delivering_address_id' => $client_address ? $client_address->id : null,
         ]);
 
-        //$order->pharmacy()->save();
-        //$order->doctor() ? $order->doctor()->create() : '';
+        if (Auth::user()->hasRole('pharmacy')) {
+            $pharmacy_id = Auth::user()->id;
+            $order->create([
+                'pharmacy_id' => $pharmacy_id,
+            ]);
+        } elseif (Auth::user()->hasRole('doctor')) {
+            $doctor_id = Auth::user()->id;
+            $pharmacy_id = Auth::user()->doctor->pharmacy_id;
+            $order->create([
+                'pharmacy_id' => $pharmacy_id,
+                'doctor_id' => $doctor_id,
+            ]);
+        }
         $medicine->order()->attach($order->id);
         $client->user->notify(new OrderConfirmation($order));
         return redirect()->route('orders.index');
@@ -91,12 +102,13 @@ class OrderController extends Controller
         ]);
     }
 
-    public function update()
+    public function update(Request $request)
     {
-        $orderId = request()->order;
+        $orderId = $request->order;
         $order = Order::find($orderId);
+        $client = Client::find($request->client_id);
 
-        $data = request()->only([
+        $data = $request->only([
             'client_id',
             'name',
             'quantity',
@@ -107,6 +119,7 @@ class OrderController extends Controller
         if ($order->status == 'processing') {
             $order->status = 'waitingForUserConfirmation';
         }
+        $client->user->notify(new OrderConfirmation($order));
         return redirect()->route('orders.index');
     }
     public function destroy()
