@@ -12,16 +12,19 @@ use App\Http\Requests\UpdateClientRequest;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
-use Auth;
-
+use Illuminate\Support\Facades\Auth as FacadesAuth;
 
 class ClientController extends Controller
 {
     public function index(Request $request)
     {
-
+        $user = auth()->user();
         if ($request->ajax()) {
-            $clients =Client::with('user')->get();
+            if ($user->hasRole('admin'))
+                $clients = Client::with('user')->get();
+            elseif ($user->hasRole('pharmacy'))
+                $clients = $user->pharmacy->clients;
+
             return Datatables::of($clients)
                     ->addColumn('national_id', function($clients) {
                         return $clients->user->national_id;
