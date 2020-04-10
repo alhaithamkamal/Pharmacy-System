@@ -76,42 +76,42 @@ Route::post('/areas/{area}', 'AreaController@destroy')->name('areas.destroy');
 // ==================permission routes=======================
 
 //show permissions in table
-Route::get('/permissions','PermissionController@index')->name('permissions.index');
+Route::get('/permissions', 'PermissionController@index')->name('permissions.index');
 
 //route to permissions form
-Route::get('/permissions/create','PermissionController@create')->name('permissions.create');
+Route::get('/permissions/create', 'PermissionController@create')->name('permissions.create');
 
 //to store permission data
-Route::post('/permissions','PermissionController@store')->name('permissions.store');
+Route::post('/permissions', 'PermissionController@store')->name('permissions.store');
 
 //route to edit permission
-Route::get('/permissions/{permission}/edit','PermissionController@edit')->name('permissions.edit');
+Route::get('/permissions/{permission}/edit', 'PermissionController@edit')->name('permissions.edit');
 
 //update permissions
-Route::patch('/permissions/{permission}','PermissionController@update')->name('permissions.update');
+Route::patch('/permissions/{permission}', 'PermissionController@update')->name('permissions.update');
 
 //soft delete permission
-Route::post('/permissions/{permission}','PermissionController@destroy')->name('permissions.destroy');
+Route::post('/permissions/{permission}', 'PermissionController@destroy')->name('permissions.destroy');
 
 // ==================role routes=======================
 
 //show roles in table
-Route::get('/roles','RoleController@index')->name('roles.index');
+Route::get('/roles', 'RoleController@index')->name('roles.index');
 
 //route to roles form
-Route::get('/roles/create','RoleController@create')->name('roles.create');
+Route::get('/roles/create', 'RoleController@create')->name('roles.create');
 
 //to store role data
-Route::post('/roles','RoleController@store')->name('roles.store');
+Route::post('/roles', 'RoleController@store')->name('roles.store');
 
 //route to edit role
-Route::get('/roles/{role}/edit','RoleController@edit')->name('roles.edit');
+Route::get('/roles/{role}/edit', 'RoleController@edit')->name('roles.edit');
 
 //update roles
-Route::patch('/roles/{role}','RoleController@update')->name('roles.update');
+Route::patch('/roles/{role}', 'RoleController@update')->name('roles.update');
 
 //soft delete role
-Route::post('/roles/{role}','RoleController@destroy')->name('roles.destroy');
+Route::post('/roles/{role}', 'RoleController@destroy')->name('roles.destroy');
 
 
 // ==================Client addresses routes=======================
@@ -203,12 +203,12 @@ Route::post('/pharmacies/{ID}', 'PharmacyController@update')->name('pharmacy.upd
 Route::get('/pharmacies/{delId}', 'PharmacyController@delete')->name('pharmacy.delete');
 Route::post('/pharmacies', 'PharmacyController@store')->name('pharmacy.store');
 //======================Revenue=========================
-Route::get('/revenues','RevenueController@show')->name('revenue.show');
-Route::get('/revenues/create','RevenueController@create')->name('revenue.create');
-Route::post('/revenues','RevenueController@store')->name('revenue.store');
-Route::get('/revenues/edit/{revenueId}','RevenueController@edit')->name('revenue.edit');
-Route::post('/revenues/{ID}','RevenueController@update')->name('revenue.update');
-Route::get('/revenues/{delId}','RevenueController@delete')->name('revenue.delete');
+Route::get('/revenues', 'RevenueController@show')->name('revenue.show');
+Route::get('/revenues/create', 'RevenueController@create')->name('revenue.create');
+Route::post('/revenues', 'RevenueController@store')->name('revenue.store');
+Route::get('/revenues/edit/{revenueId}', 'RevenueController@edit')->name('revenue.edit');
+Route::post('/revenues/{ID}', 'RevenueController@update')->name('revenue.update');
+Route::get('/revenues/{delId}', 'RevenueController@delete')->name('revenue.delete');
 //======================================================
 
 

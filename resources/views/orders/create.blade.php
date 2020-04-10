@@ -6,12 +6,16 @@
         @csrf
         <h1 class="mt-5 text-center">Create New Order</h1>
 
+        <div class="form-group mt-4">
+            <a href="{{route('stripe.stripe')}}" class="btn btn-primary" style="display:block;">Enter Visa Card Number</a>
+        </div>
+
         <div class="form-group">
-            <label for="exampleInputPassword1">Users</label>
+            <label for="exampleInputPassword1">Choose Client</label>
             <select name="client_id" class="form-control">
 
                 @foreach($clients as $client)
-                    <option value="{{$client->id}}"> {{ $client->user->name}}</option>
+            <option value="{{$client->id}}"> {{ $client->user->name}} => {{$client->user->national_id}}</option>
                 @endforeach
             </select>
         </div>
@@ -35,10 +39,6 @@
         <div class="form-group mt-2"> 
             <label >Medicine Price</label>
             <input name="price" type="text" class="form-control">
-        </div>
-
-        <div class="form-group mt-2">
-        <a href="{{route('stripe.stripe')}}" class="btn btn-primary">Enter Visa Card Number</a>
         </div>
 
         <button type="submit" class="btn btn-primary">Submit</button>
