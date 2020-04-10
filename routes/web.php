@@ -13,11 +13,12 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', function () {
-    return view('Dashboard');
-});
+
 // ==================clients and home routes=======================
-Route::group(['middleware' => ['role:admin|doctor|pharmacy']], function () {
+Route::group(['middleware' => ['auth','role:admin|doctor|pharmacy']], function () {
+    Route::get('/', function () {
+        return view('Dashboard');
+    });
     
     //show clients in table
     Route::get('/clients', 'ClientController@index')->name('clients.index');
@@ -117,7 +118,7 @@ Auth::routes(['verify' => true]);
 
 
 // ==================role and permissions ,area and medicines routes=======================
-Route::group(['middleware' => ['role:admin']], function () {
+Route::group(['middleware' => ['auth','role:admin']], function () {
         //show permissions in table
     Route::get('/permissions', 'PermissionController@index')->name('permissions.index');
 
@@ -223,7 +224,7 @@ Route::get('/revenues', function () {
 
 
 //====================Pharmacy=========================
-Route::group(['middleware' => ['role:admin|pharmacy']], function () {
+Route::group(['middleware' => ['auth','role:admin|pharmacy']], function () {
     Route::get('/pharmacies', 'PharmacyController@show')->name('pharmacy.show');
     Route::get('/pharmacies/edit/{pharmacyId}', 'PharmacyController@edit')->name('pharmacy.edit');
     Route::post('/pharmacies/{ID}', 'PharmacyController@update')->name('pharmacy.update');
@@ -237,7 +238,7 @@ Route::post('/revenues/{ID}', 'RevenueController@update')->name('revenue.update'
 Route::get('/revenues/{delId}', 'RevenueController@delete')->name('revenue.delete');
 });
 
-Route::group(['middleware' => ['role:admin']], function () {
+Route::group(['middleware' => ['auth','role:admin']], function () {
     
     Route::get('/pharmacies/create', 'PharmacyController@create')->name('pharmacy.create');
     Route::get('/pharmacies/{delId}', 'PharmacyController@delete')->name('pharmacy.delete');
