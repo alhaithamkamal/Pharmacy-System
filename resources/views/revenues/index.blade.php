@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
 
-@if (auth()->user()->role_id ==0) 
+@if (auth()->user()->role_id == 0) 
     <table class="table ml-3">
   <thead>
     <tr>
@@ -35,7 +35,7 @@
         <div class="card-header text-center bg-primary text-light">
             Pharmacy Total Revenue
         </div>
-         {{$revenue = Revenue::where('pharmacy_name', auth->user()->name)->first();}}
+        {{$revenue = Revenue::where('pharmacy_name', $pharmacy_name)->first()}}
         <div class="card-body">
             <h5 class="card-title"><b>Pharmacy Name</b>{{$revenue->pharmacy_name}}</h5>
             <p class="card-text">Total Revenue: </p> {{$revenue->total_revenue}} </p>
