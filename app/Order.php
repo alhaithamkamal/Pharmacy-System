@@ -19,7 +19,8 @@ class Order extends Model
 
     public function doctor()
     {
-        return $this->belongsTo('App\Doctor', 'docotor_id');
+
+        return $this->belongsTo('App\Doctor');
     }
 
     public function pharmacy()
