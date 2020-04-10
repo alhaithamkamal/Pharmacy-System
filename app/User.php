@@ -75,6 +75,7 @@ class User extends Authenticatable implements MustVerifyEmail, BannableContract
     {
         return $this->hasOne('App\Doctor');
     }
+    
 
     public static function storeUserImage($request)
     {

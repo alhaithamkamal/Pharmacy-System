@@ -14,6 +14,9 @@ class Pharmacy extends Model
     public function user(){
     	return $this->belongsTo('App\User');
     }
+    public function doctor(){
+    	return $this->belongsTo('App\Doctor');
+    }
     public function orders()
     {
         return $this->hasMany('App\Order');

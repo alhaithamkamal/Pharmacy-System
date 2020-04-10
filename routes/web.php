@@ -13,10 +13,10 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
 Route::get('/', function () {
     return view('Dashboard');
-});
+})->middleware('is-ban');    
+
 
 
 //show clients in table
@@ -137,11 +137,8 @@ Route::post('/trashed-client-addresses/{clientAddress}', 'ClientAddressControlle
 
 
 // ==================Doctor routes=======================
-Route::group(['middleware'=>'forbid-banned-user'],function(){
-    Route::get('/doctors', function () {
-        return view('welcome');
-    });});
-    
+
+
 
 Route::get('/doctors', 'DoctorController@index')->name('doctors.index');
 
@@ -150,13 +147,13 @@ Route::get('/doctors/create', 'DoctorController@create')->name('doctors.create')
 Route::post('/doctors', 'DoctorController@store')->name('doctors.store');
 
 Route::get('/doctors/{doctor}', 'DoctorController@show')->name('doctors.show');
-
+Route::get('/doctors/{doctor}/ban', 'DoctorController@banned')->name('doctors.banned');
 Route::get('/doctors/{doctor}/edit', 'DoctorController@edit')->name('doctors.edit');
 Route::put('/doctors/{doctor}', 'DoctorController@update')->name('doctors.update');
 Route::delete('/doctors/{doctor}', 'DoctorController@destroy')->name('doctors.destroy');
 
-//Route::get('/doctors/{doctor}/ban', 'DoctorController@ban')->name('doctors.ban');
-//Route::get('/doctors/{doctor}/unban', 'DoctorController@unban')->name('doctors.unban');
+
+
 Auth::routes();
 
 
