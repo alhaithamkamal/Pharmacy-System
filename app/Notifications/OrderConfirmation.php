@@ -40,11 +40,12 @@ class OrderConfirmation extends Notification
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
-                    ->line('please confirm or cancel the order.')
-                    ->action('Confirm', url('orders/confirm/'.$this->_order->id))
-                    ->action('Cancel', url('orders/cancel/'.$this->_order->id))
-                    ->line('Thank you for using our application!');
+        $confirm = url('orders/confirm/'.$this->_order->id);
+        $cancel = url('orders/cancel/'.$this->_order->id);
+        return (new MailMessage)->markdown(
+            'orderconfirmation.mail',
+            ['confirm' => $confirm, 'cancel' => $cancel]
+        );
     }
 
     /**

@@ -228,4 +228,4 @@ Route::get('stripe', 'StripePaymentController@stripe')->name('stripe.stripe');
 Route::post('stripe', 'StripePaymentController@stripePost')->name('stripe.post');
  //=================== Orerer Confirmation ====================
 Route::get('orders/confirm/{order}', 'OrderConfirmationController@confirm');
-Route::get('orders/confirm/{cancel}', 'OrderConfirmationController@cancel');
+Route::get('orders/cancel/{order}', 'OrderConfirmationController@cancel');

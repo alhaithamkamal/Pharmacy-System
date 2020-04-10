@@ -6,6 +6,7 @@ use App\Client;
 use App\Http\Requests\StoreMedicineRequest;
 use App\Http\Requests\StoreOrderRequest;
 use App\Medicine;
+use App\Notifications\OrderConfirmation;
 use App\Order;
 use App\User;
 use Illuminate\Http\Request;
@@ -17,7 +18,6 @@ class OrderController extends Controller
     public function index()
     {
         $orders = Order::all();
-        dd($orders);
         return view('orders.index', [
             'orders' => $orders,
         ]);
@@ -46,7 +46,8 @@ class OrderController extends Controller
         }
 
         $status = 'watingForUserConfirmation';
-
+        $client = Client::find($order_request->client_id);
+        $client_address = $client->addresses()->where('is_main', true)->first();
         $medicine = Medicine::create([
             'name' => $medicine_request->name,
             'quantity' => $medicine_request->quantity,
@@ -57,13 +58,13 @@ class OrderController extends Controller
             'creator_type' => $creator_type,
             'client_id' => $order_request->client_id,
             'status' => $status,
-            'delivering_address_id' => $order_request->order->address,
+            'delivering_address_id' => $client_address ? $client_address->id : null,
         ]);
 
-        $order->pharmacy()->create();
-        $order->doctor() ? $order->doctor()->create() : '';
-        $medicine->order()->attach($order);
-
+        //$order->pharmacy()->save();
+        //$order->doctor() ? $order->doctor()->create() : '';
+        $medicine->order()->attach($order->id);
+        $client->user->notify(new OrderConfirmation($order));
         return redirect()->route('orders.index');
     }
     public function show()

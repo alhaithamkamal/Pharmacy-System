@@ -1,7 +1,17 @@
 @extends('layouts.app')
 
 @section('content')
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
 <div class="container col-6">
+
 <form method="POST" action="{{route('orders.store')}}" class="mb-4">
         @csrf
         <h1 class="mt-5 text-center">Create New Order</h1>
