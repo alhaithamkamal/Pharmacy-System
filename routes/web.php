@@ -28,6 +28,9 @@ Route::get('/clients/create', 'ClientController@create')->name('clients.create')
 //to store client data
 Route::post('/clients', 'ClientController@store')->name('clients.store');
 
+//show client data
+Route::get('/clients/{client}','ClientController@show')->name('clients.show');
+
 //route to edit client
 Route::get('/clients/{client}/edit', 'ClientController@edit')->name('clients.edit');
 
@@ -38,12 +41,13 @@ Route::patch('/clients/{client}', 'ClientController@update')->name('clients.upda
 Route::post('/clients/{client}', 'ClientController@destroy')->name('clients.destroy');
 
 //show trashed clients
-Route::get('/trashed-client', 'ClientController@trashed')->name('clients.trashed');
+Route::get('/trashed-clients', 'ClientController@trashed')->name('clients.trashed');
 
 //restore clients
-Route::post('/trashed-client/{client}', 'ClientController@restoreClient')->name('clients.restore');
+Route::post('/trashed-clients/{client}', 'ClientController@restoreClient')->name('clients.restore');
 
 Auth::routes(['verify' => true]);
+
 
 
 // ==================Area routes=======================
@@ -56,6 +60,9 @@ Route::get('/areas/create', 'AreaController@create')->name('areas.create');
 
 //to store area data
 Route::post('/areas', 'AreaController@store')->name('areas.store');
+
+//show client data
+Route::get('/areas/{area}','AreaController@show')->name('areas.show');
 
 //route to edit area
 Route::get('/areas/{area}/edit', 'AreaController@edit')->name('areas.edit');

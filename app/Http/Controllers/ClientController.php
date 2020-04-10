@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Client;
 use App\User;
 use App\UserAddress;
+use App\Pharmacy;
 use Yajra\DataTables\Facades\DataTables; 
 use App\Http\Requests\StoreClientRequest;
 use App\Http\Requests\UpdateClientRequest;
@@ -35,28 +36,21 @@ class ClientController extends Controller
                     ->addColumn('email', function($clients) {
                         return $clients->user->email;
                     })
-                    ->addColumn('gender', function($clients) {
-                        return $clients->gender;
-                    })
-                    ->addColumn('mobile', function($clients) {
-                        return $clients->mobile;
-                    })
-                    ->addColumn('birthdate', function($clients) {
-                        return $clients->birthdate;
-                    })
-                    ->addColumn('last_login', function($clients) {
-                        return $clients->last_login_at;
-                    })
+                    ->addIndexColumn()
                     ->addColumn('role_id', function($clients) {
-                        return $clients->user->role_id;
+                        return $clients->user->getRoleNames()[0];
                     })
                     ->addColumn('image', function($clients){   
                         $url = asset('storage/'.$clients->user->image);
                         return '<img src='.$url.' border="0" width="100" height="90" class="img-rounded" align="center" />'; 
                     })
                     ->addColumn('action', function($clients){
-                        $btn = '<a href="'.route("clients.edit",["client" => $clients->id]).'" class="edit btn btn-primary btn-sm">Edit</a>';
-                        $btn .= '<button type="button" data-id="'.$clients->id.'" data-toggle="modal" data-target="#DeleteProductModal" class="btn btn-danger btn-sm" id="getDeleteId">Delete</button>';
+                        $btn = '<a href="'.route("clients.show",["client" => $clients->id]).'" '.
+                        'class="edit btn btn-success btn-sm" style="margin-right:10px;">show</a>';
+                        $btn .= '<a href="'.route("clients.edit",["client" => $clients->id]).'" '.
+                        ' class="edit btn btn-primary btn-sm" style="margin-right:10px;">Edit</a>';
+                        $btn .= '<button type="button" data-id="'.$clients->id.'" data-toggle="modal"'.
+                        ' data-target="#DeleteClientModal" class="btn btn-danger btn-sm" id="getDeleteId">Delete</button>';
 
                         return $btn;
                     })
@@ -71,13 +65,15 @@ class ClientController extends Controller
     }
 
     public function store(StoreClientRequest $request){
-        //get the request data
-        //store the request data in the database
-        //redirect to show page
-       
-        //dd($insured);
+        
         $validate = $request->validated();
         if($validate){
+            if(Auth::user()->hasRole('pharmacy')){
+                $pharmacy = Pharmacy::where('user_id',Auth::user()->id);
+            }else if(Auth::user()->hasRole('doctor')){
+                $clients =Client::with('user');
+            }
+
             if ($request->hasfile('image')){
                 $path = Storage::disk('public')->put('clients_avatars', $request->file('image'));
             }
@@ -100,8 +96,22 @@ class ClientController extends Controller
             ]);
             
         }
+        return redirect()->route('clients.index')   
+    }
 
-        return redirect()->route('clients.index');
+    
+    public function show(Request $request){
+
+        $clientId = $request->client;
+        $client = Client::with('user')->find($clientId);
+
+        if(!$client){
+            return redirect()->route('clients.index')->with('error', 'client is not found');
+        }
+
+    	return view('clients.show',[
+    		'client' => $client
+    	]);
     }
 
 
@@ -153,20 +163,11 @@ class ClientController extends Controller
               
         }
 
-        return redirect()->route('clients.index');
+        return redirect()->route('clients.index')->with('message', 'client edited successfully');;
     }
 
-
-
-        /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Client  $client
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Request $request)
     {
-
         $client = Client::with('user')->find($request->client);
         $client->user()->delete();
         $client->delete();      
@@ -190,20 +191,9 @@ class ClientController extends Controller
                     ->addColumn('email', function($clients) {
                         return $clients->user->email;
                     })
-                    ->addColumn('gender', function($clients) {
-                        return $clients->gender;
-                    })
-                    ->addColumn('mobile', function($clients) {
-                        return $clients->mobile;
-                    })
-                    ->addColumn('birthdate', function($clients) {
-                        return $clients->birthdate;
-                    })
-                    ->addColumn('last_login', function($clients) {
-                        return $clients->last_login_at;
-                    })
+                    ->addIndexColumn()
                     ->addColumn('role_id', function($clients) {
-                        return $clients->user->role_id;
+                        return $clients->user->getRoleNames()[0];
                     })
                     ->addColumn('image', function($clients){   
                         $url = asset('storage/'.$clients->user->image);

@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Role;
+use App\User;
 
 class UserSeeder extends Seeder
 {
@@ -11,11 +13,13 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('users')->insert([
+        $user = User::create([
             'name' => 'admin',
             'email' => 'admin@admin.com',
-            'password' => Hash::make('123456'),
+            'password' => '123456',
             'role_id' => 0
         ]);
+
+        $user->assignRole('admin');
     }
 }

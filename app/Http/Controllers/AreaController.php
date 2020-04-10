@@ -13,14 +13,18 @@ class AreaController extends Controller
     public function index(Request $request)
     {
         $areas =Area::all();
-       // dd($areas);
         if ($request->ajax()) {
             $areas =Area::all();
             return Datatables::of($areas)
                     ->addIndexColumn()
                     ->addColumn('action', function($areas){
-                        $btn = '<a href="'.route("areas.edit",["area" => $areas->id]).'" class="edit btn btn-primary btn-sm">Edit</a>';
-                        $btn .= '<button type="button" data-id="'.$areas->id.'" data-toggle="modal" data-target="#DeleteAreaModal" class="btn btn-danger btn-sm" id="getDeleteId">Delete</button>';
+                        $btn = '<a href="'.route("areas.show",["area" => $areas->id]).'" '.
+                        'class="edit btn btn-success btn-sm" style="margin-right:10px;">show</a>';
+                        $btn .= '<a href="'.route("areas.edit",["area" => $areas->id]).
+                        '" class="edit btn btn-primary btn-sm" style="margin-right:10px;" >Edit</a>';
+                        $btn .= '<button type="button" data-id="'.$areas->id.
+                        '" data-toggle="modal" data-target="#DeleteAreaModal" class="btn btn-danger btn-sm" '.
+                        'id="getDeleteId">Delete</button>';
 
                         return $btn;
                     })
@@ -48,7 +52,21 @@ class AreaController extends Controller
            
         }
        
-        return redirect()->route('areas.index');
+        return redirect()->route('areas.index')->with('message', 'Area added successfully');
+    }
+
+    public function show(Request $request){
+
+        $area = $request->area;
+        $area = Area::find($area);
+
+        if(!$area){
+            return redirect()->route('areas.index')->with('error', 'area is not found');
+        }
+
+    	return view('areas.show',[
+    		'area' => $area
+    	]);
     }
 
     public function edit(Request $request){
@@ -77,7 +95,7 @@ class AreaController extends Controller
               
         }
 
-        return redirect()->route('areas.index');
+        return redirect()->route('areas.index')->with('message', 'Area edited successfully');;
     }
  
 

@@ -12,27 +12,15 @@ class Client extends Model
 {
     protected $guarded = [];
 
-    use SoftDeletes;
+    use SoftDeletes, CascadeSoftDeletes;
     protected $dates = ['deleted_at'];
+    protected $cascadeDeletes = ['addresses'];
+
 
     public function getLastLoginAtAttribute($last_login_at)
     {
-        return Carbon::createFromFormat('Y-m-d H:i:s', $last_login_at)->format('d. M, Y ');
+        return Carbon::createFromFormat('Y-m-d H:i:s', $last_login_at)->format('Y-m-d');
     }
-    
-    use SoftDeletes, CascadeSoftDeletes;
-
-    protected $cascadeDeletes = ['addresses'];
-
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-
-    // protected $casts = [
-    //     'last_login_at' => 'date',
-    // ];
 
     public function user()
     {
