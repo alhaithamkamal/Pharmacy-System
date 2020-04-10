@@ -193,19 +193,16 @@ Route::group(['middleware' => ['role:admin']], function () {
 
 // ==================Doctor routes=======================
 
-
-
-Route::get('/doctors', 'DoctorController@index')->name('doctors.index');
-
-Route::get('/doctors/create', 'DoctorController@create')->name('doctors.create');
-
-Route::post('/doctors', 'DoctorController@store')->name('doctors.store');
-
-Route::get('/doctors/{doctor}', 'DoctorController@show')->name('doctors.show');
-Route::get('/doctors/{doctor}/ban', 'DoctorController@banned')->name('doctors.banned');
-Route::get('/doctors/{doctor}/edit', 'DoctorController@edit')->name('doctors.edit');
-Route::put('/doctors/{doctor}', 'DoctorController@update')->name('doctors.update');
-Route::delete('/doctors/{doctor}', 'DoctorController@destroy')->name('doctors.destroy');
+Route::group([], function(){
+    Route::get('/doctors', 'DoctorController@index')->name('doctors.index');
+    Route::get('/doctors/create', 'DoctorController@create')->name('doctors.create');
+    Route::post('/doctors', 'DoctorController@store')->name('doctors.store');
+    Route::get('/doctors/{doctor}', 'DoctorController@show')->name('doctors.show');
+    Route::get('/doctors/{doctor}/ban', 'DoctorController@banned')->name('doctors.banned');
+    Route::get('/doctors/{doctor}/edit', 'DoctorController@edit')->name('doctors.edit');
+    Route::put('/doctors/{doctor}', 'DoctorController@update')->name('doctors.update');
+    Route::delete('/doctors/{doctor}', 'DoctorController@destroy')->name('doctors.destroy');    
+});
 
 
 
