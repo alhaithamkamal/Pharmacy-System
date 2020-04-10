@@ -37,10 +37,10 @@
                     <th>Name</th>
                     <th>Avatar Image</th>
                     <th>Email</th>
-                    <!-- <th></th> -->
+                    
                     <th>national id</th>
                     <th>created at</th>
-                    <th>banned at</th>
+                    <th>is banned </th>
                     <th>Actions</th>
                   </tr>
                 </thead>
@@ -67,13 +67,25 @@
                     
                     <td>{{ $doctor->user->national_id }}</td>
                     <td> {{ $doctor->created_at }}</td>
-                    <td>lsa</td>
                     <td>
+                    {{ $doctor->user->banned_at }}
+                    </td>
+                    
+                    <td>
+                    @if ($doctor->user->isNotBanned())                
+                      <a  href="{{ route('doctors.banned',['doctor'=>$doctor->id]) }}" class="btn btn-danger "  >Ban</a>
+                         @else
+                                         
+                      <a  href="{{ route('doctors.banned',['doctor'=>$doctor->id]) }}" class="btn btn-primary " >unBan</a>
+                      @endif
                     <a href="{{ route('doctors.edit',['doctor'=>$doctor->id]) }}" class="btn btn-success">Edit</a>
+                    
                     <form action="{{ route('doctors.destroy',['doctor'=>$doctor->id]) }}" method="POST" class="d-inline">
                       @csrf
                       @method('DELETE')
                       <button  class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this doctor ?')">Delete</button>
+                      </form>
+                                                
                     </td>
                     
                   </tr>

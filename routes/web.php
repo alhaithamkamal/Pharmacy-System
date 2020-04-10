@@ -13,12 +13,20 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+<<<<<<< HEAD
 Route::group(['middleware' => ['role:admin|doctor|pharmacy']], function () {
 
     Route::get('/', function () {
         return view('Dashboard');
     });
 });
+=======
+Route::get('/', function () {
+    return view('Dashboard');
+})->middleware('is-ban');    
+
+
+>>>>>>> fee98ceb349157c61a8f0e3863a1bf55828de72d
 Auth::routes(['register' => false]);
 
 
@@ -165,6 +173,9 @@ Route::post('/trashed-client-addresses/{clientAddress}', 'ClientAddressControlle
 
 
 // ==================Doctor routes=======================
+
+
+
 Route::get('/doctors', 'DoctorController@index')->name('doctors.index');
 
 Route::get('/doctors/create', 'DoctorController@create')->name('doctors.create');
@@ -172,13 +183,24 @@ Route::get('/doctors/create', 'DoctorController@create')->name('doctors.create')
 Route::post('/doctors', 'DoctorController@store')->name('doctors.store');
 
 Route::get('/doctors/{doctor}', 'DoctorController@show')->name('doctors.show');
-
+Route::get('/doctors/{doctor}/ban', 'DoctorController@banned')->name('doctors.banned');
 Route::get('/doctors/{doctor}/edit', 'DoctorController@edit')->name('doctors.edit');
 Route::put('/doctors/{doctor}', 'DoctorController@update')->name('doctors.update');
 Route::delete('/doctors/{doctor}', 'DoctorController@destroy')->name('doctors.destroy');
+
+
+
+Auth::routes();
+
+
 //===================================================
 
+<<<<<<< HEAD
 //Route::get('/home', 'HomeController@index')->name('home')->middleware('verified');
+=======
+
+Route::get('/home', 'HomeController@index')->name('home')->middleware('verified');
+>>>>>>> fee98ceb349157c61a8f0e3863a1bf55828de72d
 
 Route::get('/pharmacies', function () {
     return view('pharmacies.index');
@@ -238,3 +260,6 @@ Route::get('/home', 'HomeController@index')->name('home');
 //=============== Stripe Routes ==========================
 Route::get('stripe', 'StripePaymentController@stripe')->name('stripe.stripe');
 Route::post('stripe', 'StripePaymentController@stripePost')->name('stripe.post');
+ //=================== Orerer Confirmation ====================
+Route::get('orders/confirm/{order}', 'OrderConfirmationController@confirm');
+Route::get('orders/cancel/{order}', 'OrderConfirmationController@cancel');
