@@ -98,7 +98,7 @@ class ClientController extends Controller
             ]);
             
         }
-        return redirect()->route('clients.index')->with('message', 'client added successfully');
+        return redirect()->route('clients.index')   
     }
 
     
