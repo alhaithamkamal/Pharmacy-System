@@ -107,7 +107,7 @@ Route::get('/doctors/{doctor}', 'DoctorController@show')->name('doctors.show');
 Route::get('/doctors/{doctor}/edit', 'DoctorController@edit')->name('doctors.edit');
 Route::put('/doctors/{doctor}', 'DoctorController@update')->name('doctors.update');
 Route::delete('/doctors/{doctor}', 'DoctorController@destroy')->name('doctors.destroy');
-
+//===================================================
 
 Route::get('/home', 'HomeController@index')->name('home')->middleware('verified');
 
@@ -119,11 +119,9 @@ Route::get('/revenues', function () {
     return view('revenues.index');
 });
 
-//============== Orders routes ================
+//============== Orders routes =====================
 Route::group(
-    ['middleware' => [
-        'verified',
-    ]],
+    [],
     function () {
         Route::get('/orders', 'OrdersController@index')->name('orders.index');
 
@@ -138,6 +136,8 @@ Route::group(
         Route::get('/orders/{order}', 'OrderController@show')->name('orders.show');
 
         Route::delete('/orders/{order}', 'OrdersController@destroy')->name('orders.destroy');
+
+        Route::post('/orders/fetch', 'OrdersController@fetch')->name('orders.fetch');
     }
 );
 //==================Medicine===========================
@@ -155,12 +155,12 @@ Route::post('/pharmacy/{ID}', 'PharmacyController@update')->name('pharmacy.updat
 Route::get('/pharmacy/{delId}', 'PharmacyController@delete')->name('pharmacy.delete');
 Route::post('/pharmacies', 'PharmacyController@store')->name('pharmacy.store');
 //======================Revenue=========================
-Route::get('/revenues','RevenueController@show')->name('revenue.show');
-Route::get('/revenue/create','RevenueController@create')->name('revenue.create');
-Route::post('/revenues','RevenueController@store')->name('revenue.store');
-Route::get('/revenue/edit/{revenueId}','RevenueController@edit')->name('revenue.edit');
-Route::post('/revenue/{ID}','RevenueController@update')->name('revenue.update');
-Route::get('/revenue/{delId}','RevenueController@delete')->name('revenue.delete');
+Route::get('/revenues', 'RevenueController@show')->name('revenue.show');
+Route::get('/revenue/create', 'RevenueController@create')->name('revenue.create');
+Route::post('/revenues', 'RevenueController@store')->name('revenue.store');
+Route::get('/revenue/edit/{revenueId}', 'RevenueController@edit')->name('revenue.edit');
+Route::post('/revenue/{ID}', 'RevenueController@update')->name('revenue.update');
+Route::get('/revenue/{delId}', 'RevenueController@delete')->name('revenue.delete');
 //======================================================
 
 

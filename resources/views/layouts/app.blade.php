@@ -34,3 +34,4 @@
     @include('includes.script')
 </body>
 </html>
+    @yield('ajaxscript')
