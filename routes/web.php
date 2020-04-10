@@ -18,6 +18,8 @@ Route::get('/', function () {
     return view('Dashboard');
 });
 
+Auth::routes(['register' => false]);
+
 
 //show clients in table
 Route::get('/clients', 'ClientController@index')->name('clients.index');
