@@ -128,7 +128,9 @@ public function banned(){
                 $doctor->doctor()->create([]);
                 
         }
+            $doctor->assignRole('pharmacy');
             return redirect()->route('doctors.index');
+
     }
     
 

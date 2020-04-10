@@ -8,7 +8,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Create User Addresses</h1>
+            <h1 class="m-0 text-dark">Create Client Addresses</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -27,16 +27,16 @@
         <div class="col-12" style="margin-left: 19px;">
           <div class="card card-info">
             <div class="card-header">
-              <h1 class="card-title" style="font-size:1.3rem !important;">User Addresses Form</h1>
+              <h1 class="card-title" style="font-size:1.3rem !important;">Client Addresses Form</h1>
             </div>
           <div class="card-body">
             <form method="POST" action="{{route('clientsAddresses.store')}}" >
             @csrf
             <div class="row" style="margin:20px;">
                   <div class="col-lg-6">
-                  <h4 class="mt-4 mb-2">User National ID</h4>
+                  <h4 class="mt-4 mb-2">Client National ID</h4>
                   <div class="input-group">
-                    <select class="form-control select2" name="client_id" style="width: 100%;">
+                    <select class="form-control select2" id="client_id" name="client_id" style="width: 100%;">
                       @foreach($clients as $client)
                          <option value="{{$client->id}}">{{$client->user->national_id}}</option>
                       @endforeach
@@ -160,3 +160,35 @@
 
 @endsection
 
+@section('datatable_script')
+
+<script>
+$('#client_id').on('change',function() {
+
+    var client_id = $(this).val();
+    var checkurl = '{{route('clientsAddresses.check', ['check'=> ':id'])}}';
+    checkurl = checkurl.replace(':id',client_id);
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+        type: "POST",
+        url: checkurl,
+        data:{},
+        success: function(result){
+          console.log(result.check);
+          if(result.check === 'true'){
+            $("#main").attr("disabled", true);
+            $("#main").prop("checked", false);
+          }else{
+            $('#main').removeAttr("disabled");
+          }
+        }
+    });
+});
+
+</script>
+
+@endsection

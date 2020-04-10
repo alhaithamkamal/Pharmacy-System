@@ -8,12 +8,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Create User Addresses</h1>
+            <h1 class="m-0 text-dark">Edit Client Addresses</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Create User</li>
+              <li class="breadcrumb-item active">Edit Client</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -27,7 +27,7 @@
         <div class="col-12" style="margin-left: 19px;">
           <div class="card card-info">
             <div class="card-header">
-              <h1 class="card-title" style="font-size:1.3rem !important;">User Addresses Form</h1>
+              <h1 class="card-title" style="font-size:1.3rem !important;">Client Addresses Form</h1>
             </div>
           <div class="card-body">
             <form method="POST" action="{{route('clientsAddresses.update',['clientAddress'=>$clientAddress->id])}}">
@@ -37,7 +37,7 @@
                   <div class="col-lg-6">
                   <h4 class="mt-4 mb-2">User National ID</h4>
                   <div class="input-group">
-                    <select class="form-control select2" name="client_id" style="width: 100%;">
+                    <select class="form-control select2" id="client_id" name="client_id" style="width: 100%;">
                         <option value="{{$client->id}}" selected>{{$client->user->national_id}}</option>
                       @foreach($clients as $client1)
                         @if($client1->id !== $client->id)
@@ -130,14 +130,18 @@
             </div>
             <!-- /.row -->
             
-
+            
             <div class="row" style="margin:20px;">
                              
                <div class="col-lg-6">
                <h4 class="mt-4 mb-2">Main Address</h4>
                  <div class="form-group">
                       <div class="form-check">
+                          @if($main)
                           <input class="form-check-input" type="checkbox" name="is_main" id="main" value="" {{(old('is_main') || $clientAddress->is_main) ? 'checked' : ''}}>
+                          @else
+                          <input class="form-check-input" type="checkbox" name="is_main" id="main" disabled>
+                          @endif
                           <label class="form-check-label">main</label>
                       </div>
                   </div>
@@ -150,7 +154,6 @@
              
             </div>
             <!-- /.row -->
-            
                 <button type="submit" class="btn btn-info float-right">Submit</button>
 
             
@@ -169,3 +172,36 @@
 
 @endsection
 
+
+@section('datatable_script')
+
+<script>
+$('#client_id').on('change',function() {
+
+    var client_id = $(this).val();
+    var checkurl = '{{route('clientsAddresses.check', ['check'=> ':id'])}}';
+    checkurl = checkurl.replace(':id',client_id);
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+        type: "POST",
+        url: checkurl,
+        data:{},
+        success: function(result){
+          console.log(result.check);
+          if(result.check === 'true'){
+            $("#main").attr("disabled", true);
+            $("#main").prop("checked", false);
+          }else{
+            $('#main').removeAttr("disabled");
+          }
+        }
+    });
+});
+
+</script>
+
+@endsection

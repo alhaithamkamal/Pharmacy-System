@@ -7,12 +7,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>DataTables</h1>
+            <h1>Clients</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">DataTable</li>
+              <li class="breadcrumb-item"><a href="/">Home</a></li>
+              <li class="breadcrumb-item active">Clients</li>
             </ol>
           </div>
         </div>
@@ -27,10 +27,21 @@
         <div class="col-12">
           <div class="card">
             <div class="card-header">
-              <h3 class="card-title">DataTable with default features</h3>
+              <a class="btn btn-primary" href="{{route('clients.create')}}">Add Client</a>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
+            @if (session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+            @endif
+            @if (session('message'))
+                <div class="alert alert-success">
+                    {{ session('message') }}
+                </div>
+            @endif
+            <div id="message"></div>
               <table id="example1" class="table table-bordered table-striped">
                 <thead>
                   <tr>
@@ -63,34 +74,30 @@
     </section>
     <!-- /.content -->
 
-    <!-- Delete Product Modal -->
-    <div class="modal" id="DeleteProductModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <!-- Modal Header -->
-                <div class="modal-header">
-                    <h4 class="modal-title">Product Delete</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-                <!-- Modal body -->
-                <div class="modal-body">
-                    <h4>Are you sure want to delete this product?</h4>
-                </div>
-                <!-- Modal footer -->
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" id="SubmitDeleteProductForm">Yes</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
-                </div>
+<!-- Delete Confirm Model Box -->
+<div id="DeleteClientModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content bg-default">
+            <div class="modal-header bg-danger">
+                <h4 class="modal-title">Delete <span id="jcId">Client</span></h4>
+            </div>
+            <div class="modal-body">
+                <h5 style="text-alignment:left;">Are you sure you want to delete this client?</h5>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-outline-success" data-dismiss="modal">Cancel</button>
+                <button type="button" id="SubmitDelete" class="btn btn-outline-danger">Delete</button>
             </div>
         </div>
     </div>
+</div>
+<!-- /.Delete Confirm Model Box -->
 
 @endsection
 
 @section('datatable_script')
 <script>
   $(document).ready( function () {
-    console.log('hello');
     var table = $('#example1').DataTable({
         processing: true,
         serverSide: true,
@@ -109,7 +116,7 @@
         ]
     });
     
-        // Delete product Ajax request.
+        // Delete client Ajax request.
         var deleteID;
         $('body').on('click', '#getDeleteId', function(){
             deleteID = $(this).data('id');
@@ -117,7 +124,7 @@
             
         })
 
-        $('#SubmitDeleteProductForm').click(function(e) {
+        $('#SubmitDelete').click(function(e) {
             e.preventDefault();
             var id = deleteID;
             var deleteurl = '{{route('clients.destroy', ['client'=> ':id'])}}';
@@ -132,21 +139,23 @@
                 url: deleteurl,
                 method: 'post',
                 beforeSend:function(){
-                  $('#SubmitDeleteProductForm').text('Deleting...');
+                  $('#SubmitDelete').text('Deleting...');
                 },
                 success: function(result) {
-                //  Toastr::success('Client deleted successfully  :)','Success');
-                    //  toastr()->success('Client deleted successfully ');
 
                   setTimeout(function(){
-                    $('#DeleteProductModal').modal('hide');
+                    $('#DeleteClientModal').modal('hide');
                     $('#example1').DataTable().ajax.reload();
-                  }, 2000);
-
+                    $('#message').attr('class',"alert alert-success");
+                    $('#message').html('Client deleted succussfully');
+                 
+                  }, 1500);
                  
                 },
                 error: function (data) {
-               //toastr()->error('can\'t delete this client');
+                  $('#message').attr('class',"alert alert-danger");
+                  $('#message').html('Failed to delete this client');
+                 
                }
             });
         });

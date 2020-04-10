@@ -18,6 +18,8 @@ Route::get('/', function () {
 })->middleware('is-ban');    
 
 
+Auth::routes(['register' => false]);
+
 
 //show clients in table
 Route::get('/clients', 'ClientController@index')->name('clients.index');
@@ -27,6 +29,9 @@ Route::get('/clients/create', 'ClientController@create')->name('clients.create')
 
 //to store client data
 Route::post('/clients', 'ClientController@store')->name('clients.store');
+
+//show client data
+Route::get('/clients/{client}', 'ClientController@show')->name('clients.show');
 
 //route to edit client
 Route::get('/clients/{client}/edit', 'ClientController@edit')->name('clients.edit');
@@ -38,12 +43,13 @@ Route::patch('/clients/{client}', 'ClientController@update')->name('clients.upda
 Route::post('/clients/{client}', 'ClientController@destroy')->name('clients.destroy');
 
 //show trashed clients
-Route::get('/trashed-client', 'ClientController@trashed')->name('clients.trashed');
+Route::get('/trashed-clients', 'ClientController@trashed')->name('clients.trashed');
 
 //restore clients
-Route::post('/trashed-client/{client}', 'ClientController@restoreClient')->name('clients.restore');
+Route::post('/trashed-clients/{client}', 'ClientController@restoreClient')->name('clients.restore');
 
 Auth::routes(['verify' => true]);
+
 
 
 // ==================Area routes=======================
@@ -57,6 +63,11 @@ Route::get('/areas/create', 'AreaController@create')->name('areas.create');
 //to store area data
 Route::post('/areas', 'AreaController@store')->name('areas.store');
 
+
+//show area data
+Route::get('/areas/{area}', 'AreaController@show')->name('areas.show');
+
+
 //route to edit area
 Route::get('/areas/{area}/edit', 'AreaController@edit')->name('areas.edit');
 
@@ -69,42 +80,42 @@ Route::post('/areas/{area}', 'AreaController@destroy')->name('areas.destroy');
 // ==================permission routes=======================
 
 //show permissions in table
-Route::get('/permissions','PermissionController@index')->name('permissions.index');
+Route::get('/permissions', 'PermissionController@index')->name('permissions.index');
 
 //route to permissions form
-Route::get('/permissions/create','PermissionController@create')->name('permissions.create');
+Route::get('/permissions/create', 'PermissionController@create')->name('permissions.create');
 
 //to store permission data
-Route::post('/permissions','PermissionController@store')->name('permissions.store');
+Route::post('/permissions', 'PermissionController@store')->name('permissions.store');
 
 //route to edit permission
-Route::get('/permissions/{permission}/edit','PermissionController@edit')->name('permissions.edit');
+Route::get('/permissions/{permission}/edit', 'PermissionController@edit')->name('permissions.edit');
 
 //update permissions
-Route::patch('/permissions/{permission}','PermissionController@update')->name('permissions.update');
+Route::patch('/permissions/{permission}', 'PermissionController@update')->name('permissions.update');
 
 //soft delete permission
-Route::post('/permissions/{permission}','PermissionController@destroy')->name('permissions.destroy');
+Route::post('/permissions/{permission}', 'PermissionController@destroy')->name('permissions.destroy');
 
 // ==================role routes=======================
 
 //show roles in table
-Route::get('/roles','RoleController@index')->name('roles.index');
+Route::get('/roles', 'RoleController@index')->name('roles.index');
 
 //route to roles form
-Route::get('/roles/create','RoleController@create')->name('roles.create');
+Route::get('/roles/create', 'RoleController@create')->name('roles.create');
 
 //to store role data
-Route::post('/roles','RoleController@store')->name('roles.store');
+Route::post('/roles', 'RoleController@store')->name('roles.store');
 
 //route to edit role
-Route::get('/roles/{role}/edit','RoleController@edit')->name('roles.edit');
+Route::get('/roles/{role}/edit', 'RoleController@edit')->name('roles.edit');
 
 //update roles
-Route::patch('/roles/{role}','RoleController@update')->name('roles.update');
+Route::patch('/roles/{role}', 'RoleController@update')->name('roles.update');
 
 //soft delete role
-Route::post('/roles/{role}','RoleController@destroy')->name('roles.destroy');
+Route::post('/roles/{role}', 'RoleController@destroy')->name('roles.destroy');
 
 
 // ==================Client addresses routes=======================
@@ -116,8 +127,12 @@ Route::get('/clients-addresses', 'ClientAddressController@index')->name('clients
 //route to client-addresses form
 Route::get('/clients-addresses/create', 'ClientAddressController@create')->name('clientsAddresses.create');
 
+
 //to store client-addresses data
 Route::post('/clients-addresses', 'ClientAddressController@store')->name('clientsAddresses.store');
+
+//show client-address data
+Route::get('/clients-addresses/{clientAddress}', 'ClientAddressController@show')->name('clientsAddresses.show');
 
 //route to edit client-addresses
 Route::get('/clients-addresses/{clientAddress}/edit', 'ClientAddressController@edit')->name('clientsAddresses.edit');
@@ -127,6 +142,9 @@ Route::patch('/clients-addresses/{clientAddress}', 'ClientAddressController@upda
 
 //soft delete client-addresses
 Route::post('/clients-addresses/{clientAddress}', 'ClientAddressController@destroy')->name('clientsAddresses.destroy');
+
+//check main client-addresses
+Route::post('/addresses/{check}', 'ClientAddressController@check')->name('clientsAddresses.check');
 
 //show trashed clients
 Route::get('/trashed-client-addresses', 'ClientAddressController@trashed')->name('clientsAddresses.trashed');
@@ -174,21 +192,21 @@ Route::get('/revenues', function () {
 Route::group(
     [],
     function () {
-        Route::get('/orders', 'OrdersController@index')->name('orders.index');
+        Route::get('/orders', 'OrderController@index')->name('orders.index');
 
-        Route::get('/orders/create', 'OrdersController@create')->name('orders.create');
+        Route::get('/orders/create', 'OrderController@create')->name('orders.create');
 
-        Route::post('/orders', 'OrdersController@store')->name('orders.store');
+        Route::post('/orders', 'OrderController@store')->name('orders.store');
 
-        Route::get('/orders/{order}/edit', 'OrdersController@edit')->name('orders.edit');
+        Route::get('/orders/{order}/edit', 'OrderController@edit')->name('orders.edit');
 
-        Route::put('/orders/{order}', 'OrdersController@update')->name('orders.update');
+        Route::put('/orders/{order}', 'OrderController@update')->name('orders.update');
 
         Route::get('/orders/{order}', 'OrderController@show')->name('orders.show');
 
-        Route::delete('/orders/{order}', 'OrdersController@destroy')->name('orders.destroy');
+        Route::delete('/orders/{order}', 'OrderController@destroy')->name('orders.destroy');
 
-        Route::post('/orders/fetch', 'OrdersController@fetch')->name('orders.fetch');
+        Route::post('/orders/fetch', 'OrderController@fetch')->name('orders.fetch');
     }
 );
 //==================Medicine===========================
@@ -206,12 +224,12 @@ Route::post('/pharmacies/{ID}', 'PharmacyController@update')->name('pharmacy.upd
 Route::get('/pharmacies/{delId}', 'PharmacyController@delete')->name('pharmacy.delete');
 Route::post('/pharmacies', 'PharmacyController@store')->name('pharmacy.store');
 //======================Revenue=========================
-Route::get('/revenues','RevenueController@show')->name('revenue.show');
-Route::get('/revenues/create','RevenueController@create')->name('revenue.create');
-Route::post('/revenues','RevenueController@store')->name('revenue.store');
-Route::get('/revenues/edit/{revenueId}','RevenueController@edit')->name('revenue.edit');
-Route::post('/revenues/{ID}','RevenueController@update')->name('revenue.update');
-Route::get('/revenues/{delId}','RevenueController@delete')->name('revenue.delete');
+Route::get('/revenues', 'RevenueController@show')->name('revenue.show');
+Route::get('/revenues/create', 'RevenueController@create')->name('revenue.create');
+Route::post('/revenues', 'RevenueController@store')->name('revenue.store');
+Route::get('/revenues/edit/{revenueId}', 'RevenueController@edit')->name('revenue.edit');
+Route::post('/revenues/{ID}', 'RevenueController@update')->name('revenue.update');
+Route::get('/revenues/{delId}', 'RevenueController@delete')->name('revenue.delete');
 //======================================================
 
 
@@ -220,3 +238,6 @@ Route::get('/home', 'HomeController@index')->name('home');
 //=============== Stripe Routes ==========================
 Route::get('stripe', 'StripePaymentController@stripe')->name('stripe.stripe');
 Route::post('stripe', 'StripePaymentController@stripePost')->name('stripe.post');
+ //=================== Orerer Confirmation ====================
+Route::get('orders/confirm/{order}', 'OrderConfirmationController@confirm');
+Route::get('orders/cancel/{order}', 'OrderConfirmationController@cancel');

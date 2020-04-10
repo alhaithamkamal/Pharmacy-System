@@ -16,10 +16,17 @@ class ClientAddressController extends Controller
 {
     public function index(Request $request)
     {
+        // $address = UserAddress::onlyTrashed()->where('client_id',1)->first();
+        // $area = Area::where('id',$address->area_id)->get();
+        // dd($area);
         if ($request->ajax()) {
             $clientAddress = UserAddress::with('client')->with('area')->get();
             
             return Datatables::of($clientAddress)
+                    ->addColumn('national_id', function($clientAddress) {
+                        $client = Client::with('user')->where('id',$clientAddress->client->id)->first();
+                        return $client->user->national_id;
+                    })
                     ->addColumn('client_id', function($clientAddress) {
                         $client = Client::with('user')->where('id',$clientAddress->client->id)->first();
                         return $client->user->name;
@@ -29,8 +36,13 @@ class ClientAddressController extends Controller
                     })
                     ->addIndexColumn()
                     ->addColumn('action', function($clientAddress){
-                        $btn = '<a href="'.route("clientsAddresses.edit",["clientAddress" => $clientAddress->id]).'" class="edit btn btn-primary btn-sm">Edit</a>';
-                        $btn .= '<button type="button" data-id="'.$clientAddress->id.'" data-toggle="modal" data-target="#DeleteAddressModal" class="btn btn-danger btn-sm" id="getDeleteId">Delete</button>';
+                        $btn = '<a href="'.route("clientsAddresses.show",["clientAddress" => $clientAddress->id]).'" '.
+                        'class="edit btn btn-success btn-sm" style="margin-right:10px;">show</a>';
+                        $btn .= '<a href="'.route("clientsAddresses.edit",["clientAddress" => $clientAddress->id]).
+                        '" class="edit btn btn-primary btn-sm" style="margin-right:10px;">Edit</a>';
+                        $btn .= '<button type="button" data-id="'.$clientAddress->id.
+                        '" data-toggle="modal" data-target="#DeleteAddressModal" class="btn btn-danger btn-sm"'.
+                        ' id="getDeleteId">Delete</button>';
 
                         return $btn;
                     })
@@ -52,19 +64,26 @@ class ClientAddressController extends Controller
         ]);
     }
 
+    public function check(Request $request)
+    {   
+        $clientAddresses = UserAddress::where('client_id',$request->check)->get();
+        
+        foreach($clientAddresses as $clientAddress){
+            if($clientAddress->is_main ==1){
+                return response()->json(['check'=> 'true']);
+            }
+        }
+        return response()->json(['check'=> 'false']);
+
+    }
+
     public function store(StoreClientAddressRequest $request){
-        //get the request data
-        //store the request data in the database
-        //redirect to show page
-       
-        //dd($insured);
+
         $validate = $request->validated();
         if($validate){
             if($request->has('is_main')){
-                //Checkbox checked
                 $main = 1;
             }else{
-                //Checkbox not checked
                 $main = 0;
             }
 
@@ -81,7 +100,21 @@ class ClientAddressController extends Controller
             
         }
        
-    return redirect()->route('clientsAddresses.index');
+    return redirect()->route('clientsAddresses.index')->with('message', 'Client address added successfully');
+    }
+
+    public function show(Request $request){
+
+        $clientAddressId = $request->clientAddress;
+        $clientAddress = UserAddress::with('client')->with('area')->find($clientAddressId);
+        
+        if(!$clientAddress){
+            return redirect()->route('clientsAddresses.index')->with('error', 'Client address is not found');
+        }
+
+    	return view('clientsAddresses.show',[
+    		'clientAddress' => $clientAddress
+    	]); 
     }
 
     public function edit(Request $request){
@@ -91,14 +124,25 @@ class ClientAddressController extends Controller
         if(!$clientAddress){
             return redirect()->route('clientAddress.index')->with('error', 'client address is not found');
         }
+
+        $clientAddresses = UserAddress::where('client_id',$clientAddress->client_id)->get();
+        $main = 1;
+        foreach($clientAddresses as $address){
+            if($address->is_main ==1 && $address->id != $clientAddressID){
+                $main = 0 ;
+            }
+        }
+
         $client = Client::with('user')->where('id',$clientAddress->client->id)->first();
         $clients = Client::with('user')->get();
         $areas = Area::all();
+
         return view('clientsAddresses.edit',[
             'clientAddress' => $clientAddress,
             'client' => $client,
             'clients' => $clients,
-            'areas' => $areas
+            'areas' => $areas,
+            'main' => $main
         ]);
 
     }
@@ -107,7 +151,7 @@ class ClientAddressController extends Controller
 
         $clientAddress= UserAddress::find($request->clientAddress);
 
-            $validate = $request->validated();
+             $validate = $request->validated();
  
         if($validate){
             if($request->has('is_main')){
@@ -132,17 +176,11 @@ class ClientAddressController extends Controller
               
         }
 
-        return redirect()->route('clientsAddresses.index');
+        return redirect()->route('clientsAddresses.index')->with('message', 'client address edited successfully');
     }
 
 
 
-        /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Client  $client
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Request $request)
     {   
         $clientAddress = UserAddress::find($request->clientAddress);

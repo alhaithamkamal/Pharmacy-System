@@ -2336,7 +2336,6 @@ textarea.form-control {
 .form-check-input:disabled ~ .form-check-label {
   color: #6c757d;
 }
-
 .form-check-label {
   margin-bottom: 0;
   font-family: unset;
@@ -10893,5 +10892,6 @@ a.text-dark:focus {
     color: inherit;
     border-color: #dee2e6;
   }
-}
 
+
+}

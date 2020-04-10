@@ -6,13 +6,14 @@ use App\Client;
 use App\Http\Requests\StoreMedicineRequest;
 use App\Http\Requests\StoreOrderRequest;
 use App\Medicine;
+use App\Notifications\OrderConfirmation;
 use App\Order;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-class OrdersController extends Controller
+class OrderController extends Controller
 {
     public function index()
     {
@@ -32,7 +33,6 @@ class OrdersController extends Controller
 
     public function store(StoreOrderRequest $order_request, StoreMedicineRequest $medicine_request)
     {
-        $creator_id = auth()->user()->id;
 
         if (auth()->user()->role_id == 1) {
             $creator_type = 'pharmacy';
@@ -40,9 +40,20 @@ class OrdersController extends Controller
             $creator_type = 'doctor';
         } elseif (auth()->user()->role_id == 0) {
             $creator_type = 'admin';
+        } else {
+            $creator_type = 'client';
         }
 
-        $status = 'processing';
+        $status = 'watingForUserConfirmation';
+        $client = Client::find($order_request->client_id);
+        $client_address = $client->addresses()->where('is_main', true)->first();
+
+        if (Auth::user()->hasRole('pharmacy')) {
+            $pharmacy_id = Auth::user()->id;
+        } elseif (Auth::user()->hasRole('doctor')) {
+            $doctor_id = Auth::user()->id;
+            $pharmacy_id = Auth::user()->doctor->pharmacy_id;
+        }
 
         $medicine = Medicine::create([
             'name' => $medicine_request->name,
@@ -51,16 +62,16 @@ class OrdersController extends Controller
             'price' => $medicine_request->price,
         ]);
         $order = Order::create([
-            'creator_id' => $creator_id,
             'creator_type' => $creator_type,
             'client_id' => $order_request->client_id,
             'status' => $status,
-            'delivering_address_id' => $order_request->order->address,
+            'delivering_address_id' => $client_address ? $client_address->id : null,
+            'pharmacy_id' => $pharmacy_id,
+            'doctor_id' => $doctor_id ? $doctor_id : null,
         ]);
 
-        $order->pharmacy()->create();
-        $medicine->order()->attach($order);
-
+        $medicine->order()->attach($order->id);
+        $client->user->notify(new OrderConfirmation($order));
         return redirect()->route('orders.index');
     }
     public function show()
@@ -88,12 +99,13 @@ class OrdersController extends Controller
         ]);
     }
 
-    public function update()
+    public function update(Request $request)
     {
-        $orderId = request()->order;
+        $orderId = $request->order;
         $order = Order::find($orderId);
+        $client = Client::find($request->client_id);
 
-        $data = request()->only([
+        $data = $request->only([
             'client_id',
             'name',
             'quantity',
@@ -101,6 +113,10 @@ class OrdersController extends Controller
             'price'
         ]);
         $order->update($data);
+        if ($order->status == 'processing') {
+            $order->status = 'waitingForUserConfirmation';
+        }
+        $client->user->notify(new OrderConfirmation($order));
         return redirect()->route('orders.index');
     }
     public function destroy()
@@ -116,9 +132,7 @@ class OrdersController extends Controller
     {
         if ($request->get('query')) {
             $query = $request->get('query');
-            // dd($query);
             $data = DB::table('medicines')->where('name', 'like', '%' . $query . '%')->get();
-            // dd($data);
             $output = '<ul class="dropdown-menu"
                         style="display:block;
                                position:relative">';
