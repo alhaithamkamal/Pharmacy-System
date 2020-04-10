@@ -19,7 +19,7 @@ class PharmacyController extends Controller
             $file=$request->file('image');
             $extension=$file->getClientOriginalExtension();
             $filename=time().'.'.$extension;
-            $file->move('uploads/images/',$filename);
+            $file->storeAs('public/images/',$filename);
         }else{
             $filename='default.png';
         }
