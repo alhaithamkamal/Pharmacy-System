@@ -40,6 +40,8 @@ class OrderController extends Controller
             $creator_type = 'doctor';
         } elseif (auth()->user()->role_id == 0) {
             $creator_type = 'admin';
+        } else {
+            $creator_type = 'client';
         }
 
         $status = 'watingForUserConfirmation';

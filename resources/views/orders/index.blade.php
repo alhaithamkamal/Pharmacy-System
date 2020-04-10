@@ -59,8 +59,8 @@
                     <td>{{ (string) $order->address}}</td>
                     <td>{{ $order->created_at->format('d-m-Y')}}</td>
 
-                    @if ($order->creator->role_id == 2)
-                      <td>{{$order->creator->name}}</td>
+                    @if (Auth::user()->hasRole('doctor'))
+                      <td>{{$order->doctor->user->name}}</td>
                     @else
                       <td></td>
                     @endif
@@ -69,30 +69,20 @@
                     <td>{{ $order->status}}</td>
 
                     @if (Auth::user()->hasRole('admin'))
-                      @switch($order->creator->role_id)
-                        @case(1)
-                            <td>Pharmacy Owner</td>
-                            @break
-                        @case(2)
-                            <td>Doctor</td>
-                            @break
-                        @case(3)
-                            <td>Client</td>
-                            @break
-                        @default
-                          <td>Admin</td> 
-                        @endswitch
+                      <td>{{$order->creator_type}}</td>
                       <td>{{$order->pharmacy->user->name}}</td>
                     @endif
 
                     <td>
                       <div class="row">
                         <a href="{{route('orders.show',['order' => $order->id])}}" class="btn btn-success btn-sm mr-2">Show</a>
+                        
                         @if ($order->status == 'watingForUserConfirmation')
                           <a href="#" class="btn btn-secondary btn-sm disabled ml-2">Edit</a>
                         @else
                           <a href="{{route('orders.edit', ['order' => $order->id])}}" class="btn btn-primary btn-sm ml-2">Edit</a>
                         @endif
+                        
                         <form method="POST" action="{{route('orders.destroy',['order' => $order->id])}}" class="">
                           @csrf  
                           @method('DELETE')
