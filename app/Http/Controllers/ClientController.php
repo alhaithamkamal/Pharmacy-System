@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Client;
 use App\User;
+use App\Area;
 use App\UserAddress;
 use Yajra\DataTables\Facades\DataTables; 
 use App\Http\Requests\StoreClientRequest;
@@ -55,8 +56,12 @@ class ClientController extends Controller
                         return '<img src='.$url.' border="0" width="100" height="90" class="img-rounded" align="center" />'; 
                     })
                     ->addColumn('action', function($clients){
-                        $btn = '<a href="'.route("clients.edit",["client" => $clients->id]).'" class="edit btn btn-primary btn-sm">Edit</a>';
-                        $btn .= '<button type="button" data-id="'.$clients->id.'" data-toggle="modal" data-target="#DeleteProductModal" class="btn btn-danger btn-sm" id="getDeleteId">Delete</button>';
+                        $btn = '<a href="'.route("clients.show",["client" => $clients->id]).'" '.
+                        'class="btn btn-success btn-sm" style="margin-right:5px;">show</a>';
+                        $btn .= '<a href="'.route("clients.edit",["client" => $clients->id]).'"'.
+                        ' class="edit btn btn-primary btn-sm " style="margin-right:5px;">Edit</a>';
+                        $btn .= '<button type="button" data-id="'.$clients->id.'" data-toggle="modal"'.
+                        ' data-target="#DeleteClientModal" class="btn btn-danger btn-sm" id="getDeleteId">Delete</button>';
 
                         return $btn;
                     })
@@ -100,16 +105,22 @@ class ClientController extends Controller
             ]);
             
         }
-<<<<<<< HEAD
         return redirect()->route('clients.index')->with('message', 'client Added successfully');   
     }
 
     
     public function show(Request $request){
-=======
->>>>>>> bcba90eb15d1fb86d25edf49be58dea4e42901ad
 
-        return redirect()->route('clients.index');
+        $clientId = $request->client;
+        $client = Client::with('user')->find($clientId);
+        
+        if(!$client){
+            return redirect()->route('clients.index')->with('error', 'Client is not found');
+        }
+
+    	return view('clients.show',[
+    		'client' => $client
+    	]); 
     }
 
 
@@ -185,10 +196,7 @@ class ClientController extends Controller
     public function trashed(Request $request)
     {
         $clients =Client::with('user')->onlyTrashed()->get();
-        $address = UserAddress::onlyTrashed()->where('client_id',3)->get();
-       // dd($address);
-       // $area = Area::onlyTrashed()->where('id',$address->area_id);
-       // dd($area);
+       
         if ($request->ajax()) {
             
             return Datatables::of($clients)
@@ -234,12 +242,8 @@ class ClientController extends Controller
     public function restoreClient($id)
     {
         Client::onlyTrashed()->find($id)->restore();
-        $address = UserAddress::onlyTrashed()->where('client_id',$id);
-        $area = Area::onlyTrashed()->where('id',$address->area_id);
-        if ($area !== null) {
-            $area->restore();
-        }
-        $address->restore();
+        $address = UserAddress::onlyTrashed()->where('client_id',$id)->restore();
+        
         return redirect()->route('clients.index');
     }
 }
