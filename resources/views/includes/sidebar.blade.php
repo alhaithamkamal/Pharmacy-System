@@ -83,6 +83,7 @@
               <span class="badge badge-info right">2</span>
             </p>
           </a>
+          @role('admin|pharmacy')
           <ul class="nav nav-treeview">
             <li class="nav-item">
               <a href="{{route('pharmacy.show')}}" class="nav-link">
@@ -90,14 +91,17 @@
                 <p>Index</p>
               </a>
             </li>
+            @role('admin')
             <li class="nav-item">
               <a href="{{route('pharmacy.create')}}" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Create</p>
               </a>
             </li>
+            @endrole
           </ul>
         </li>
+        @endrole
         <li class="nav-item has-treeview">
           <a href="#" class="nav-link">
             <i class="nav-icon fas fa-copy"></i>
@@ -114,6 +118,7 @@
                 <p>Index</p>
               </a>
             </li>
+            @role('admin|pharmacy')
             <li class="nav-item">
               <a href="{{ route('doctors.create') }}" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
@@ -122,6 +127,7 @@
             </li>
           </ul>
         </li>
+        @endrole
         <li class="nav-item has-treeview">
           <a href="#" class="nav-link">
             <i class="nav-icon fas fa-copy"></i>
@@ -176,6 +182,7 @@
             </li>
           </ul>
         </li>
+        @role('admin')
         <li class="nav-item has-treeview">
           <a href="#" class="nav-link">
             <i class="nav-icon fas fa-copy"></i>
@@ -200,7 +207,7 @@
             </li>
           </ul>
         </li>
-
+      @endrole
         <li class="nav-item has-treeview">
           <a href="#" class="nav-link">
             <i class="nav-icon fas fa-copy"></i>
@@ -249,6 +256,7 @@
             </li>
           </ul>
         </li>
+        @role('pharmacy|admin')
         <li class="nav-item has-treeview">
           <a href="#" class="nav-link">
             <i class="nav-icon fas fa-copy"></i>
@@ -273,6 +281,7 @@
             </li>
           </ul>
         </li>
+        @endrole
       </ul>
     </nav>
     <!-- /.sidebar-menu -->

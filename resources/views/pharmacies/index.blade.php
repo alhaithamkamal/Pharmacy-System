@@ -18,8 +18,12 @@
       <td>{{$pharmacy->user->name}}</td>
       <td>{{$pharmacy->area_id}}</td>
       <td>
-      <a href="{{route('pharmacy.edit',['pharmacyId'=>$pharmacy->id])}}" class="btn btn-success">Edit</a>
-      <a href="{{route('pharmacy.delete',['delId'=>$pharmacy->id])}}"  onclick="return confirm('Are you sure?')" class="btn btn-danger">Delete</a></td>
+      @can('update pharmacy')
+        <a href="{{route('pharmacy.edit',['pharmacyId'=>$pharmacy->id])}}" class="btn btn-success">Edit</a>
+      @endcan
+      @can('delete pharmacy')
+        <a href="{{route('pharmacy.delete',['delId'=>$pharmacy->id])}}"  onclick="return confirm('Are you sure?')" class="btn btn-danger">Delete</a></td>
+      @endcan
     </tr>
     @endforeach
   </tbody>
