@@ -29,7 +29,7 @@ Route::get('/clients/create', 'ClientController@create')->name('clients.create')
 Route::post('/clients', 'ClientController@store')->name('clients.store');
 
 //show client data
-Route::get('/clients/{client}','ClientController@show')->name('clients.show');
+Route::get('/clients/{client}', 'ClientController@show')->name('clients.show');
 
 //route to edit client
 Route::get('/clients/{client}/edit', 'ClientController@edit')->name('clients.edit');
@@ -61,8 +61,10 @@ Route::get('/areas/create', 'AreaController@create')->name('areas.create');
 //to store area data
 Route::post('/areas', 'AreaController@store')->name('areas.store');
 
-//show client data
-Route::get('/areas/{area}','AreaController@show')->name('areas.show');
+
+//show area data
+Route::get('/areas/{area}', 'AreaController@show')->name('areas.show');
+
 
 //route to edit area
 Route::get('/areas/{area}/edit', 'AreaController@edit')->name('areas.edit');
@@ -123,8 +125,12 @@ Route::get('/clients-addresses', 'ClientAddressController@index')->name('clients
 //route to client-addresses form
 Route::get('/clients-addresses/create', 'ClientAddressController@create')->name('clientsAddresses.create');
 
+
 //to store client-addresses data
 Route::post('/clients-addresses', 'ClientAddressController@store')->name('clientsAddresses.store');
+
+//show client-address data
+Route::get('/clients-addresses/{clientAddress}', 'ClientAddressController@show')->name('clientsAddresses.show');
 
 //route to edit client-addresses
 Route::get('/clients-addresses/{clientAddress}/edit', 'ClientAddressController@edit')->name('clientsAddresses.edit');
@@ -134,6 +140,9 @@ Route::patch('/clients-addresses/{clientAddress}', 'ClientAddressController@upda
 
 //soft delete client-addresses
 Route::post('/clients-addresses/{clientAddress}', 'ClientAddressController@destroy')->name('clientsAddresses.destroy');
+
+//check main client-addresses
+Route::post('/addresses/{check}', 'ClientAddressController@check')->name('clientsAddresses.check');
 
 //show trashed clients
 Route::get('/trashed-client-addresses', 'ClientAddressController@trashed')->name('clientsAddresses.trashed');
@@ -171,21 +180,21 @@ Route::get('/revenues', function () {
 Route::group(
     [],
     function () {
-        Route::get('/orders', 'OrdersController@index')->name('orders.index');
+        Route::get('/orders', 'OrderController@index')->name('orders.index');
 
-        Route::get('/orders/create', 'OrdersController@create')->name('orders.create');
+        Route::get('/orders/create', 'OrderController@create')->name('orders.create');
 
-        Route::post('/orders', 'OrdersController@store')->name('orders.store');
+        Route::post('/orders', 'OrderController@store')->name('orders.store');
 
-        Route::get('/orders/{order}/edit', 'OrdersController@edit')->name('orders.edit');
+        Route::get('/orders/{order}/edit', 'OrderController@edit')->name('orders.edit');
 
-        Route::put('/orders/{order}', 'OrdersController@update')->name('orders.update');
+        Route::put('/orders/{order}', 'OrderController@update')->name('orders.update');
 
         Route::get('/orders/{order}', 'OrderController@show')->name('orders.show');
 
-        Route::delete('/orders/{order}', 'OrdersController@destroy')->name('orders.destroy');
+        Route::delete('/orders/{order}', 'OrderController@destroy')->name('orders.destroy');
 
-        Route::post('/orders/fetch', 'OrdersController@fetch')->name('orders.fetch');
+        Route::post('/orders/fetch', 'OrderController@fetch')->name('orders.fetch');
     }
 );
 //==================Medicine===========================

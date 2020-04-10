@@ -104,11 +104,10 @@ class AreaController extends Controller
 
         $area = Area::find($request->area);
         if ($area->addresses()->count()) {
-
-            return back()->withMessage('Cannot delete: this area has addresses');
+            return response()->json(['check'=> 'false','message'=>'Cannot delete: this area has addresses']);
         }
         $area->delete();      
-        return redirect()->back();
+        return response()->json(['check'=> 'true','message'=>'Area deleted succussfully']);
     }
 
 }

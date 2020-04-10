@@ -12,11 +12,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-class OrdersController extends Controller
+class OrderController extends Controller
 {
     public function index()
     {
         $orders = Order::all();
+        dd($orders);
         return view('orders.index', [
             'orders' => $orders,
         ]);
@@ -40,9 +41,11 @@ class OrdersController extends Controller
             $creator_type = 'doctor';
         } elseif (auth()->user()->role_id == 0) {
             $creator_type = 'admin';
+        } else {
+            $creator_type = 'client';
         }
 
-        $status = 'processing';
+        $status = 'watingForUserConfirmation';
 
         $medicine = Medicine::create([
             'name' => $medicine_request->name,
@@ -51,7 +54,6 @@ class OrdersController extends Controller
             'price' => $medicine_request->price,
         ]);
         $order = Order::create([
-            'creator_id' => $creator_id,
             'creator_type' => $creator_type,
             'client_id' => $order_request->client_id,
             'status' => $status,
@@ -59,6 +61,7 @@ class OrdersController extends Controller
         ]);
 
         $order->pharmacy()->create();
+        $order->doctor() ? $order->doctor()->create() : '';
         $medicine->order()->attach($order);
 
         return redirect()->route('orders.index');
@@ -101,6 +104,9 @@ class OrdersController extends Controller
             'price'
         ]);
         $order->update($data);
+        if ($order->status == 'processing') {
+            $order->status = 'waitingForUserConfirmation';
+        }
         return redirect()->route('orders.index');
     }
     public function destroy()
