@@ -13,20 +13,12 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-<<<<<<< HEAD
 Route::group(['middleware' => ['role:admin|doctor|pharmacy']], function () {
 
     Route::get('/', function () {
         return view('Dashboard');
     });
 });
-=======
-Route::get('/', function () {
-    return view('Dashboard');
-})->middleware('is-ban');    
-
-
->>>>>>> fee98ceb349157c61a8f0e3863a1bf55828de72d
 Auth::routes(['register' => false]);
 
 
@@ -195,12 +187,7 @@ Auth::routes();
 
 //===================================================
 
-<<<<<<< HEAD
 //Route::get('/home', 'HomeController@index')->name('home')->middleware('verified');
-=======
-
-Route::get('/home', 'HomeController@index')->name('home')->middleware('verified');
->>>>>>> fee98ceb349157c61a8f0e3863a1bf55828de72d
 
 Route::get('/pharmacies', function () {
     return view('pharmacies.index');
