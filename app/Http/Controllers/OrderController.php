@@ -62,16 +62,13 @@ class OrderController extends Controller
 
         if (Auth::user()->hasRole('pharmacy')) {
             $pharmacy_id = Auth::user()->id;
-            $order->create([
-                'pharmacy_id' => $pharmacy_id,
-            ]);
+            $order->pharmacy_id = $pharmacy_id;
+            $order->save();
         } elseif (Auth::user()->hasRole('doctor')) {
             $doctor_id = Auth::user()->id;
             $pharmacy_id = Auth::user()->doctor->pharmacy_id;
-            $order->create([
-                'pharmacy_id' => $pharmacy_id,
-                'doctor_id' => $doctor_id,
-            ]);
+            $order->pharmacy_id = $pharmacy_id;
+            $order->doctor_id = $doctor_id;
         }
         $medicine->order()->attach($order->id);
         $client->user->notify(new OrderConfirmation($order));
