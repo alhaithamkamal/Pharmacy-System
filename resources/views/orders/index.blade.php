@@ -41,12 +41,12 @@
                     <th>Is_insured</th>
                     <th>Status</th>
 
-                    @if (auth()->user()->role_id == 0)
+                    @if (Auth::user()->hasRole('admin'))
                       <th>Creator Type</th>
                       <th>Assigned Pharmacy</th>
                     @endif
 
-                    <th >Actions</th>
+                    <th >Actions On Orders</th>
                   </tr>
                 </thead>
                     
@@ -68,7 +68,7 @@
                     <td>{{ $order->is_insured}}</td>
                     <td>{{ $order->status}}</td>
 
-                    @if (auth()->user()->role_id == 0)
+                    @if (Auth::user()->hasRole('admin'))
                       @switch($order->creator->role_id)
                         @case(1)
                             <td>Pharmacy Owner</td>

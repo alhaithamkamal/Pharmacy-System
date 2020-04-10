@@ -34,6 +34,11 @@ class Client extends Model
     
     public function orders()
     {
-        return $this->hasMany('App\Order', 'creator_id');
+        return $this->hasMany('App\Order');
+    }
+
+    public function pharmacies()
+    {
+        return $this->belongsToMany('App\Pharmacy', 'pharmay_client');
     }
 }

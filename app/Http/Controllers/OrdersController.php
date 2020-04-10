@@ -31,7 +31,7 @@ class OrdersController extends Controller
         ]);
     }
 
-    public function store(StoreOrderRequest $order_request, StoreMedicineRequest $medicine_request)
+    public function store(Request $order_request, StoreMedicineRequest $medicine_request)
     {
         $creator_id = auth()->user()->id;
 
