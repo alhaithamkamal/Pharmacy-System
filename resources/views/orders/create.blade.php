@@ -4,8 +4,20 @@
 <div class="container col-6">
 <form method="POST" action="{{route('orders.store')}}" class="mb-4">
         @csrf
+
         <h1 class="mt-5 text-center">Create New Order</h1>
 
+        @if($errors->any())
+        <div class="alert alert-danger">
+        <ul>
+            @foreach($errors->all() as $error)
+            <li>
+            {{$error}}
+            </li>
+            @endforeach
+        </ul>
+        </div>
+        @endif
         <div class="form-group mt-4">
             <a href="{{route('stripe.stripe')}}" class="btn btn-primary" style="display:block;">Enter Visa Card Number</a>
         </div>

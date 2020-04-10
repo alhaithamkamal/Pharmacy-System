@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreOrderRequest extends FormRequest
 {
@@ -25,6 +26,11 @@ class StoreOrderRequest extends FormRequest
     {
         return [
             'client_id' => 'required|exists:clients,id',
+            'pharmacy_id' => [
+                'required',
+                'exists:pharmacies,id',
+                $this->order ? Rule::unique('orders')->ignore($this->order) : 'unique:orders'
+            ]
         ];
     }
 }
