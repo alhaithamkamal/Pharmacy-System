@@ -33,7 +33,6 @@ class OrderController extends Controller
 
     public function store(Request $order_request, StoreMedicineRequest $medicine_request)
     {
-        $creator_id = auth()->user()->id;
 
         if (auth()->user()->role_id == 1) {
             $creator_type = 'pharmacy';

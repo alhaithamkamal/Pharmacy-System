@@ -17,8 +17,10 @@ class PermissionController extends Controller
             return Datatables::of($permissions)
                     ->addIndexColumn()
                     ->addColumn('action', function($permissions){
-                        $btn = '<a href="'.route("permissions.edit",["permission" => $permissions->id]).'" class="edit btn btn-primary btn-sm">Edit</a>';
-                        $btn .= '<button type="button" data-id="'.$permissions->id.'" data-toggle="modal" data-target="#DeletePermissionModal" class="btn btn-danger btn-sm" id="getDeleteId">Delete</button>';
+                        $btn = '<a href="'.route("permissions.edit",["permission" => $permissions->id]).
+                        '" class="edit btn btn-primary btn-sm" style="margin-right:10px;">Edit</a>';
+                        $btn .= '<button type="button" data-id="'.$permissions->id.
+                        '" data-toggle="modal" data-target="#DeletePermissionModal" class="btn btn-danger btn-sm" id="getDeleteId">Delete</button>';
 
                         return $btn;
                     })
@@ -46,7 +48,7 @@ class PermissionController extends Controller
             ]);
            
        
-        return redirect()->route('permissions.index');
+        return redirect()->route('permissions.index')->with('message', 'permission Added successfully');
     }
 
     public function edit(Request $request){
@@ -79,7 +81,7 @@ class PermissionController extends Controller
             ]);
            
 
-        return redirect()->route('permissions.index');
+        return redirect()->route('permissions.index')->with('message', 'permission edited successfully');
     }
  
 

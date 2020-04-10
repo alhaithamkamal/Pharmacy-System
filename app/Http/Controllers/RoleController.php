@@ -33,8 +33,10 @@ class RoleController extends Controller
                         return $text;
                     })
                     ->addColumn('action', function($roles){
-                        $btn = '<a href="'.route("roles.edit",["role" => $roles->id]).'" class="edit btn btn-primary btn-sm">Edit</a>';
-                        $btn .= '<button type="button" data-id="'.$roles->id.'" data-toggle="modal" data-target="#DeletePermissionModal" class="btn btn-danger btn-sm" id="getDeleteId">Delete</button>';
+                        $btn = '<a href="'.route("roles.edit",["role" => $roles->id]).
+                        '" class="edit btn btn-primary btn-sm" style="margin-right:10px;">Edit</a>';
+                        $btn .= '<button type="button" data-id="'.$roles->id.
+                        '" data-toggle="modal" data-target="#DeletePermissionModal" class="btn btn-danger btn-sm" id="getDeleteId">Delete</button>';
 
                         return $btn;
                     })
@@ -65,7 +67,7 @@ class RoleController extends Controller
         
         }
        
-        return redirect()->route('roles.index');
+        return redirect()->route('roles.index')->with('message', 'permissions Added successfully');
     }
 
     public function edit(Request $request){
@@ -102,7 +104,7 @@ class RoleController extends Controller
             }    
         }
        
-        return redirect()->route('roles.index');
+        return redirect()->route('roles.index')->with('message', 'permissions edited successfully');
     }
  
 

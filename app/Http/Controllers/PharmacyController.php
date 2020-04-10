@@ -31,8 +31,9 @@ class PharmacyController extends Controller
             'image'=>$filename,
             'role_id'=>$request->role_id,
         ]);
-
+        
         $user=User::where('name',$request->name)->first();
+        $user->assignRole('pharmacy');
         $id=$user->id;
         Pharmacy::create([
             'user_id'=>$id,
