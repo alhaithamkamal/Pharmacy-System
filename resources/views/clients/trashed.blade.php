@@ -7,12 +7,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>DataTables</h1>
+            <h1>Trashed Clients</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">DataTable</li>
+              <li class="breadcrumb-item"><a href="/">Home</a></li>
+              <li class="breadcrumb-item active">Trashed Clients</li>
             </ol>
           </div>
         </div>
@@ -27,10 +27,10 @@
         <div class="col-12">
           <div class="card">
             <div class="card-header">
-              <h3 class="card-title">DataTable with default features</h3>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
+            <div id="message"></div>
               <table id="example1" class="table table-bordered table-striped">
                 <thead>
                   <tr>
@@ -40,7 +40,6 @@
                     <th>Gender</th>
                     <th>Mobile</th>
                     <th>Birth Date</th>
-                    <th>is_insured</th>
                     <th>last login</th>
                     <th>Role</th>
                     <th>Image</th>
@@ -63,24 +62,25 @@
       <!-- /.row -->
     </section>
     <!-- /.content -->
+
 <!-- Restore Confirm Model Box -->
 <div id="restoreModal" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content bg-default">
-                <div class="modal-header bg-danger">
-                    <h4 class="modal-title">Restore <span id="jcId">Job</span></h4>
-                </div>
-                <div class="modal-body">
-                    <h5 style="text-alignment:left;">Are you sure you want to restore this job?</h5>
-                </div>
-                <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-outline-success" data-dismiss="modal">Cancel</button>
-                    <button type="button" name="restore_btn" id="restore_btn" class="btn btn-outline-danger">Restore</button>
-                </div>
+    <div class="modal-dialog">
+        <div class="modal-content bg-default">
+            <div class="modal-header bg-danger">
+                <h4 class="modal-title">Restore <span id="jcId">Client</span></h4>
+            </div>
+            <div class="modal-body">
+                <h5 style="text-alignment:left;">Are you sure you want to restore this client?</h5>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-outline-success" data-dismiss="modal">Cancel</button>
+                <button type="button" name="restore_btn" id="restore_btn" class="btn btn-outline-danger">Restore</button>
             </div>
         </div>
     </div>
-    <!-- /.Restore Confirm Model Box -->
+</div>
+<!-- /.Restore Confirm Model Box -->
 
 @endsection
 
@@ -98,7 +98,6 @@
             {data: 'gender', name: 'gender'},
             {data: 'mobile', name: 'mobile'},
             {data: 'birthdate', name: 'birth date'},
-            {data: 'is_insured', name: 'is_insured'},
             {data: 'last_login_at', name: 'last_login'},
             {data: 'role_id', name: 'role_id'},
             {data: 'image', name: 'image'},
@@ -135,12 +134,15 @@
               setTimeout(function(){
                 $('#restoreModal').modal('hide');
                 $('#example1').DataTable().ajax.reload();
+                $('#message').attr('class',"alert alert-success");
+                $('#message').html('Client restored succussfully');
               }, 2000);
 
               
             },
             error: function (data) {
-            //toastr()->error('can\'t delete this client');
+              $('#message').attr('class',"alert alert-danger");
+              $('#message').html('Failed to restore this client');
             }
           
         });

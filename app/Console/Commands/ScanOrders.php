@@ -42,6 +42,7 @@ class ScanOrders extends Command
         $newOrders = Order::where('status', 'new')->get();
         foreach ($newOrders as $order){
             $pharmacy = Pharmacy::where('area_id', $order->address->area->id)->orderBy('priority', 'desc')->first();
+            if(!$pharmacy->clients->contains($order->creator)) $pharmacy->clients()->save($order->creator);
             $pharmacy->orders()->save($order);
             $order->status = 'processing';
             $order->save();
