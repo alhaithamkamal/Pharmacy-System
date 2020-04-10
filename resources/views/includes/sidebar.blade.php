@@ -1,7 +1,7 @@
 <!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
   <!-- Brand Logo -->
-  <a href="index3.html" class="brand-link">
+  <a href="/" class="brand-link">
     <img src="{{ asset('dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
          style="opacity: .8">
     <span class="brand-text font-weight-light">Pharmacy System</span>
@@ -74,6 +74,7 @@
           </ul>
         </li>
         @endrole
+        @role('admin|pharmacy')
         <li class="nav-item has-treeview">
           <a href="#" class="nav-link">
             <i class="nav-icon fas fa-copy"></i>
@@ -83,7 +84,6 @@
               <span class="badge badge-info right">2</span>
             </p>
           </a>
-          @role('admin|pharmacy')
           <ul class="nav nav-treeview">
             <li class="nav-item">
               <a href="{{route('pharmacy.show')}}" class="nav-link">
@@ -102,6 +102,7 @@
           </ul>
         </li>
         @endrole
+        @role('admin|pharmacy|doctor')
         <li class="nav-item has-treeview">
           <a href="#" class="nav-link">
             <i class="nav-icon fas fa-copy"></i>
@@ -128,6 +129,8 @@
           </ul>
         </li>
         @endrole
+        @endrole
+        @role('admin|pharmacy|doctor')
         <li class="nav-item has-treeview">
           <a href="#" class="nav-link">
             <i class="nav-icon fas fa-copy"></i>
@@ -182,6 +185,7 @@
             </li>
           </ul>
         </li>
+        @endrole
         @role('admin')
         <li class="nav-item has-treeview">
           <a href="#" class="nav-link">
@@ -207,7 +211,7 @@
             </li>
           </ul>
         </li>
-      @endrole
+    
         <li class="nav-item has-treeview">
           <a href="#" class="nav-link">
             <i class="nav-icon fas fa-copy"></i>
@@ -232,6 +236,8 @@
             </li>
           </ul>
         </li>
+        @endrole
+        @role('pharmacy|admin|doctor')
         <li class="nav-item has-treeview">
           <a href="#" class="nav-link">
             <i class="nav-icon fas fa-copy"></i>
@@ -256,6 +262,7 @@
             </li>
           </ul>
         </li>
+        @endrole
         @role('pharmacy|admin')
         <li class="nav-item has-treeview">
           <a href="#" class="nav-link">

@@ -39,7 +39,7 @@ class ClientController extends Controller
                 })
                 ->addColumn('gender', function ($clients) {
                     return $clients->gender;
-                })
+                }) 
                 ->addColumn('mobile', function ($clients) {
                     return $clients->mobile;
                 })
@@ -101,6 +101,10 @@ class ClientController extends Controller
                 'mobile' => $request->mobile,
                 'user_id' => $user->id
             ]);
+            $user = auth()->user();
+            if($user->hasRole('pharmacy|doctor')){
+                $user->pharmacy->clients()->attach($client->id);
+            }
         }
 
         return redirect()->route('clients.index')->with('message', 'client Added successfully');
@@ -109,13 +113,27 @@ class ClientController extends Controller
 
     public function show(Request $request)
     {
-
+        $user = auth()->user();
 
         $clientId = $request->client;
         $client = Client::with('user')->find($clientId);
 
         if (!$client) {
             return redirect()->route('clients.index')->with('error', 'Client is not found');
+        }
+        $check = 0;
+        if ($user->hasRole('pharmacy|doctor')){
+            $clients = $user->pharmacy->clients;
+            
+            foreach($clients as $c){
+                if($c->id == $client->id ){
+                   $check = 1 ;
+                    break;
+                }
+            }
+            if(! $check)
+                return redirect()->route('clients.index')->with('error', 'client is not found');
+
         }
 
         return view('clients.show', [
@@ -130,24 +148,25 @@ class ClientController extends Controller
         $clientID = $request->client;
 
         $client = Client::with('user')->find($clientID);
-        if ($user->hasRole('pharmacy|doctor')){
-            dd($user->pharmacy->clients);
-            // foreach($clients as $clientAddress){
-            //     if($clientAddress->is_main ==1){
-            //         return response()->json(['check'=> 'true']);
-            //     }
-            // }
-            if($client->user->id != $user->id){
-                return  redirect()->route('pharmacy.show');
-            }else{
-               $pharmacy=Pharmacy::where('id',$id)->first();
-            }
-        }
-       
+
         if(!$client){
             return redirect()->route('clients.index')->with('error', 'client is not found');
         }
-        //dd($client);
+        $check = 0;
+        if ($user->hasRole('pharmacy|doctor')){
+            $clients = $user->pharmacy->clients;
+            
+            foreach($clients as $c){
+                if($c->id == $client->id ){
+                   $check = 1 ;
+                    break;
+                }
+            }
+            if(! $check)
+                return redirect()->route('clients.index')->with('error', 'client is not found');
+
+        }
+       
         return view('clients.edit', [
             'client' => $client
         ]);
@@ -198,8 +217,27 @@ class ClientController extends Controller
      */
     public function destroy(Request $request)
     {
-
+        $user = auth()->user();
         $client = Client::with('user')->find($request->client);
+        if(!$client){
+            return redirect()->route('clients.index')->with('error', 'client is not found');
+        }
+        $check = 0;
+
+            if ($user->hasRole('pharmacy|doctor')){
+                $clients = $user->pharmacy->clients;
+                
+                foreach($clients as $c){
+                    if($c->id == $client->id ){
+                        $check =1 ;
+                        break;
+                    }
+                }
+                if(!$check)
+                    return redirect()->route('clients.index')->with('error', 'client is not found');
+
+            }
+            
         $client->user()->delete();
         $client->delete();
         return redirect()->back();
@@ -209,6 +247,7 @@ class ClientController extends Controller
     public function trashed(Request $request)
     {
         $clients = Client::with('user')->onlyTrashed()->get();
+        
 
         if ($request->ajax()) {
 

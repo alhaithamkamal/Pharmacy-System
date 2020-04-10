@@ -16,9 +16,7 @@ class ClientAddressController extends Controller
 {
     public function index(Request $request)
     {
-        // $address = UserAddress::onlyTrashed()->where('client_id',1)->first();
-        // $area = Area::where('id',$address->area_id)->get();
-        // dd($area);
+        
         if ($request->ajax()) {
             $clientAddress = UserAddress::with('client')->with('area')->get();
             
