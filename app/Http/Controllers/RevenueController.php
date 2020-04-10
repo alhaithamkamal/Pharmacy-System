@@ -10,19 +10,13 @@ use App\Pharmacy;
 
 class RevenueController extends Controller
 {
-<<<<<<< HEAD
-    public function create(){
-        $revenues=Revenue::all();	
-        $pharmacies=Pharmacy::all();
-    	return view('/revenues/create',['revenues'=>$revenues,'pharmacies'=>$pharmacies]);
-=======
+
 
     public function create()
     {
         $revenues = Revenue::all();
         $pharmacies = Pharmacy::all();
         return view('revenues/create', ['revenues' => $revenues, 'pharmacies' => $pharmacies]);
->>>>>>> 0822fbfe4a47c51a75241b2d1d3fd4c04180d305
     }
     public function store(StoreRevenueRequest $request)
     {
@@ -39,17 +33,7 @@ class RevenueController extends Controller
 
         return redirect('/revenues');
     }
-<<<<<<< HEAD
-    public function show(){
-        $revenues=Revenue::all();
-        return view('/revenues/index',['revenues'=>$revenues]);
-    }
-    public function edit(){
-        $request=request();
-		$id = $request->revenueId;
-		$revenue=Revenue::where('id',$id)->first();
-		return view('/revenues/edit' , ['revenue'=>$revenue]);
-=======
+
     public function show()
     {
         $revenues = Revenue::all();
@@ -61,7 +45,6 @@ class RevenueController extends Controller
         $id = $request->revenueId;
         $revenue = Revenue::where('id', $id)->first();
         return view('revenues/edit', ['revenue' => $revenue]);
->>>>>>> 0822fbfe4a47c51a75241b2d1d3fd4c04180d305
     }
     public function update(StoreRevenueRequest $request)
     {
