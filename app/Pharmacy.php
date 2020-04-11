@@ -25,6 +25,6 @@ class Pharmacy extends Model
 
     public function clients()
     {
-        return $this->belongsToMany('App\Client', 'pharmay_client')->withTrashed();
+        return $this->belongsToMany('App\Client', 'pharmay_client');
     }
 }

@@ -20,6 +20,7 @@ class ClientController extends Controller
     public function index(Request $request)
     {
         $user = auth()->user();
+        
         if ($request->ajax()) {
             if ($user->hasRole('admin'))
                 $clients = Client::with('user')->get();
@@ -37,20 +38,9 @@ class ClientController extends Controller
                 ->addColumn('email', function ($clients) {
                     return $clients->user->email;
                 })
-                ->addColumn('gender', function ($clients) {
-                    return $clients->gender;
-                }) 
-                ->addColumn('mobile', function ($clients) {
-                    return $clients->mobile;
-                })
-                ->addColumn('birthdate', function ($clients) {
-                    return $clients->birthdate;
-                })
-                ->addColumn('last_login', function ($clients) {
-                    return $clients->last_login_at;
-                })
+                ->addIndexColumn()
                 ->addColumn('role_id', function ($clients) {
-                    return $clients->user->role_id;
+                    return $clients->user->getRoleNames()[0]; 
                 })
                 ->addColumn('image', function ($clients) {
                     $url = asset('storage/' . $clients->user->image);
@@ -248,7 +238,7 @@ class ClientController extends Controller
     {
          
         $user = auth()->user();
-
+        
         if ($request->ajax()) {
             if ($user->hasRole('admin'))
                 $clients = Client::with('user')->onlyTrashed()->get();
@@ -265,20 +255,9 @@ class ClientController extends Controller
                 ->addColumn('email', function ($clients) {
                     return $clients->user->email;
                 })
-                ->addColumn('gender', function ($clients) {
-                    return $clients->gender;
-                })
-                ->addColumn('mobile', function ($clients) {
-                    return $clients->mobile;
-                })
-                ->addColumn('birthdate', function ($clients) {
-                    return $clients->birthdate;
-                })
-                ->addColumn('last_login', function ($clients) {
-                    return $clients->last_login_at;
-                })
+                ->addIndexColumn()
                 ->addColumn('role_id', function ($clients) {
-                    return $clients->user->role_id;
+                    return $clients->user->getRoleNames()[0]; 
                 })
                 ->addColumn('image', function ($clients) {
                     $url = asset('storage/' . $clients->user->image);
